@@ -2,7 +2,19 @@ import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
-import { LucideAngularModule } from 'lucide-angular';
+import {
+  LucideAngularModule,
+  Camera,
+  CalendarCheck,
+  FileText,
+  Pencil,
+  User,
+  Mail,
+  Phone,
+  Calendar,
+  X,
+  Check
+} from 'lucide-angular';
 
 @Component({
   selector: 'app-profile',
@@ -13,6 +25,17 @@ import { LucideAngularModule } from 'lucide-angular';
 })
 export class ProfileComponent {
   private authService = inject(AuthService);
+
+  readonly Camera = Camera;
+  readonly CalendarCheck = CalendarCheck;
+  readonly FileText = FileText;
+  readonly Pencil = Pencil;
+  readonly User = User;
+  readonly Mail = Mail;
+  readonly Phone = Phone;
+  readonly Calendar = Calendar;
+  readonly X = X;
+  readonly Check = Check;
 
   currentPatient = this.authService.currentPatient;
   isEditing = signal(false);

@@ -6,7 +6,7 @@
         <p>Управление вашими визитами к врачам</p>
       </div>
       <a routerLink="/patient/appointments/new" class="btn-new-appointment">
-        <lucide-angular name="plus" [size]="20"></lucide-angular>
+        <lucide-angular [img]="Plus" [size]="20"></lucide-angular>
         <span>Записаться на прием</span>
       </a>
     </div>
@@ -20,12 +20,12 @@
   } @else if (appointments().length === 0) {
     <div class="empty-state">
       <div class="empty-icon">
-        <lucide-angular name="calendar-x" [size]="72" [strokeWidth]="1.5"></lucide-angular>
+        <lucide-angular [img]="CalendarX" [size]="72" [strokeWidth]="1.5"></lucide-angular>
       </div>
       <h3>У вас пока нет записей</h3>
       <p>Запишитесь на прием к специалисту в удобное для вас время</p>
       <a routerLink="/patient/appointments/new" class="btn-empty-action">
-        <lucide-angular name="calendar-plus" [size]="20"></lucide-angular>
+        <lucide-angular [img]="CalendarPlus" [size]="20"></lucide-angular>
         <span>Записаться на прием</span>
       </a>
     </div>
@@ -39,7 +39,7 @@
             <div class="appointment-header">
               <div class="doctor-section">
                 <div class="doctor-avatar">
-                  <lucide-angular name="user-round" [size]="24"></lucide-angular>
+                  <lucide-angular [img]="UserRound" [size]="24"></lucide-angular>
                 </div>
                 <div class="doctor-details">
                   <h3 class="doctor-name">{{ appointment.doctor }}</h3>
@@ -56,7 +56,7 @@
             <div class="appointment-details">
               <div class="detail-item">
                 <div class="detail-icon">
-                  <lucide-angular name="calendar" [size]="18"></lucide-angular>
+                  <lucide-angular [img]="Calendar" [size]="18"></lucide-angular>
                 </div>
                 <div class="detail-content">
                   <span class="detail-label">Дата приема</span>
@@ -66,7 +66,7 @@
 
               <div class="detail-item">
                 <div class="detail-icon">
-                  <lucide-angular name="clock" [size]="18"></lucide-angular>
+                  <lucide-angular [img]="Clock" [size]="18"></lucide-angular>
                 </div>
                 <div class="detail-content">
                   <span class="detail-label">Время</span>
@@ -76,7 +76,7 @@
 
               <div class="detail-item">
                 <div class="detail-icon">
-                  <lucide-angular name="building-2" [size]="18"></lucide-angular>
+                  <lucide-angular [img]="Building2" [size]="18"></lucide-angular>
                 </div>
                 <div class="detail-content">
                   <span class="detail-label">Клиника</span>
@@ -88,7 +88,7 @@
             @if (appointment.status === 'pending' || appointment.status === 'confirmed') {
               <div class="appointment-actions">
                 <button class="btn-cancel" (click)="cancelAppointment(appointment.id)">
-                  <lucide-angular name="x-circle" [size]="18"></lucide-angular>
+                  <lucide-angular [img]="XCircle" [size]="18"></lucide-angular>
                   <span>Отменить запись</span>
                 </button>
               </div>

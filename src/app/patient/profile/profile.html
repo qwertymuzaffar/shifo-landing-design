@@ -16,7 +16,7 @@
             <span class="avatar-text">{{ firstName().charAt(0) }}{{ lastName().charAt(0) }}</span>
           </div>
           <button class="avatar-edit-btn" title="Изменить фото">
-            <lucide-angular name="camera" [size]="18"></lucide-angular>
+            <lucide-angular [img]="Camera" [size]="18"></lucide-angular>
           </button>
         </div>
         <h2 class="profile-name">{{ firstName() }} {{ lastName() }}</h2>
@@ -24,14 +24,14 @@
 
         <div class="profile-stats">
           <div class="stat-box">
-            <lucide-angular name="calendar-check" [size]="20"></lucide-angular>
+            <lucide-angular [img]="CalendarCheck" [size]="20"></lucide-angular>
             <div class="stat-content">
               <span class="stat-value">6</span>
               <span class="stat-label">Записей</span>
             </div>
           </div>
           <div class="stat-box">
-            <lucide-angular name="file-text" [size]="20"></lucide-angular>
+            <lucide-angular [img]="FileText" [size]="20"></lucide-angular>
             <div class="stat-content">
               <span class="stat-value">8</span>
               <span class="stat-label">Документов</span>
@@ -47,7 +47,7 @@
           <h3>Личная информация</h3>
           @if (!isEditing()) {
             <button class="btn-edit" (click)="toggleEdit()">
-              <lucide-angular name="pencil" [size]="18"></lucide-angular>
+              <lucide-angular [img]="Pencil" [size]="18"></lucide-angular>
               <span>Редактировать</span>
             </button>
           }
@@ -57,7 +57,7 @@
           <div class="form-grid">
             <div class="form-field">
               <label for="firstName">
-                <lucide-angular name="user" [size]="18"></lucide-angular>
+                <lucide-angular [img]="User" [size]="18"></lucide-angular>
                 <span>Имя</span>
               </label>
               <input
@@ -72,7 +72,7 @@
 
             <div class="form-field">
               <label for="lastName">
-                <lucide-angular name="user" [size]="18"></lucide-angular>
+                <lucide-angular [img]="User" [size]="18"></lucide-angular>
                 <span>Фамилия</span>
               </label>
               <input
@@ -87,7 +87,7 @@
 
             <div class="form-field">
               <label for="email">
-                <lucide-angular name="mail" [size]="18"></lucide-angular>
+                <lucide-angular [img]="Mail" [size]="18"></lucide-angular>
                 <span>Email</span>
               </label>
               <input
@@ -102,7 +102,7 @@
 
             <div class="form-field">
               <label for="phone">
-                <lucide-angular name="phone" [size]="18"></lucide-angular>
+                <lucide-angular [img]="Phone" [size]="18"></lucide-angular>
                 <span>Телефон</span>
               </label>
               <input
@@ -117,7 +117,7 @@
 
             <div class="form-field full-width">
               <label for="dateOfBirth">
-                <lucide-angular name="calendar" [size]="18"></lucide-angular>
+                <lucide-angular [img]="Calendar" [size]="18"></lucide-angular>
                 <span>Дата рождения</span>
               </label>
               <input
@@ -134,11 +134,11 @@
           @if (isEditing()) {
             <div class="form-actions">
               <button type="button" class="btn-cancel" (click)="cancelEdit()">
-                <lucide-angular name="x" [size]="18"></lucide-angular>
+                <lucide-angular [img]="X" [size]="18"></lucide-angular>
                 <span>Отмена</span>
               </button>
               <button type="button" class="btn-save" (click)="saveProfile()">
-                <lucide-angular name="check" [size]="18"></lucide-angular>
+                <lucide-angular [img]="Check" [size]="18"></lucide-angular>
                 <span>Сохранить изменения</span>
               </button>
             </div>

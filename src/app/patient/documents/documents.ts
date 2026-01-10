@@ -1,6 +1,14 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LucideAngularModule } from 'lucide-angular';
+import {
+  LucideAngularModule,
+  FolderOpen,
+  FileText,
+  HardDrive,
+  CalendarDays,
+  Download,
+  Eye
+} from 'lucide-angular';
 
 interface Document {
   id: string;
@@ -18,6 +26,13 @@ interface Document {
   styleUrls: ['./documents.scss']
 })
 export class DocumentsComponent implements OnInit {
+  readonly FolderOpen = FolderOpen;
+  readonly FileText = FileText;
+  readonly HardDrive = HardDrive;
+  readonly CalendarDays = CalendarDays;
+  readonly Download = Download;
+  readonly Eye = Eye;
+
   documents = signal<Document[]>([]);
   isLoading = signal(true);
 
@@ -26,8 +41,7 @@ export class DocumentsComponent implements OnInit {
   }
 
   loadDocuments(): void {
-    setTimeout(() => {
-      this.documents.set([
+    this.documents.set([
         {
           id: '1',
           type: 'Анализ крови',
@@ -85,8 +99,7 @@ export class DocumentsComponent implements OnInit {
           size: '112 KB'
         }
       ]);
-      this.isLoading.set(false);
-    }, 300);
+    this.isLoading.set(false);
   }
 
   formatDate(dateStr: string): string {

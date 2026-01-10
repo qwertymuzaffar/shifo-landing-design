@@ -22,7 +22,7 @@
   } @else if (documents().length === 0) {
     <div class="empty-state">
       <div class="empty-icon">
-        <lucide-angular name="folder-open" [size]="72" [strokeWidth]="1.5"></lucide-angular>
+        <lucide-angular [img]="FolderOpen" [size]="72" [strokeWidth]="1.5"></lucide-angular>
       </div>
       <h3>У вас пока нет документов</h3>
       <p>Ваши медицинские документы и результаты анализов будут храниться здесь</p>
@@ -33,7 +33,7 @@
         <div class="document-item">
           <div class="document-visual">
             <div class="document-preview">
-              <lucide-angular name="file-text" [size]="28"></lucide-angular>
+              <lucide-angular [img]="FileText" [size]="28"></lucide-angular>
             </div>
             <div class="file-type-badge">PDF</div>
           </div>
@@ -49,11 +49,11 @@
             <div class="document-footer">
               <div class="document-info">
                 <div class="info-badge">
-                  <lucide-angular name="hard-drive" [size]="14"></lucide-angular>
+                  <lucide-angular [img]="HardDrive" [size]="14"></lucide-angular>
                   <span>{{ doc.size }}</span>
                 </div>
                 <div class="info-badge">
-                  <lucide-angular name="calendar-days" [size]="14"></lucide-angular>
+                  <lucide-angular [img]="CalendarDays" [size]="14"></lucide-angular>
                   <span>{{ formatDate(doc.date) }}</span>
                 </div>
               </div>
@@ -62,10 +62,10 @@
 
           <div class="document-actions">
             <button class="action-btn download-btn" (click)="downloadDocument(doc)" title="Скачать">
-              <lucide-angular name="download" [size]="20"></lucide-angular>
+              <lucide-angular [img]="Download" [size]="20"></lucide-angular>
             </button>
             <button class="action-btn view-btn" title="Просмотр">
-              <lucide-angular name="eye" [size]="20"></lucide-angular>
+              <lucide-angular [img]="Eye" [size]="20"></lucide-angular>
             </button>
           </div>
         </div>

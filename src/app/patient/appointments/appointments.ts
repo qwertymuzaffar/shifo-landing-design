@@ -1,7 +1,17 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { LucideAngularModule } from 'lucide-angular';
+import {
+  LucideAngularModule,
+  Plus,
+  CalendarX,
+  CalendarPlus,
+  UserRound,
+  Calendar,
+  Clock,
+  Building2,
+  XCircle
+} from 'lucide-angular';
 
 interface Appointment {
   id: string;
@@ -21,6 +31,15 @@ interface Appointment {
   styleUrls: ['./appointments.scss']
 })
 export class AppointmentsComponent implements OnInit {
+  readonly Plus = Plus;
+  readonly CalendarX = CalendarX;
+  readonly CalendarPlus = CalendarPlus;
+  readonly UserRound = UserRound;
+  readonly Calendar = Calendar;
+  readonly Clock = Clock;
+  readonly Building2 = Building2;
+  readonly XCircle = XCircle;
+
   appointments = signal<Appointment[]>([]);
   isLoading = signal(true);
 
@@ -29,8 +48,7 @@ export class AppointmentsComponent implements OnInit {
   }
 
   loadAppointments(): void {
-    setTimeout(() => {
-      this.appointments.set([
+    this.appointments.set([
         {
           id: '1',
           doctor: 'Алишер Каримов',
@@ -86,8 +104,7 @@ export class AppointmentsComponent implements OnInit {
           status: 'cancelled'
         }
       ]);
-      this.isLoading.set(false);
-    }, 300);
+    this.isLoading.set(false);
   }
 
   getStatusLabel(status: string): string {
