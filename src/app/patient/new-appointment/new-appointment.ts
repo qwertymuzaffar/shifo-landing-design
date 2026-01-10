@@ -1,13 +1,25 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LucideAngularModule } from 'lucide-angular';
+import {
+  LucideAngularModule,
+  ArrowLeft,
+  MapPin,
+  Stethoscope,
+  Calendar,
+  Clock,
+  FileText,
+  Check,
+  ChevronLeft,
+  ChevronRight
+} from 'lucide-angular';
 
 interface Doctor {
   id: string;
   name: string;
   specialization: string;
+  avatar?: string;
 }
 
 interface Clinic {
@@ -24,6 +36,16 @@ interface Clinic {
   styleUrls: ['./new-appointment.scss']
 })
 export class NewAppointmentComponent implements OnInit {
+  readonly ArrowLeft = ArrowLeft;
+  readonly MapPin = MapPin;
+  readonly Stethoscope = Stethoscope;
+  readonly Calendar = Calendar;
+  readonly Clock = Clock;
+  readonly FileText = FileText;
+  readonly Check = Check;
+  readonly ChevronLeft = ChevronLeft;
+  readonly ChevronRight = ChevronRight;
+
   clinics = signal<Clinic[]>([]);
   doctors = signal<Doctor[]>([]);
   availableTimes = signal<string[]>([]);
@@ -33,6 +55,9 @@ export class NewAppointmentComponent implements OnInit {
   selectedDate = signal('');
   selectedTime = signal('');
   notes = signal('');
+
+  currentMonth = signal(new Date());
+  calendarDays = computed(() => this.generateCalendarDays());
 
   isLoading = signal(false);
 
@@ -84,13 +109,75 @@ export class NewAppointmentComponent implements OnInit {
     this.selectedTime.set('');
   }
 
-  onDateChange(): void {
+  onDateChange(date: string): void {
+    this.selectedDate.set(date);
     this.selectedTime.set('');
-    if (this.selectedDate()) {
+    if (date) {
       this.loadAvailableTimes();
     } else {
       this.availableTimes.set([]);
     }
+  }
+
+  generateCalendarDays(): Array<{date: Date | null, isCurrentMonth: boolean, isToday: boolean, isPast: boolean}> {
+    const year = this.currentMonth().getFullYear();
+    const month = this.currentMonth().getMonth();
+
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const startingDayOfWeek = firstDay.getDay();
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const days: Array<{date: Date | null, isCurrentMonth: boolean, isToday: boolean, isPast: boolean}> = [];
+
+    for (let i = 0; i < startingDayOfWeek; i++) {
+      days.push({date: null, isCurrentMonth: false, isToday: false, isPast: false});
+    }
+
+    for (let day = 1; day <= lastDay.getDate(); day++) {
+      const date = new Date(year, month, day);
+      date.setHours(0, 0, 0, 0);
+      days.push({
+        date,
+        isCurrentMonth: true,
+        isToday: date.getTime() === today.getTime(),
+        isPast: date < today
+      });
+    }
+
+    return days;
+  }
+
+  previousMonth(): void {
+    const current = this.currentMonth();
+    this.currentMonth.set(new Date(current.getFullYear(), current.getMonth() - 1, 1));
+  }
+
+  nextMonth(): void {
+    const current = this.currentMonth();
+    this.currentMonth.set(new Date(current.getFullYear(), current.getMonth() + 1, 1));
+  }
+
+  selectDate(day: {date: Date | null, isCurrentMonth: boolean, isPast: boolean}): void {
+    if (!day.date || day.isPast || !this.selectedDoctor()) return;
+
+    const dateStr = day.date.toISOString().split('T')[0];
+    this.onDateChange(dateStr);
+  }
+
+  isDateSelected(day: {date: Date | null}): boolean {
+    if (!day.date || !this.selectedDate()) return false;
+    const dateStr = day.date.toISOString().split('T')[0];
+    return dateStr === this.selectedDate();
+  }
+
+  getMonthYearLabel(): string {
+    const months = [
+      'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+      'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
+    ];
+    return `${months[this.currentMonth().getMonth()]} ${this.currentMonth().getFullYear()}`;
   }
 
   loadAvailableTimes(): void {
