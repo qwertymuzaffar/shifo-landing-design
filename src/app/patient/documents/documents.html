@@ -1,47 +1,73 @@
 <div class="documents-container">
-  <div class="header">
-    <div>
-      <h1>Мои документы</h1>
-      <p>Медицинские документы и результаты анализов</p>
+  <div class="page-header">
+    <div class="header-content">
+      <div class="header-text">
+        <h1>Мои документы</h1>
+        <p>Результаты анализов и медицинские заключения</p>
+      </div>
+      <div class="header-stats">
+        <div class="stat-item">
+          <span class="stat-value">{{ documents().length }}</span>
+          <span class="stat-label">Документов</span>
+        </div>
+      </div>
     </div>
   </div>
 
   @if (isLoading()) {
     <div class="loading">
+      <div class="loader"></div>
       <p>Загрузка документов...</p>
     </div>
   } @else if (documents().length === 0) {
     <div class="empty-state">
-      <lucide-angular name="file-text" [size]="64" [strokeWidth]="1.5"></lucide-angular>
+      <div class="empty-icon">
+        <lucide-angular name="folder-open" [size]="72" [strokeWidth]="1.5"></lucide-angular>
+      </div>
       <h3>У вас пока нет документов</h3>
-      <p>Ваши медицинские документы появятся здесь после визитов к врачу</p>
+      <p>Ваши медицинские документы и результаты анализов будут храниться здесь</p>
     </div>
   } @else {
-    <div class="documents-grid">
+    <div class="documents-list">
       @for (doc of documents(); track doc.id) {
-        <div class="document-card">
-          <div class="document-icon">
-            <lucide-angular name="file-text" [size]="32"></lucide-angular>
+        <div class="document-item">
+          <div class="document-visual">
+            <div class="document-preview">
+              <lucide-angular name="file-text" [size]="28"></lucide-angular>
+            </div>
+            <div class="file-type-badge">PDF</div>
           </div>
 
-          <div class="document-info">
-            <h3>{{ doc.type }}</h3>
-            <p class="document-name">{{ doc.name }}</p>
+          <div class="document-content">
+            <div class="document-header">
+              <h3 class="document-title">{{ doc.type }}</h3>
+              <span class="document-date">{{ formatDate(doc.date) }}</span>
+            </div>
 
-            <div class="document-meta">
-              <div class="meta-item">
-                <lucide-angular name="calendar" [size]="16"></lucide-angular>
-                <span>{{ formatDate(doc.date) }}</span>
-              </div>
-              <div class="meta-item">
-                <span class="file-size">{{ doc.size }}</span>
+            <p class="document-filename">{{ doc.name }}</p>
+
+            <div class="document-footer">
+              <div class="document-info">
+                <div class="info-badge">
+                  <lucide-angular name="hard-drive" [size]="14"></lucide-angular>
+                  <span>{{ doc.size }}</span>
+                </div>
+                <div class="info-badge">
+                  <lucide-angular name="calendar-days" [size]="14"></lucide-angular>
+                  <span>{{ formatDate(doc.date) }}</span>
+                </div>
               </div>
             </div>
           </div>
 
-          <button class="download-btn" (click)="downloadDocument(doc)">
-            <lucide-angular name="download" [size]="20"></lucide-angular>
-          </button>
+          <div class="document-actions">
+            <button class="action-btn download-btn" (click)="downloadDocument(doc)" title="Скачать">
+              <lucide-angular name="download" [size]="20"></lucide-angular>
+            </button>
+            <button class="action-btn view-btn" title="Просмотр">
+              <lucide-angular name="eye" [size]="20"></lucide-angular>
+            </button>
+          </div>
         </div>
       }
     </div>
