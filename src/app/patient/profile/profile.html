@@ -1,0 +1,106 @@
+<div class="profile-container">
+  <div class="header">
+    <div>
+      <h1>Мой профиль</h1>
+      <p>Управление личной информацией</p>
+    </div>
+    @if (!isEditing()) {
+      <button class="btn-primary" (click)="toggleEdit()">
+        Редактировать
+      </button>
+    }
+  </div>
+
+  <div class="profile-card">
+    <div class="avatar-section">
+      <div class="avatar">
+        {{ firstName().charAt(0) }}{{ lastName().charAt(0) }}
+      </div>
+    </div>
+
+    <form class="profile-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="firstName">
+            <lucide-angular name="user" [size]="18"></lucide-angular>
+            <span>Имя</span>
+          </label>
+          <input
+            type="text"
+            id="firstName"
+            [value]="firstName()"
+            (input)="firstName.set($any($event.target).value)"
+            [disabled]="!isEditing()"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="lastName">
+            <lucide-angular name="user" [size]="18"></lucide-angular>
+            <span>Фамилия</span>
+          </label>
+          <input
+            type="text"
+            id="lastName"
+            [value]="lastName()"
+            (input)="lastName.set($any($event.target).value)"
+            [disabled]="!isEditing()"
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">
+          <lucide-angular name="mail" [size]="18"></lucide-angular>
+          <span>Email</span>
+        </label>
+        <input
+          type="email"
+          id="email"
+          [value]="email()"
+          (input)="email.set($any($event.target).value)"
+          [disabled]="!isEditing()"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="phone">
+          <lucide-angular name="phone" [size]="18"></lucide-angular>
+          <span>Телефон</span>
+        </label>
+        <input
+          type="tel"
+          id="phone"
+          [value]="phone()"
+          (input)="phone.set($any($event.target).value)"
+          [disabled]="!isEditing()"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="dateOfBirth">
+          <lucide-angular name="calendar" [size]="18"></lucide-angular>
+          <span>Дата рождения</span>
+        </label>
+        <input
+          type="date"
+          id="dateOfBirth"
+          [value]="dateOfBirth()"
+          (input)="dateOfBirth.set($any($event.target).value)"
+          [disabled]="!isEditing()"
+        />
+      </div>
+
+      @if (isEditing()) {
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" (click)="cancelEdit()">
+            Отмена
+          </button>
+          <button type="button" class="btn-primary" (click)="saveProfile()">
+            Сохранить
+          </button>
+        </div>
+      }
+    </form>
+  </div>
+</div>

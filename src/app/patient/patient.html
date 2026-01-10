@@ -1,0 +1,60 @@
+<div class="patient-container">
+  <aside class="sidebar" [class.collapsed]="!isSidebarOpen()">
+    <div class="sidebar-header">
+      @if (isSidebarOpen()) {
+        <h2>Личный кабинет</h2>
+      }
+      <button class="toggle-btn" (click)="toggleSidebar()">
+        @if (isSidebarOpen()) {
+          <lucide-angular name="x" [size]="20"></lucide-angular>
+        } @else {
+          <lucide-angular name="menu" [size]="20"></lucide-angular>
+        }
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a routerLink="/patient/appointments" routerLinkActive="active" class="nav-item">
+        <lucide-angular name="calendar" [size]="20"></lucide-angular>
+        @if (isSidebarOpen()) {
+          <span>Мои записи</span>
+        }
+      </a>
+      <a routerLink="/patient/documents" routerLinkActive="active" class="nav-item">
+        <lucide-angular name="file-text" [size]="20"></lucide-angular>
+        @if (isSidebarOpen()) {
+          <span>Документы</span>
+        }
+      </a>
+      <a routerLink="/patient/profile" routerLinkActive="active" class="nav-item">
+        <lucide-angular name="user" [size]="20"></lucide-angular>
+        @if (isSidebarOpen()) {
+          <span>Профиль</span>
+        }
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      @if (isSidebarOpen()) {
+        <div class="user-info">
+          <div class="user-avatar">
+            {{ patientName.charAt(0) }}
+          </div>
+          <div class="user-details">
+            <p class="user-name">{{ patientName }}</p>
+          </div>
+        </div>
+      }
+      <button class="logout-btn" (click)="logout()" [title]="'Выйти'">
+        <lucide-angular name="log-out" [size]="20"></lucide-angular>
+        @if (isSidebarOpen()) {
+          <span>Выйти</span>
+        }
+      </button>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

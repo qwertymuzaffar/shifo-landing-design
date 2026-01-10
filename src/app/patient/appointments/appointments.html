@@ -1,0 +1,66 @@
+<div class="appointments-container">
+  <div class="header">
+    <div>
+      <h1>Мои записи</h1>
+      <p>Просмотр и управление записями к врачам</p>
+    </div>
+    <a routerLink="/patient/appointments/new" class="btn-primary">
+      <lucide-angular name="plus" [size]="20"></lucide-angular>
+      <span>Новая запись</span>
+    </a>
+  </div>
+
+  @if (isLoading()) {
+    <div class="loading">
+      <p>Загрузка записей...</p>
+    </div>
+  } @else if (appointments().length === 0) {
+    <div class="empty-state">
+      <lucide-angular name="calendar" [size]="64" [strokeWidth]="1.5"></lucide-angular>
+      <h3>У вас пока нет записей</h3>
+      <p>Создайте первую запись к врачу</p>
+      <a routerLink="/patient/appointments/new" class="btn-primary">
+        Создать запись
+      </a>
+    </div>
+  } @else {
+    <div class="appointments-grid">
+      @for (appointment of appointments(); track appointment.id) {
+        <div class="appointment-card" [class]="getStatusClass(appointment.status)">
+          <div class="card-header">
+            <div class="doctor-info">
+              <h3>{{ appointment.doctor }}</h3>
+              <p class="specialization">{{ appointment.specialization }}</p>
+            </div>
+            <span class="status-badge" [class]="getStatusClass(appointment.status)">
+              {{ getStatusLabel(appointment.status) }}
+            </span>
+          </div>
+
+          <div class="card-content">
+            <div class="info-item">
+              <lucide-angular name="calendar" [size]="18"></lucide-angular>
+              <span>{{ formatDate(appointment.date) }}</span>
+            </div>
+            <div class="info-item">
+              <lucide-angular name="clock" [size]="18"></lucide-angular>
+              <span>{{ appointment.time }}</span>
+            </div>
+            <div class="info-item">
+              <lucide-angular name="map-pin" [size]="18"></lucide-angular>
+              <span>{{ appointment.clinic }}</span>
+            </div>
+          </div>
+
+          @if (appointment.status === 'pending' || appointment.status === 'confirmed') {
+            <div class="card-actions">
+              <button class="btn-cancel" (click)="cancelAppointment(appointment.id)">
+                Отменить
+              </button>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
+</div>

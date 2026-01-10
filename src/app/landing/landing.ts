@@ -242,6 +242,10 @@ export class Landing {
         this.router.navigate(['/booking']);
     }
 
+    onGetStarted() {
+        this.router.navigate(['/login']);
+    }
+
     async onSubmit(event: Event) {
         event.preventDefault();
 

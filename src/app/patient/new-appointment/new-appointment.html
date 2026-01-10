@@ -1,0 +1,104 @@
+<div class="new-appointment-container">
+  <div class="header">
+    <button class="back-btn" (click)="goBack()">
+      <lucide-angular name="arrow-left" [size]="20"></lucide-angular>
+      <span>Назад</span>
+    </button>
+    <div>
+      <h1>Новая запись</h1>
+      <p>Выберите клинику, врача и удобное время</p>
+    </div>
+  </div>
+
+  <form (ngSubmit)="onSubmit()" class="appointment-form">
+    <div class="form-card">
+      <div class="form-group">
+        <label for="clinic">Клиника *</label>
+        <select
+          id="clinic"
+          [value]="selectedClinic()"
+          (change)="selectedClinic.set($any($event.target).value); onClinicChange()"
+          required
+        >
+          <option value="">Выберите клинику</option>
+          @for (clinic of clinics(); track clinic.id) {
+            <option [value]="clinic.id">{{ clinic.name }} - {{ clinic.address }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="doctor">Врач *</label>
+        <select
+          id="doctor"
+          [value]="selectedDoctor()"
+          (change)="selectedDoctor.set($any($event.target).value); onDoctorChange()"
+          [disabled]="!selectedClinic()"
+          required
+        >
+          <option value="">Выберите врача</option>
+          @for (doctor of doctors(); track doctor.id) {
+            <option [value]="doctor.id">
+              {{ doctor.name }} - {{ doctor.specialization }}
+            </option>
+          }
+        </select>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="date">Дата *</label>
+          <input
+            type="date"
+            id="date"
+            [value]="selectedDate()"
+            (input)="selectedDate.set($any($event.target).value); onDateChange()"
+            [min]="minDate"
+            [disabled]="!selectedDoctor()"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="time">Время *</label>
+          <select
+            id="time"
+            [value]="selectedTime()"
+            (change)="selectedTime.set($any($event.target).value)"
+            [disabled]="!selectedDate()"
+            required
+          >
+            <option value="">Выберите время</option>
+            @for (time of availableTimes(); track time) {
+              <option [value]="time">{{ time }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="notes">Примечания</label>
+        <textarea
+          id="notes"
+          [value]="notes()"
+          (input)="notes.set($any($event.target).value)"
+          rows="4"
+          placeholder="Укажите причину визита или дополнительную информацию..."
+        ></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-secondary" (click)="goBack()">
+          Отмена
+        </button>
+        <button type="submit" class="btn-primary" [disabled]="!isFormValid || isLoading()">
+          @if (isLoading()) {
+            <span>Создание...</span>
+          } @else {
+            <span>Создать запись</span>
+          }
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

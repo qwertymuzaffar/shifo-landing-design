@@ -1,0 +1,49 @@
+<div class="documents-container">
+  <div class="header">
+    <div>
+      <h1>Мои документы</h1>
+      <p>Медицинские документы и результаты анализов</p>
+    </div>
+  </div>
+
+  @if (isLoading()) {
+    <div class="loading">
+      <p>Загрузка документов...</p>
+    </div>
+  } @else if (documents().length === 0) {
+    <div class="empty-state">
+      <lucide-angular name="file-text" [size]="64" [strokeWidth]="1.5"></lucide-angular>
+      <h3>У вас пока нет документов</h3>
+      <p>Ваши медицинские документы появятся здесь после визитов к врачу</p>
+    </div>
+  } @else {
+    <div class="documents-grid">
+      @for (doc of documents(); track doc.id) {
+        <div class="document-card">
+          <div class="document-icon">
+            <lucide-angular name="file-text" [size]="32"></lucide-angular>
+          </div>
+
+          <div class="document-info">
+            <h3>{{ doc.type }}</h3>
+            <p class="document-name">{{ doc.name }}</p>
+
+            <div class="document-meta">
+              <div class="meta-item">
+                <lucide-angular name="calendar" [size]="16"></lucide-angular>
+                <span>{{ formatDate(doc.date) }}</span>
+              </div>
+              <div class="meta-item">
+                <span class="file-size">{{ doc.size }}</span>
+              </div>
+            </div>
+          </div>
+
+          <button class="download-btn" (click)="downloadDocument(doc)">
+            <lucide-angular name="download" [size]="20"></lucide-angular>
+          </button>
+        </div>
+      }
+    </div>
+  }
+</div>
