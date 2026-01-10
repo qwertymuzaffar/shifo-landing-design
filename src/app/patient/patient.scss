@@ -1,23 +1,25 @@
 .patient-container {
   display: flex;
   height: 100vh;
-  background: #f7fafc;
+  background: #f9fafb;
 }
 
 .sidebar {
   width: 280px;
-  background: #2563eb;
-  color: white;
+  background: white;
   display: flex;
   flex-direction: column;
   transition: width 0.3s ease;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 
   &.collapsed {
-    width: 70px;
+    width: 80px;
 
-    .sidebar-header h2 {
-      display: none;
+    .sidebar-header h2,
+    .sidebar-header p {
+      opacity: 0;
+      width: 0;
+      overflow: hidden;
     }
 
     .nav-item span,
@@ -26,7 +28,9 @@
     }
 
     .user-details {
-      display: none;
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
     }
 
     .user-avatar {
@@ -39,65 +43,84 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 24px 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 16px;
+  border-bottom: 1px solid #e5e7eb;
+  height: 72px;
+
+  div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: all 0.3s;
+  }
 
   h2 {
     font-size: 20px;
     font-weight: 700;
+    color: #1f2937;
+    margin: 0 0 4px 0;
+    line-height: 1;
+  }
+
+  p {
+    font-size: 14px;
+    color: #6b7280;
     margin: 0;
+    line-height: 1;
   }
 
   .toggle-btn {
-    background: rgba(255, 255, 255, 0.2);
+    background: transparent;
     border: none;
-    color: white;
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    color: #6b7280;
+    padding: 12px;
     cursor: pointer;
     transition: all 0.2s;
 
     &:hover {
-      background: rgba(255, 255, 255, 0.3);
+      color: #000;
     }
   }
 }
 
 .sidebar-nav {
   flex: 1;
-  padding: 20px 0;
+  padding: 16px 0;
+  overflow-y: auto;
 
   .nav-item {
     display: flex;
     align-items: center;
-    padding: 14px 20px;
-    color: rgba(255, 255, 255, 0.8);
+    padding: 12px 14px;
+    color: #6b7280;
     text-decoration: none;
     transition: all 0.2s;
-    margin: 4px 12px;
+    margin: 2px 12px;
     border-radius: 8px;
+    height: 48px;
 
     lucide-angular {
       flex-shrink: 0;
+      width: 20px;
+      height: 20px;
     }
 
     span {
       margin-left: 12px;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
     }
 
     &:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
+      background: #f3f4f6;
+      color: #374151;
     }
 
     &.active {
-      background: rgba(255, 255, 255, 0.2);
+      background: #0ea5e9;
       color: white;
       font-weight: 600;
     }
@@ -105,24 +128,26 @@
 }
 
 .sidebar-footer {
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 20px;
+  border-top: 1px solid #e5e7eb;
+  padding: 16px;
 
   .user-info {
     display: flex;
     align-items: center;
     margin-bottom: 16px;
+    transition: all 0.3s;
 
     .user-avatar {
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.3);
+      background: #0ea5e9;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 700;
+      color: white;
       margin-right: 12px;
       flex-shrink: 0;
     }
@@ -130,10 +155,12 @@
     .user-details {
       flex: 1;
       min-width: 0;
+      transition: all 0.3s;
 
       .user-name {
         font-size: 14px;
         font-weight: 600;
+        color: #1f2937;
         margin: 0;
         white-space: nowrap;
         overflow: hidden;
@@ -147,14 +174,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 12px;
-    background: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    background: #f3f4f6;
     border: none;
-    color: white;
+    color: #6b7280;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 500;
 
     lucide-angular {
@@ -162,11 +189,12 @@
     }
 
     span {
-      margin-left: 12px;
+      margin-left: 8px;
     }
 
     &:hover {
-      background: rgba(255, 255, 255, 0.2);
+      background: #e5e7eb;
+      color: #374151;
     }
   }
 }

@@ -76,8 +76,8 @@
 .document-icon {
   width: 56px;
   height: 56px;
-  background: #2563eb;
-  border-radius: 12px;
+  background: #0ea5e9;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -132,21 +132,21 @@
 .download-btn {
   width: 40px;
   height: 40px;
-  background: #f7fafc;
-  border: 1px solid #e2e8f0;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #2563eb;
+  color: #0ea5e9;
   cursor: pointer;
   transition: all 0.2s;
   flex-shrink: 0;
 
   &:hover {
-    background: #2563eb;
+    background: #0ea5e9;
     color: white;
-    border-color: #2563eb;
+    border-color: #0ea5e9;
   }
 }
 

@@ -1,15 +1,12 @@
 <div class="patient-container">
   <aside class="sidebar" [class.collapsed]="!isSidebarOpen()">
     <div class="sidebar-header">
-      @if (isSidebarOpen()) {
+      <div>
         <h2>Личный кабинет</h2>
-      }
+        <p>Портал пациента</p>
+      </div>
       <button class="toggle-btn" (click)="toggleSidebar()">
-        @if (isSidebarOpen()) {
-          <lucide-angular name="x" [size]="20"></lucide-angular>
-        } @else {
-          <lucide-angular name="menu" [size]="20"></lucide-angular>
-        }
+        <lucide-angular name="menu" [size]="25"></lucide-angular>
       </button>
     </div>
 
