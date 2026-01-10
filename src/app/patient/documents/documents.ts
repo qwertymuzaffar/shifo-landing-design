@@ -31,7 +31,7 @@ export class DocumentsComponent implements OnInit {
         {
           id: '1',
           type: 'Анализ крови',
-          name: 'analiz_krovi_2025_12_10.pdf',
+          name: 'analiz_krovi_obshiy_2025_12_10.pdf',
           date: '2025-12-10',
           size: '245 KB'
         },
@@ -44,14 +44,49 @@ export class DocumentsComponent implements OnInit {
         },
         {
           id: '3',
-          type: 'Заключение врача',
-          name: 'zaklyuchenie_terapevta.pdf',
+          type: 'Заключение терапевта',
+          name: 'zaklyuchenie_terapevta_karimov.pdf',
           date: '2025-11-15',
           size: '89 KB'
+        },
+        {
+          id: '4',
+          type: 'ЭКГ',
+          name: 'ekg_rezultaty_2025_10_20.pdf',
+          date: '2025-10-20',
+          size: '156 KB'
+        },
+        {
+          id: '5',
+          type: 'УЗИ брюшной полости',
+          name: 'uzi_bryushnoy_polosti.pdf',
+          date: '2025-10-05',
+          size: '890 KB'
+        },
+        {
+          id: '6',
+          type: 'Анализ мочи',
+          name: 'analiz_mochi_2025_09_28.pdf',
+          date: '2025-09-28',
+          size: '178 KB'
+        },
+        {
+          id: '7',
+          type: 'Флюорография',
+          name: 'flyuorografiya_2025_09_15.pdf',
+          date: '2025-09-15',
+          size: '2.1 MB'
+        },
+        {
+          id: '8',
+          type: 'Заключение кардиолога',
+          name: 'zaklyuchenie_kardiologa_rashidova.pdf',
+          date: '2025-09-01',
+          size: '112 KB'
         }
       ]);
       this.isLoading.set(false);
-    }, 500);
+    }, 300);
   }
 
   formatDate(dateStr: string): string {

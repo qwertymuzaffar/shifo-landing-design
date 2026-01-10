@@ -44,9 +44,11 @@ export class NewAppointmentComponent implements OnInit {
 
   loadClinics(): void {
     this.clinics.set([
-      { id: '1', name: 'Клиника №1', address: 'ул. Пушкина, 10' },
-      { id: '2', name: 'Клиника №2', address: 'ул. Лермонтова, 25' },
-      { id: '3', name: 'Клиника №3', address: 'ул. Толстого, 5' }
+      { id: '1', name: 'Клиника "Здоровье"', address: 'г. Худжанд, пр. И. Сомони, 203б' },
+      { id: '2', name: 'Медицинский Центр "Shifo"', address: 'г. Худжанд, ул. Ленина, 15' },
+      { id: '3', name: 'Городская Больница №1', address: 'г. Худжанд, ул. Гагарина, 42' },
+      { id: '4', name: 'Центр Офтальмологии', address: 'г. Худжанд, ул. Рудаки, 88' },
+      { id: '5', name: 'Стоматология "Дентал+"', address: 'г. Худжанд, пр. Камоли Худжанди, 10' }
     ]);
   }
 
@@ -67,7 +69,13 @@ export class NewAppointmentComponent implements OnInit {
       { id: '1', name: 'Алишер Каримов', specialization: 'Терапевт' },
       { id: '2', name: 'Дилноза Рашидова', specialization: 'Кардиолог' },
       { id: '3', name: 'Шерзод Махмудов', specialization: 'Хирург' },
-      { id: '4', name: 'Нилуфар Азимова', specialization: 'Невролог' }
+      { id: '4', name: 'Нилуфар Азимова', specialization: 'Невролог' },
+      { id: '5', name: 'Фарход Юсупов', specialization: 'Офтальмолог' },
+      { id: '6', name: 'Малика Сатторова', specialization: 'Дерматолог' },
+      { id: '7', name: 'Джамшед Ахмедов', specialization: 'Педиатр' },
+      { id: '8', name: 'Зарина Холова', specialization: 'Эндокринолог' },
+      { id: '9', name: 'Рустам Собиров', specialization: 'Уролог' },
+      { id: '10', name: 'Гульнора Исмоилова', specialization: 'Гинеколог' }
     ]);
   }
 

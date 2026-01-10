@@ -35,7 +35,7 @@ export class AppointmentsComponent implements OnInit {
           id: '1',
           doctor: 'Алишер Каримов',
           specialization: 'Терапевт',
-          clinic: 'Клиника №1',
+          clinic: 'Клиника "Здоровье"',
           date: '2026-01-15',
           time: '10:00',
           status: 'confirmed'
@@ -44,14 +44,50 @@ export class AppointmentsComponent implements OnInit {
           id: '2',
           doctor: 'Дилноза Рашидова',
           specialization: 'Кардиолог',
-          clinic: 'Клиника №2',
+          clinic: 'Медицинский Центр "Shifo"',
           date: '2026-01-20',
           time: '14:30',
           status: 'pending'
+        },
+        {
+          id: '3',
+          doctor: 'Шерзод Махмудов',
+          specialization: 'Хирург',
+          clinic: 'Городская Больница №1',
+          date: '2026-01-12',
+          time: '09:00',
+          status: 'completed'
+        },
+        {
+          id: '4',
+          doctor: 'Нилуфар Азимова',
+          specialization: 'Невролог',
+          clinic: 'Клиника "Здоровье"',
+          date: '2026-02-01',
+          time: '15:00',
+          status: 'confirmed'
+        },
+        {
+          id: '5',
+          doctor: 'Фарход Юсупов',
+          specialization: 'Офтальмолог',
+          clinic: 'Центр Офтальмологии',
+          date: '2026-01-08',
+          time: '11:30',
+          status: 'completed'
+        },
+        {
+          id: '6',
+          doctor: 'Малика Сатторова',
+          specialization: 'Дерматолог',
+          clinic: 'Медицинский Центр "Shifo"',
+          date: '2026-01-05',
+          time: '16:00',
+          status: 'cancelled'
         }
       ]);
       this.isLoading.set(false);
-    }, 500);
+    }, 300);
   }
 
   getStatusLabel(status: string): string {
