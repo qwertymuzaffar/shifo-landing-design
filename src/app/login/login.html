@@ -1,0 +1,60 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-header">
+      <h1>Вход для пациентов</h1>
+      <p>Войдите в свой личный кабинет</p>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" class="login-form">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          [value]="email()"
+          (input)="email.set($any($event.target).value)"
+          placeholder="admin@clinic.com"
+          required
+          autocomplete="email"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Пароль</label>
+        <input
+          type="password"
+          id="password"
+          [value]="password()"
+          (input)="password.set($any($event.target).value)"
+          placeholder="••••••••"
+          required
+          autocomplete="current-password"
+        />
+      </div>
+
+      @if (errorMessage()) {
+        <div class="error-message">
+          {{ errorMessage() }}
+        </div>
+      }
+
+      <button type="button" class="forgot-password-btn" (click)="onForgotPassword()">
+        Забыли пароль?
+      </button>
+
+      <button type="submit" class="login-btn" [disabled]="isLoading()">
+        @if (isLoading()) {
+          <span>Вход...</span>
+        } @else {
+          <span>Войти</span>
+        }
+      </button>
+
+      <div class="help-text">
+        <p>Для тестирования используйте:</p>
+        <p><strong>Email:</strong> admin@clinic.com</p>
+        <p><strong>Пароль:</strong> admin</p>
+      </div>
+    </form>
+  </div>
+</div>

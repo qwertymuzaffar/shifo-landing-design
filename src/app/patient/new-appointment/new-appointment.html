@@ -1,0 +1,172 @@
+<div class="new-appointment-container">
+  <div class="header">
+    <button class="back-btn" (click)="goBack()">
+      <lucide-angular [img]="ArrowLeft" [size]="20"></lucide-angular>
+      <span>Назад</span>
+    </button>
+    <div>
+      <h1>Новая запись</h1>
+      <p>Выберите клинику, врача и удобное время</p>
+    </div>
+  </div>
+
+  <form (ngSubmit)="onSubmit()" class="appointment-form">
+    <div class="step-section">
+      <div class="step-header">
+        <lucide-angular [img]="MapPin" [size]="24"></lucide-angular>
+        <h2>Выберите клинику</h2>
+      </div>
+      <div class="clinics-grid">
+        @for (clinic of clinics(); track clinic.id) {
+          <div
+            class="clinic-card"
+            [class.selected]="selectedClinic() === clinic.id"
+            (click)="selectedClinic.set(clinic.id); onClinicChange()"
+          >
+            <div class="clinic-icon">
+              <lucide-angular [img]="MapPin" [size]="20"></lucide-angular>
+            </div>
+            <div class="clinic-info">
+              <h3>{{ clinic.name }}</h3>
+              <p>{{ clinic.address }}</p>
+            </div>
+            @if (selectedClinic() === clinic.id) {
+              <div class="check-icon">
+                <lucide-angular [img]="Check" [size]="20"></lucide-angular>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+
+    @if (selectedClinic()) {
+      <div class="step-section">
+        <div class="step-header">
+          <lucide-angular [img]="Stethoscope" [size]="24"></lucide-angular>
+          <h2>Выберите врача</h2>
+        </div>
+        <div class="doctors-grid">
+          @for (doctor of doctors(); track doctor.id) {
+            <div
+              class="doctor-card"
+              [class.selected]="selectedDoctor() === doctor.id"
+              (click)="selectedDoctor.set(doctor.id); onDoctorChange()"
+            >
+              <div class="doctor-avatar">
+                <span>{{ doctor.name.charAt(0) }}</span>
+              </div>
+              <div class="doctor-info">
+                <h3>{{ doctor.name }}</h3>
+                <p>{{ doctor.specialization }}</p>
+              </div>
+              @if (selectedDoctor() === doctor.id) {
+                <div class="check-icon">
+                  <lucide-angular [img]="Check" [size]="20"></lucide-angular>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    @if (selectedDoctor()) {
+      <div class="step-section">
+        <div class="step-header">
+          <lucide-angular [img]="Calendar" [size]="24"></lucide-angular>
+          <h2>Выберите дату</h2>
+        </div>
+        <div class="calendar-container">
+          <div class="calendar-header">
+            <button type="button" class="month-nav-btn" (click)="previousMonth()">
+              <lucide-angular [img]="ChevronLeft" [size]="20"></lucide-angular>
+            </button>
+            <span class="month-label">{{ getMonthYearLabel() }}</span>
+            <button type="button" class="month-nav-btn" (click)="nextMonth()">
+              <lucide-angular [img]="ChevronRight" [size]="20"></lucide-angular>
+            </button>
+          </div>
+          <div class="calendar-weekdays">
+            <div class="weekday">Вс</div>
+            <div class="weekday">Пн</div>
+            <div class="weekday">Вт</div>
+            <div class="weekday">Ср</div>
+            <div class="weekday">Чт</div>
+            <div class="weekday">Пт</div>
+            <div class="weekday">Сб</div>
+          </div>
+          <div class="calendar-days">
+            @for (day of calendarDays(); track $index) {
+              <button
+                type="button"
+                class="calendar-day"
+                [class.today]="day.isToday"
+                [class.selected]="isDateSelected(day)"
+                [class.past]="day.isPast"
+                [class.empty]="!day.date"
+                [disabled]="!day.date || day.isPast"
+                (click)="selectDate(day)"
+              >
+                {{ day.date ? day.date.getDate() : '' }}
+              </button>
+            }
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (selectedDate()) {
+      <div class="step-section">
+        <div class="step-header">
+          <lucide-angular [img]="Clock" [size]="24"></lucide-angular>
+          <h2>Выберите время</h2>
+        </div>
+        <div class="times-grid">
+          @for (time of availableTimes(); track time) {
+            <button
+              type="button"
+              class="time-slot"
+              [class.selected]="selectedTime() === time"
+              (click)="selectedTime.set(time)"
+            >
+              {{ time }}
+            </button>
+          }
+        </div>
+      </div>
+    }
+
+    @if (selectedTime()) {
+      <div class="step-section">
+        <div class="step-header">
+          <lucide-angular [img]="FileText" [size]="24"></lucide-angular>
+          <h2>Примечания (необязательно)</h2>
+        </div>
+        <textarea
+          class="notes-input"
+          [value]="notes()"
+          (input)="notes.set($any($event.target).value)"
+          rows="4"
+          placeholder="Укажите причину визита или дополнительную информацию..."
+        ></textarea>
+      </div>
+    }
+
+    @if (isFormValid) {
+      <div class="form-actions">
+        <button type="button" class="btn-secondary" (click)="goBack()">
+          Отмена
+        </button>
+        <button type="submit" class="btn-primary" [disabled]="isLoading()">
+          @if (isLoading()) {
+            <span>Создание...</span>
+          } @else {
+            <lucide-angular [img]="Check" [size]="20"></lucide-angular>
+            <span>Создать запись</span>
+          }
+        </button>
+      </div>
+    }
+  </form>
+</div>

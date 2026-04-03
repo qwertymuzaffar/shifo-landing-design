@@ -1,0 +1,101 @@
+<div class="appointments-container">
+  <div class="page-header">
+    <div class="header-content">
+      <div class="header-text">
+        <h1>Мои записи</h1>
+        <p>Управление вашими визитами к врачам</p>
+      </div>
+      <a routerLink="/patient/appointments/new" class="btn-new-appointment">
+        <lucide-angular [img]="Plus" [size]="20"></lucide-angular>
+        <span>Записаться на прием</span>
+      </a>
+    </div>
+  </div>
+
+  @if (isLoading()) {
+    <div class="loading">
+      <div class="loader"></div>
+      <p>Загрузка записей...</p>
+    </div>
+  } @else if (appointments().length === 0) {
+    <div class="empty-state">
+      <div class="empty-icon">
+        <lucide-angular [img]="CalendarX" [size]="72" [strokeWidth]="1.5"></lucide-angular>
+      </div>
+      <h3>У вас пока нет записей</h3>
+      <p>Запишитесь на прием к специалисту в удобное для вас время</p>
+      <a routerLink="/patient/appointments/new" class="btn-empty-action">
+        <lucide-angular [img]="CalendarPlus" [size]="20"></lucide-angular>
+        <span>Записаться на прием</span>
+      </a>
+    </div>
+  } @else {
+    <div class="appointments-list">
+      @for (appointment of appointments(); track appointment.id) {
+        <div class="appointment-item" [class]="'status-' + appointment.status">
+          <div class="appointment-status-indicator"></div>
+
+          <div class="appointment-main">
+            <div class="appointment-header">
+              <div class="doctor-section">
+                <div class="doctor-avatar">
+                  <lucide-angular [img]="UserRound" [size]="24"></lucide-angular>
+                </div>
+                <div class="doctor-details">
+                  <h3 class="doctor-name">{{ appointment.doctor }}</h3>
+                  <p class="doctor-specialization">{{ appointment.specialization }}</p>
+                </div>
+              </div>
+
+              <div class="status-badge" [class]="'status-' + appointment.status">
+                <span class="status-dot"></span>
+                <span class="status-text">{{ getStatusLabel(appointment.status) }}</span>
+              </div>
+            </div>
+
+            <div class="appointment-details">
+              <div class="detail-item">
+                <div class="detail-icon">
+                  <lucide-angular [img]="Calendar" [size]="18"></lucide-angular>
+                </div>
+                <div class="detail-content">
+                  <span class="detail-label">Дата приема</span>
+                  <span class="detail-value">{{ formatDate(appointment.date) }}</span>
+                </div>
+              </div>
+
+              <div class="detail-item">
+                <div class="detail-icon">
+                  <lucide-angular [img]="Clock" [size]="18"></lucide-angular>
+                </div>
+                <div class="detail-content">
+                  <span class="detail-label">Время</span>
+                  <span class="detail-value">{{ appointment.time }}</span>
+                </div>
+              </div>
+
+              <div class="detail-item">
+                <div class="detail-icon">
+                  <lucide-angular [img]="Building2" [size]="18"></lucide-angular>
+                </div>
+                <div class="detail-content">
+                  <span class="detail-label">Клиника</span>
+                  <span class="detail-value">{{ appointment.clinic }}</span>
+                </div>
+              </div>
+            </div>
+
+            @if (appointment.status === 'pending' || appointment.status === 'confirmed') {
+              <div class="appointment-actions">
+                <button class="btn-cancel" (click)="cancelAppointment(appointment.id)">
+                  <lucide-angular [img]="XCircle" [size]="18"></lucide-angular>
+                  <span>Отменить запись</span>
+                </button>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

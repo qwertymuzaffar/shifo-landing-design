@@ -1,0 +1,75 @@
+<div class="documents-container">
+  <div class="page-header">
+    <div class="header-content">
+      <div class="header-text">
+        <h1>Мои документы</h1>
+        <p>Результаты анализов и медицинские заключения</p>
+      </div>
+      <div class="header-stats">
+        <div class="stat-item">
+          <span class="stat-value">{{ documents().length }}</span>
+          <span class="stat-label">Документов</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  @if (isLoading()) {
+    <div class="loading">
+      <div class="loader"></div>
+      <p>Загрузка документов...</p>
+    </div>
+  } @else if (documents().length === 0) {
+    <div class="empty-state">
+      <div class="empty-icon">
+        <lucide-angular [img]="FolderOpen" [size]="72" [strokeWidth]="1.5"></lucide-angular>
+      </div>
+      <h3>У вас пока нет документов</h3>
+      <p>Ваши медицинские документы и результаты анализов будут храниться здесь</p>
+    </div>
+  } @else {
+    <div class="documents-list">
+      @for (doc of documents(); track doc.id) {
+        <div class="document-item">
+          <div class="document-visual">
+            <div class="document-preview">
+              <lucide-angular [img]="FileText" [size]="28"></lucide-angular>
+            </div>
+            <div class="file-type-badge">PDF</div>
+          </div>
+
+          <div class="document-content">
+            <div class="document-header">
+              <h3 class="document-title">{{ doc.type }}</h3>
+              <span class="document-date">{{ formatDate(doc.date) }}</span>
+            </div>
+
+            <p class="document-filename">{{ doc.name }}</p>
+
+            <div class="document-footer">
+              <div class="document-info">
+                <div class="info-badge">
+                  <lucide-angular [img]="HardDrive" [size]="14"></lucide-angular>
+                  <span>{{ doc.size }}</span>
+                </div>
+                <div class="info-badge">
+                  <lucide-angular [img]="CalendarDays" [size]="14"></lucide-angular>
+                  <span>{{ formatDate(doc.date) }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="document-actions">
+            <button class="action-btn download-btn" (click)="downloadDocument(doc)" title="Скачать">
+              <lucide-angular [img]="Download" [size]="20"></lucide-angular>
+            </button>
+            <button class="action-btn view-btn" title="Просмотр">
+              <lucide-angular [img]="Eye" [size]="20"></lucide-angular>
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
