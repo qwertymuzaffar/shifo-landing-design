@@ -15,6 +15,7 @@ import {
   Image,
   MessageCircle,
   Shield,
+  Zap,
 } from 'lucide-angular';
 
 @Component({
@@ -37,6 +38,7 @@ export class BrandbookComponent {
   readonly Image = Image;
   readonly MessageCircle = MessageCircle;
   readonly Shield = Shield;
+  readonly Zap = Zap;
 
   readonly primaryColors = [
     { name: 'Sky 500', hex: '#0ea5e9', rgb: '14, 165, 233', usage: 'Primary buttons, active states, links', tw: 'bg-sky-500' },

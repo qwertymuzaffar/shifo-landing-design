@@ -66,68 +66,227 @@
   </section>
 
   <!-- 01: Brand Identity -->
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 page-break">
-    <div class="text-center mb-12">
-      <div class="inline-flex items-center space-x-2 bg-blue-100 text-blue-700 px-3 py-1.5 rounded-full text-sm font-medium mb-4">
-        <span>01</span>
+  <section class="bg-white py-16 md:py-20 page-break">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-14">
+        <div class="inline-flex items-center space-x-2 bg-blue-100 text-blue-700 px-3 py-1.5 rounded-full text-sm font-medium mb-4">
+          <span>01</span>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-3">Brand Identity</h2>
+        <p class="text-gray-500 max-w-2xl mx-auto">The foundation of everything we build -- our name, story, values, and personality.</p>
       </div>
-      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Brand Identity</h2>
-    </div>
 
-    <div class="grid lg:grid-cols-2 gap-8 md:gap-12 items-start">
-      <div>
-        <h3 class="text-xl font-semibold text-gray-900 mb-3">Brand Name</h3>
-        <p class="text-5xl font-bold text-gray-900 tracking-widest mb-6">SHIFO</p>
-        <p class="text-gray-600 leading-relaxed mb-8">
-          "Shifo" means "healing" in Tajik/Uzbek, reflecting the core mission of the platform:
-          to bring modern digital solutions to healthcare management across Central Asia.
-        </p>
-        <h3 class="text-xl font-semibold text-gray-900 mb-3">Mission Statement</h3>
-        <p class="text-gray-600 leading-relaxed">
-          To empower medical clinics with an intuitive, comprehensive, and secure digital
-          management platform that streamlines operations, enhances patient care, and drives
-          data-informed decision making.
-        </p>
+      <!-- Brand Name Hero -->
+      <div class="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-3xl p-10 md:p-16 mb-12 overflow-hidden">
+        <div class="absolute inset-0 opacity-[0.07]">
+          <svg width="100%" height="100%" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice">
+            <polyline points="0,100 30,100 50,60 70,140 90,80 110,120 130,100 200,100 230,100 250,50 270,150 290,70 310,130 330,100 400,100" fill="none" stroke="white" stroke-width="2"/>
+          </svg>
+        </div>
+        <div class="relative z-10 text-center">
+          <p class="text-blue-400 text-sm font-semibold uppercase tracking-widest mb-4">Brand Name</p>
+          <h3 class="text-6xl sm:text-7xl md:text-8xl font-bold text-white tracking-[0.25em] mb-6">SHIFO</h3>
+          <div class="w-20 h-1 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full mx-auto mb-6"></div>
+          <p class="text-blue-200 text-lg md:text-xl max-w-xl mx-auto leading-relaxed font-light">
+            From the Tajik/Uzbek word for <span class="text-white font-medium">"healing"</span>
+          </p>
+        </div>
       </div>
+
+      <!-- Brand Story + Mission -->
+      <div class="grid lg:grid-cols-2 gap-8 mb-12">
+        <div class="bg-gray-50 rounded-2xl p-8 md:p-10 border border-gray-100">
+          <div class="flex items-center space-x-3 mb-5">
+            <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center">
+              <lucide-icon [img]="BookOpen" class="w-5 h-5 text-white"></lucide-icon>
+            </div>
+            <h3 class="text-lg font-bold text-gray-900">Brand Story</h3>
+          </div>
+          <p class="text-gray-600 leading-relaxed mb-4">
+            Shifo was born from a simple observation: clinics across Central Asia deserve the same
+            caliber of digital tools found anywhere in the world. The name itself -- meaning
+            "healing" -- carries centuries of trust between doctor and patient.
+          </p>
+          <p class="text-gray-600 leading-relaxed">
+            We carry that trust into every pixel and every line of code. Shifo is not just software;
+            it is a bridge between traditional care values and modern technology, empowering clinics to
+            focus on what matters most -- their patients.
+          </p>
+        </div>
+        <div class="bg-gray-50 rounded-2xl p-8 md:p-10 border border-gray-100">
+          <div class="flex items-center space-x-3 mb-5">
+            <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center">
+              <lucide-icon [img]="Heart" class="w-5 h-5 text-white"></lucide-icon>
+            </div>
+            <h3 class="text-lg font-bold text-gray-900">Mission & Vision</h3>
+          </div>
+          <div class="mb-5">
+            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Mission</p>
+            <p class="text-gray-600 leading-relaxed">
+              To empower medical clinics with an intuitive, comprehensive, and secure digital
+              management platform that streamlines operations, enhances patient care, and drives
+              data-informed decision making.
+            </p>
+          </div>
+          <div>
+            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Vision</p>
+            <p class="text-gray-600 leading-relaxed">
+              To become the most trusted healthcare management platform in Central Asia, setting
+              the standard for how clinics operate in the digital age.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Brand Values -->
+      <div class="mb-12">
+        <h3 class="text-xl font-bold text-gray-900 mb-6">Core Values</h3>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div class="group bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-md hover:border-blue-200 transition-all duration-300">
+            <div class="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-blue-100 transition-colors">
+              <lucide-icon [img]="Shield" class="w-6 h-6 text-blue-600"></lucide-icon>
+            </div>
+            <h4 class="font-bold text-gray-900 mb-2">Trust & Security</h4>
+            <p class="text-sm text-gray-500 leading-relaxed">Patient data protection is paramount. Every feature is built with security-first principles.</p>
+          </div>
+          <div class="group bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-md hover:border-blue-200 transition-all duration-300">
+            <div class="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-blue-100 transition-colors">
+              <lucide-icon [img]="Heart" class="w-6 h-6 text-blue-600"></lucide-icon>
+            </div>
+            <h4 class="font-bold text-gray-900 mb-2">Simplicity</h4>
+            <p class="text-sm text-gray-500 leading-relaxed">Complex healthcare workflows made intuitive and accessible for every staff level.</p>
+          </div>
+          <div class="group bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-md hover:border-green-200 transition-all duration-300">
+            <div class="w-12 h-12 bg-green-50 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-green-100 transition-colors">
+              <lucide-icon [img]="Layers" class="w-6 h-6 text-green-600"></lucide-icon>
+            </div>
+            <h4 class="font-bold text-gray-900 mb-2">Reliability</h4>
+            <p class="text-sm text-gray-500 leading-relaxed">24/7 system availability. Clinics depend on us for uninterrupted daily operations.</p>
+          </div>
+          <div class="group bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-md hover:border-orange-200 transition-all duration-300">
+            <div class="w-12 h-12 bg-orange-50 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-orange-100 transition-colors">
+              <lucide-icon [img]="Zap" class="w-6 h-6 text-orange-600"></lucide-icon>
+            </div>
+            <h4 class="font-bold text-gray-900 mb-2">Innovation</h4>
+            <p class="text-sm text-gray-500 leading-relaxed">Continuously evolving with modern technology to serve healthcare better.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Brand Personality & Target Audience -->
+      <div class="grid lg:grid-cols-2 gap-8 mb-12">
+        <!-- Brand Personality -->
+        <div>
+          <h3 class="text-xl font-bold text-gray-900 mb-5">Brand Personality</h3>
+          <div class="space-y-4">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-semibold text-gray-700">Professional</span>
+                <span class="text-xs text-gray-400">vs Casual</span>
+              </div>
+              <div class="w-full bg-gray-100 rounded-full h-2.5">
+                <div class="bg-blue-600 h-2.5 rounded-full" style="width: 82%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-semibold text-gray-700">Warm</span>
+                <span class="text-xs text-gray-400">vs Clinical</span>
+              </div>
+              <div class="w-full bg-gray-100 rounded-full h-2.5">
+                <div class="bg-blue-600 h-2.5 rounded-full" style="width: 68%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-semibold text-gray-700">Modern</span>
+                <span class="text-xs text-gray-400">vs Traditional</span>
+              </div>
+              <div class="w-full bg-gray-100 rounded-full h-2.5">
+                <div class="bg-blue-600 h-2.5 rounded-full" style="width: 88%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-semibold text-gray-700">Authoritative</span>
+                <span class="text-xs text-gray-400">vs Playful</span>
+              </div>
+              <div class="w-full bg-gray-100 rounded-full h-2.5">
+                <div class="bg-blue-600 h-2.5 rounded-full" style="width: 75%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-sm font-semibold text-gray-700">Approachable</span>
+                <span class="text-xs text-gray-400">vs Exclusive</span>
+              </div>
+              <div class="w-full bg-gray-100 rounded-full h-2.5">
+                <div class="bg-blue-600 h-2.5 rounded-full" style="width: 90%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Target Audience -->
+        <div>
+          <h3 class="text-xl font-bold text-gray-900 mb-5">Target Audience</h3>
+          <div class="space-y-3">
+            <div class="flex items-start space-x-4 bg-gray-50 rounded-xl p-4 border border-gray-100">
+              <div class="w-9 h-9 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span class="text-blue-600 font-bold text-sm">1</span>
+              </div>
+              <div>
+                <h4 class="font-semibold text-gray-900 text-sm">Clinic Owners & Directors</h4>
+                <p class="text-xs text-gray-500 mt-0.5">Decision-makers looking for operational efficiency and business insights.</p>
+              </div>
+            </div>
+            <div class="flex items-start space-x-4 bg-gray-50 rounded-xl p-4 border border-gray-100">
+              <div class="w-9 h-9 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span class="text-blue-600 font-bold text-sm">2</span>
+              </div>
+              <div>
+                <h4 class="font-semibold text-gray-900 text-sm">Doctors & Medical Staff</h4>
+                <p class="text-xs text-gray-500 mt-0.5">Practitioners who need quick access to patient records and schedules.</p>
+              </div>
+            </div>
+            <div class="flex items-start space-x-4 bg-gray-50 rounded-xl p-4 border border-gray-100">
+              <div class="w-9 h-9 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span class="text-blue-600 font-bold text-sm">3</span>
+              </div>
+              <div>
+                <h4 class="font-semibold text-gray-900 text-sm">Front Desk & Administrators</h4>
+                <p class="text-xs text-gray-500 mt-0.5">Staff managing appointments, billing, and patient communication daily.</p>
+              </div>
+            </div>
+            <div class="flex items-start space-x-4 bg-gray-50 rounded-xl p-4 border border-gray-100">
+              <div class="w-9 h-9 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                <span class="text-blue-600 font-bold text-sm">4</span>
+              </div>
+              <div>
+                <h4 class="font-semibold text-gray-900 text-sm">Patients</h4>
+                <p class="text-xs text-gray-500 mt-0.5">End users who book appointments, view records, and manage their health online.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Brand Keywords -->
       <div>
-        <h3 class="text-xl font-semibold text-gray-900 mb-4">Brand Values</h3>
-        <div class="space-y-4">
-          <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
-            <div class="flex items-center space-x-3 mb-2">
-              <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                <lucide-icon [img]="Shield" class="w-5 h-5 text-blue-600"></lucide-icon>
-              </div>
-              <h4 class="font-semibold text-gray-900">Trust & Security</h4>
-            </div>
-            <p class="text-sm text-gray-600 leading-relaxed">Patient data protection is paramount. Every feature is built with security first.</p>
-          </div>
-          <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
-            <div class="flex items-center space-x-3 mb-2">
-              <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                <lucide-icon [img]="Heart" class="w-5 h-5 text-blue-600"></lucide-icon>
-              </div>
-              <h4 class="font-semibold text-gray-900">Simplicity</h4>
-            </div>
-            <p class="text-sm text-gray-600 leading-relaxed">Complex healthcare workflows made intuitive and accessible for all staff levels.</p>
-          </div>
-          <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
-            <div class="flex items-center space-x-3 mb-2">
-              <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                <lucide-icon [img]="Layers" class="w-5 h-5 text-green-600"></lucide-icon>
-              </div>
-              <h4 class="font-semibold text-gray-900">Reliability</h4>
-            </div>
-            <p class="text-sm text-gray-600 leading-relaxed">24/7 system availability. Clinics depend on us for uninterrupted operations.</p>
-          </div>
-          <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
-            <div class="flex items-center space-x-3 mb-2">
-              <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
-                <lucide-icon [img]="Palette" class="w-5 h-5 text-orange-600"></lucide-icon>
-              </div>
-              <h4 class="font-semibold text-gray-900">Innovation</h4>
-            </div>
-            <p class="text-sm text-gray-600 leading-relaxed">Continuously evolving with modern technology to serve healthcare better.</p>
-          </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-5">Brand Keywords</h3>
+        <div class="flex flex-wrap gap-2.5">
+          <span class="bg-blue-50 text-blue-700 px-4 py-2 rounded-full text-sm font-medium border border-blue-100">Healing</span>
+          <span class="bg-blue-50 text-blue-700 px-4 py-2 rounded-full text-sm font-medium border border-blue-100">Trust</span>
+          <span class="bg-blue-50 text-blue-700 px-4 py-2 rounded-full text-sm font-medium border border-blue-100">Modern</span>
+          <span class="bg-blue-50 text-blue-700 px-4 py-2 rounded-full text-sm font-medium border border-blue-100">Accessible</span>
+          <span class="bg-blue-50 text-blue-700 px-4 py-2 rounded-full text-sm font-medium border border-blue-100">Secure</span>
+          <span class="bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-sm font-medium border border-gray-200">Intuitive</span>
+          <span class="bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-sm font-medium border border-gray-200">Reliable</span>
+          <span class="bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-sm font-medium border border-gray-200">Empowering</span>
+          <span class="bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-sm font-medium border border-gray-200">Patient-first</span>
+          <span class="bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-sm font-medium border border-gray-200">Central Asian</span>
+          <span class="bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-sm font-medium border border-gray-200">Professional</span>
+          <span class="bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-sm font-medium border border-gray-200">Digital Health</span>
         </div>
       </div>
     </div>
