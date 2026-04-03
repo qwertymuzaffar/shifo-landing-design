@@ -133,48 +133,245 @@
     </div>
   </section>
 
-  <!-- 02: Logo Guidelines -->
+  <!-- 02: Logo Concepts -->
   <section class="bg-white py-16 md:py-20 page-break">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-12">
         <div class="inline-flex items-center space-x-2 bg-blue-100 text-blue-700 px-3 py-1.5 rounded-full text-sm font-medium mb-4">
           <span>02</span>
         </div>
-        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Logo Guidelines</h2>
-        <p class="text-lg text-gray-600 max-w-3xl mx-auto">Heart icon paired with the Shifo wordmark</p>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Logo Concepts</h2>
+        <p class="text-lg text-gray-600 max-w-3xl mx-auto">Six unique logo directions exploring different visual approaches for the Shifo brand</p>
       </div>
 
-      <div class="grid md:grid-cols-3 gap-6 md:gap-8 mb-12">
-        <div class="bg-gray-50 rounded-2xl p-8 flex flex-col items-center border border-gray-100">
-          <div class="flex items-center space-x-3 mb-6 text-blue-600">
-            <lucide-icon [img]="Heart" class="w-10 h-10" [strokeWidth]="1.5"></lucide-icon>
-            <span class="text-3xl font-bold">Shifo</span>
+      <!-- Concept A: Heart + Cross (Medical) -->
+      <h3 class="text-lg font-semibold text-gray-900 mb-2">Concept A -- Heart + Medical Cross</h3>
+      <p class="text-sm text-gray-500 mb-4">A heart shape with a subtle cross cut-out, combining healthcare symbolism with warmth.</p>
+      <div class="grid md:grid-cols-3 gap-6 mb-12">
+        <div class="bg-gray-50 rounded-2xl p-8 flex flex-col items-center justify-center border border-gray-100 min-h-[200px]">
+          <div class="flex items-center space-x-4 mb-4">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <path d="M24 44C24 44 4 30 4 16C4 10 9 4 15.5 4C19.5 4 22.5 6.5 24 9C25.5 6.5 28.5 4 32.5 4C39 4 44 10 44 16C44 30 24 44 24 44Z" fill="#2563eb"/>
+              <rect x="20" y="12" width="8" height="20" rx="2" fill="white"/>
+              <rect x="14" y="18" width="20" height="8" rx="2" fill="white"/>
+            </svg>
+            <span class="text-3xl font-bold text-gray-900 tracking-tight">Shifo</span>
           </div>
-          <span class="text-sm font-semibold text-gray-700">Primary Logo</span>
-          <span class="text-xs text-gray-500 mt-1 text-center">Light backgrounds</span>
+          <span class="text-sm font-semibold text-gray-700">Light Background</span>
         </div>
-        <div class="bg-gray-900 rounded-2xl p-8 flex flex-col items-center">
-          <div class="flex items-center space-x-3 mb-6 text-white">
-            <lucide-icon [img]="Heart" class="w-10 h-10" [strokeWidth]="1.5"></lucide-icon>
-            <span class="text-3xl font-bold">Shifo</span>
+        <div class="bg-gray-900 rounded-2xl p-8 flex flex-col items-center justify-center min-h-[200px]">
+          <div class="flex items-center space-x-4 mb-4">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <path d="M24 44C24 44 4 30 4 16C4 10 9 4 15.5 4C19.5 4 22.5 6.5 24 9C25.5 6.5 28.5 4 32.5 4C39 4 44 10 44 16C44 30 24 44 24 44Z" fill="#3b82f6"/>
+              <rect x="20" y="12" width="8" height="20" rx="2" fill="white"/>
+              <rect x="14" y="18" width="20" height="8" rx="2" fill="white"/>
+            </svg>
+            <span class="text-3xl font-bold text-white tracking-tight">Shifo</span>
           </div>
-          <span class="text-sm font-semibold text-gray-300">Inverted Logo</span>
-          <span class="text-xs text-gray-500 mt-1 text-center">Dark backgrounds</span>
+          <span class="text-sm font-semibold text-gray-400">Dark Background</span>
         </div>
-        <div class="bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl p-8 flex flex-col items-center">
-          <div class="flex items-center justify-center mb-6 text-white">
-            <lucide-icon [img]="Heart" class="w-12 h-12" [strokeWidth]="1.5"></lucide-icon>
-          </div>
-          <span class="text-sm font-semibold text-blue-100">Icon Mark</span>
-          <span class="text-xs text-blue-200 mt-1 text-center">Favicons, app icons</span>
+        <div class="bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl p-8 flex flex-col items-center justify-center min-h-[200px]">
+          <svg width="64" height="64" viewBox="0 0 48 48" fill="none" class="mb-3">
+            <path d="M24 44C24 44 4 30 4 16C4 10 9 4 15.5 4C19.5 4 22.5 6.5 24 9C25.5 6.5 28.5 4 32.5 4C39 4 44 10 44 16C44 30 24 44 24 44Z" fill="white"/>
+            <rect x="20" y="12" width="8" height="20" rx="2" fill="#2563eb"/>
+            <rect x="14" y="18" width="20" height="8" rx="2" fill="#2563eb"/>
+          </svg>
+          <span class="text-sm font-semibold text-blue-100">Icon Only</span>
         </div>
       </div>
 
+      <!-- Concept B: Shield + Heartbeat -->
+      <h3 class="text-lg font-semibold text-gray-900 mb-2">Concept B -- Shield + Heartbeat Line</h3>
+      <p class="text-sm text-gray-500 mb-4">A shield representing protection with a heartbeat pulse line running through it.</p>
+      <div class="grid md:grid-cols-3 gap-6 mb-12">
+        <div class="bg-gray-50 rounded-2xl p-8 flex flex-col items-center justify-center border border-gray-100 min-h-[200px]">
+          <div class="flex items-center space-x-4 mb-4">
+            <svg width="44" height="48" viewBox="0 0 44 52" fill="none">
+              <path d="M22 2L4 10V24C4 37 22 50 22 50C22 50 40 37 40 24V10L22 2Z" fill="#2563eb" stroke="#1d4ed8" stroke-width="1.5"/>
+              <polyline points="8,28 15,28 18,20 22,36 26,24 29,28 36,28" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="text-3xl font-bold text-gray-900 tracking-tight">Shifo</span>
+          </div>
+          <span class="text-sm font-semibold text-gray-700">Light Background</span>
+        </div>
+        <div class="bg-gray-900 rounded-2xl p-8 flex flex-col items-center justify-center min-h-[200px]">
+          <div class="flex items-center space-x-4 mb-4">
+            <svg width="44" height="48" viewBox="0 0 44 52" fill="none">
+              <path d="M22 2L4 10V24C4 37 22 50 22 50C22 50 40 37 40 24V10L22 2Z" fill="#3b82f6" stroke="#60a5fa" stroke-width="1.5"/>
+              <polyline points="8,28 15,28 18,20 22,36 26,24 29,28 36,28" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="text-3xl font-bold text-white tracking-tight">Shifo</span>
+          </div>
+          <span class="text-sm font-semibold text-gray-400">Dark Background</span>
+        </div>
+        <div class="bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl p-8 flex flex-col items-center justify-center min-h-[200px]">
+          <svg width="56" height="64" viewBox="0 0 44 52" fill="none" class="mb-3">
+            <path d="M22 2L4 10V24C4 37 22 50 22 50C22 50 40 37 40 24V10L22 2Z" fill="white" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
+            <polyline points="8,28 15,28 18,20 22,36 26,24 29,28 36,28" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="text-sm font-semibold text-blue-100">Icon Only</span>
+        </div>
+      </div>
+
+      <!-- Concept C: Monogram S with Pulse -->
+      <h3 class="text-lg font-semibold text-gray-900 mb-2">Concept C -- Monogram S with Pulse</h3>
+      <p class="text-sm text-gray-500 mb-4">A bold "S" lettermark inside a rounded square, with an integrated pulse wave accent.</p>
+      <div class="grid md:grid-cols-3 gap-6 mb-12">
+        <div class="bg-gray-50 rounded-2xl p-8 flex flex-col items-center justify-center border border-gray-100 min-h-[200px]">
+          <div class="flex items-center space-x-4 mb-4">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <rect x="2" y="2" width="44" height="44" rx="12" fill="#2563eb"/>
+              <text x="24" y="33" text-anchor="middle" font-family="system-ui, sans-serif" font-size="30" font-weight="800" fill="white">S</text>
+              <polyline points="2,38 10,38 14,32 18,42 22,36 26,38 46,38" fill="none" stroke="#0ea5e9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="text-3xl font-bold text-gray-900 tracking-tight">Shifo</span>
+          </div>
+          <span class="text-sm font-semibold text-gray-700">Light Background</span>
+        </div>
+        <div class="bg-gray-900 rounded-2xl p-8 flex flex-col items-center justify-center min-h-[200px]">
+          <div class="flex items-center space-x-4 mb-4">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <rect x="2" y="2" width="44" height="44" rx="12" fill="#3b82f6"/>
+              <text x="24" y="33" text-anchor="middle" font-family="system-ui, sans-serif" font-size="30" font-weight="800" fill="white">S</text>
+              <polyline points="2,38 10,38 14,32 18,42 22,36 26,38 46,38" fill="none" stroke="#93c5fd" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="text-3xl font-bold text-white tracking-tight">Shifo</span>
+          </div>
+          <span class="text-sm font-semibold text-gray-400">Dark Background</span>
+        </div>
+        <div class="bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl p-8 flex flex-col items-center justify-center min-h-[200px]">
+          <svg width="64" height="64" viewBox="0 0 48 48" fill="none" class="mb-3">
+            <rect x="2" y="2" width="44" height="44" rx="12" fill="white"/>
+            <text x="24" y="33" text-anchor="middle" font-family="system-ui, sans-serif" font-size="30" font-weight="800" fill="#2563eb">S</text>
+            <polyline points="2,38 10,38 14,32 18,42 22,36 26,38 46,38" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="text-sm font-semibold text-blue-100">Icon Only</span>
+        </div>
+      </div>
+
+      <!-- Concept D: Circle + Abstract Heart -->
+      <h3 class="text-lg font-semibold text-gray-900 mb-2">Concept D -- Circle with Abstract Heart</h3>
+      <p class="text-sm text-gray-500 mb-4">A clean circle containing a minimal, geometric heart form -- modern and versatile.</p>
+      <div class="grid md:grid-cols-3 gap-6 mb-12">
+        <div class="bg-gray-50 rounded-2xl p-8 flex flex-col items-center justify-center border border-gray-100 min-h-[200px]">
+          <div class="flex items-center space-x-4 mb-4">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <circle cx="24" cy="24" r="22" fill="#2563eb"/>
+              <path d="M24 36L14 26C11.5 23.5 11.5 19.5 14 17C16.5 14.5 20.5 14.5 23 17L24 18L25 17C27.5 14.5 31.5 14.5 34 17C36.5 19.5 36.5 23.5 34 26L24 36Z" fill="white"/>
+            </svg>
+            <span class="text-3xl font-bold text-gray-900 tracking-tight">Shifo</span>
+          </div>
+          <span class="text-sm font-semibold text-gray-700">Light Background</span>
+        </div>
+        <div class="bg-gray-900 rounded-2xl p-8 flex flex-col items-center justify-center min-h-[200px]">
+          <div class="flex items-center space-x-4 mb-4">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <circle cx="24" cy="24" r="22" fill="#3b82f6"/>
+              <path d="M24 36L14 26C11.5 23.5 11.5 19.5 14 17C16.5 14.5 20.5 14.5 23 17L24 18L25 17C27.5 14.5 31.5 14.5 34 17C36.5 19.5 36.5 23.5 34 26L24 36Z" fill="white"/>
+            </svg>
+            <span class="text-3xl font-bold text-white tracking-tight">Shifo</span>
+          </div>
+          <span class="text-sm font-semibold text-gray-400">Dark Background</span>
+        </div>
+        <div class="bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl p-8 flex flex-col items-center justify-center min-h-[200px]">
+          <svg width="64" height="64" viewBox="0 0 48 48" fill="none" class="mb-3">
+            <circle cx="24" cy="24" r="22" fill="white"/>
+            <path d="M24 36L14 26C11.5 23.5 11.5 19.5 14 17C16.5 14.5 20.5 14.5 23 17L24 18L25 17C27.5 14.5 31.5 14.5 34 17C36.5 19.5 36.5 23.5 34 26L24 36Z" fill="#2563eb"/>
+          </svg>
+          <span class="text-sm font-semibold text-blue-100">Icon Only</span>
+        </div>
+      </div>
+
+      <!-- Concept E: Leaf + Heart (Wellness) -->
+      <h3 class="text-lg font-semibold text-gray-900 mb-2">Concept E -- Leaf-Heart Wellness Mark</h3>
+      <p class="text-sm text-gray-500 mb-4">A fusion of a leaf and heart shape, evoking natural healing and holistic care.</p>
+      <div class="grid md:grid-cols-3 gap-6 mb-12">
+        <div class="bg-gray-50 rounded-2xl p-8 flex flex-col items-center justify-center border border-gray-100 min-h-[200px]">
+          <div class="flex items-center space-x-4 mb-4">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <path d="M24 4C12 4 4 16 4 26C4 36 12 44 24 44C36 44 44 36 44 26C44 16 36 4 24 4Z" fill="#2563eb"/>
+              <path d="M24 12C20 12 14 18 14 24C14 30 18 36 24 38C30 36 34 30 34 24C34 18 28 12 24 12Z" fill="white"/>
+              <path d="M24 18V34" stroke="#2563eb" stroke-width="2" stroke-linecap="round"/>
+              <path d="M24 22C20 20 18 22 18 24" stroke="#2563eb" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+              <path d="M24 26C28 24 30 26 30 28" stroke="#2563eb" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+            </svg>
+            <span class="text-3xl font-bold text-gray-900 tracking-tight">Shifo</span>
+          </div>
+          <span class="text-sm font-semibold text-gray-700">Light Background</span>
+        </div>
+        <div class="bg-gray-900 rounded-2xl p-8 flex flex-col items-center justify-center min-h-[200px]">
+          <div class="flex items-center space-x-4 mb-4">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <path d="M24 4C12 4 4 16 4 26C4 36 12 44 24 44C36 44 44 36 44 26C44 16 36 4 24 4Z" fill="#3b82f6"/>
+              <path d="M24 12C20 12 14 18 14 24C14 30 18 36 24 38C30 36 34 30 34 24C34 18 28 12 24 12Z" fill="white"/>
+              <path d="M24 18V34" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"/>
+              <path d="M24 22C20 20 18 22 18 24" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+              <path d="M24 26C28 24 30 26 30 28" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+            </svg>
+            <span class="text-3xl font-bold text-white tracking-tight">Shifo</span>
+          </div>
+          <span class="text-sm font-semibold text-gray-400">Dark Background</span>
+        </div>
+        <div class="bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl p-8 flex flex-col items-center justify-center min-h-[200px]">
+          <svg width="64" height="64" viewBox="0 0 48 48" fill="none" class="mb-3">
+            <path d="M24 4C12 4 4 16 4 26C4 36 12 44 24 44C36 44 44 36 44 26C44 16 36 4 24 4Z" fill="white"/>
+            <path d="M24 12C20 12 14 18 14 24C14 30 18 36 24 38C30 36 34 30 34 24C34 18 28 12 24 12Z" fill="#2563eb" opacity="0.15"/>
+            <path d="M24 18V34" stroke="#2563eb" stroke-width="2" stroke-linecap="round"/>
+            <path d="M24 22C20 20 18 22 18 24" stroke="#2563eb" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+            <path d="M24 26C28 24 30 26 30 28" stroke="#2563eb" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+          </svg>
+          <span class="text-sm font-semibold text-blue-100">Icon Only</span>
+        </div>
+      </div>
+
+      <!-- Concept F: Crescent + Star (Regional Heritage) -->
+      <h3 class="text-lg font-semibold text-gray-900 mb-2">Concept F -- Crescent Embrace</h3>
+      <p class="text-sm text-gray-500 mb-4">Two crescents forming a protective embrace around a cross, nodding to Central Asian identity.</p>
+      <div class="grid md:grid-cols-3 gap-6 mb-12">
+        <div class="bg-gray-50 rounded-2xl p-8 flex flex-col items-center justify-center border border-gray-100 min-h-[200px]">
+          <div class="flex items-center space-x-4 mb-4">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <circle cx="24" cy="24" r="22" fill="#2563eb"/>
+              <path d="M16 10C10 16 10 32 16 38" stroke="white" stroke-width="3" stroke-linecap="round" fill="none"/>
+              <path d="M32 10C38 16 38 32 32 38" stroke="white" stroke-width="3" stroke-linecap="round" fill="none"/>
+              <rect x="21.5" y="16" width="5" height="16" rx="1.5" fill="white"/>
+              <rect x="17" y="21.5" width="14" height="5" rx="1.5" fill="white"/>
+            </svg>
+            <span class="text-3xl font-bold text-gray-900 tracking-tight">Shifo</span>
+          </div>
+          <span class="text-sm font-semibold text-gray-700">Light Background</span>
+        </div>
+        <div class="bg-gray-900 rounded-2xl p-8 flex flex-col items-center justify-center min-h-[200px]">
+          <div class="flex items-center space-x-4 mb-4">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <circle cx="24" cy="24" r="22" fill="#3b82f6"/>
+              <path d="M16 10C10 16 10 32 16 38" stroke="white" stroke-width="3" stroke-linecap="round" fill="none"/>
+              <path d="M32 10C38 16 38 32 32 38" stroke="white" stroke-width="3" stroke-linecap="round" fill="none"/>
+              <rect x="21.5" y="16" width="5" height="16" rx="1.5" fill="white"/>
+              <rect x="17" y="21.5" width="14" height="5" rx="1.5" fill="white"/>
+            </svg>
+            <span class="text-3xl font-bold text-white tracking-tight">Shifo</span>
+          </div>
+          <span class="text-sm font-semibold text-gray-400">Dark Background</span>
+        </div>
+        <div class="bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl p-8 flex flex-col items-center justify-center min-h-[200px]">
+          <svg width="64" height="64" viewBox="0 0 48 48" fill="none" class="mb-3">
+            <circle cx="24" cy="24" r="22" fill="white"/>
+            <path d="M16 10C10 16 10 32 16 38" stroke="#2563eb" stroke-width="3" stroke-linecap="round" fill="none"/>
+            <path d="M32 10C38 16 38 32 32 38" stroke="#2563eb" stroke-width="3" stroke-linecap="round" fill="none"/>
+            <rect x="21.5" y="16" width="5" height="16" rx="1.5" fill="#2563eb"/>
+            <rect x="17" y="21.5" width="14" height="5" rx="1.5" fill="#2563eb"/>
+          </svg>
+          <span class="text-sm font-semibold text-blue-100">Icon Only</span>
+        </div>
+      </div>
+
+      <!-- Guidelines -->
       <div class="grid md:grid-cols-2 gap-8">
         <div>
           <h3 class="text-xl font-semibold text-gray-900 mb-3">Clear Space & Sizing</h3>
           <p class="text-gray-600 leading-relaxed mb-4">
-            Maintain a minimum clear space equal to the height of the heart icon on all sides.
+            Maintain a minimum clear space equal to the height of the icon mark on all sides.
             Full logo minimum width: 120px. Icon mark minimum: 24px.
           </p>
         </div>
