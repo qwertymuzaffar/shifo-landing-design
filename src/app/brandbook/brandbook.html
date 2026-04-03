@@ -1,723 +1,709 @@
-<div class="brandbook-wrapper">
-  <!-- Toolbar (hidden in print) -->
-  <div class="toolbar no-print">
-    <button class="back-btn" (click)="goBack()">
-      <lucide-icon [img]="ArrowLeft" [size]="18"></lucide-icon>
-      Back
-    </button>
-    <div class="toolbar-title">SHIFO Brand Book</div>
-    <button class="export-btn" (click)="exportPdf()" [disabled]="isExporting()">
-      <lucide-icon [img]="Download" [size]="18"></lucide-icon>
-      {{ isExporting() ? 'Preparing...' : 'Export PDF' }}
-    </button>
-  </div>
-
-  <div class="brandbook-content">
-    <!-- Cover Page -->
-    <section class="page cover-page">
-      <div class="cover-inner">
-        <div class="cover-logo">
-          <lucide-icon [img]="Heart" [size]="64" [strokeWidth]="1.5"></lucide-icon>
+<div class="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+  <!-- Sticky Nav -->
+  <nav class="bg-white shadow-sm sticky top-0 z-50 no-print">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14 sm:h-16">
+        <div class="flex items-center space-x-1.5 sm:space-x-2">
+          <button (click)="goBack()" class="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors">
+            <lucide-icon [img]="ArrowLeft" class="w-5 h-5"></lucide-icon>
+            <span class="text-sm font-medium hidden sm:inline">Back</span>
+          </button>
+          <span class="text-gray-300 mx-2">|</span>
+          <lucide-icon [img]="Heart" class="w-6 h-6 sm:w-8 sm:h-8 text-blue-600"></lucide-icon>
+          <span class="text-lg sm:text-2xl font-bold text-gray-900">Shifo</span>
+          <span class="text-sm text-gray-400 font-medium ml-2 hidden sm:inline">Brand Book</span>
         </div>
-        <h1 class="cover-title">SHIFO</h1>
-        <p class="cover-subtitle">Brand Book</p>
-        <div class="cover-divider"></div>
-        <p class="cover-tagline">Modern Medical Clinic Management System</p>
-        <div class="cover-meta">
-          <span>Version {{ version }}</span>
-          <span class="cover-meta-dot"></span>
-          <span>{{ date }}</span>
-        </div>
+        <button
+          (click)="exportPdf()"
+          [disabled]="isExporting()"
+          class="bg-blue-600 text-white px-3 sm:px-5 py-1.5 sm:py-2 rounded-md sm:rounded-lg hover:bg-blue-700 transition-colors font-medium text-[11px] sm:text-sm flex items-center space-x-2">
+          <lucide-icon [img]="Download" class="w-4 h-4"></lucide-icon>
+          <span>{{ isExporting() ? 'Preparing...' : 'Export PDF' }}</span>
+        </button>
       </div>
-    </section>
+    </div>
+  </nav>
 
-    <!-- Table of Contents -->
-    <section class="page toc-page">
-      <h2 class="section-title">Table of Contents</h2>
-      <div class="toc-list">
-        <div class="toc-item">
-          <span class="toc-number">01</span>
-          <span class="toc-label">Brand Identity</span>
-        </div>
-        <div class="toc-item">
-          <span class="toc-number">02</span>
-          <span class="toc-label">Logo Guidelines</span>
-        </div>
-        <div class="toc-item">
-          <span class="toc-number">03</span>
-          <span class="toc-label">Color Palette</span>
-        </div>
-        <div class="toc-item">
-          <span class="toc-number">04</span>
-          <span class="toc-label">Typography</span>
-        </div>
-        <div class="toc-item">
-          <span class="toc-number">05</span>
-          <span class="toc-label">Spacing & Layout</span>
-        </div>
-        <div class="toc-item">
-          <span class="toc-number">06</span>
-          <span class="toc-label">Components</span>
-        </div>
-        <div class="toc-item">
-          <span class="toc-number">07</span>
-          <span class="toc-label">Shadows & Elevation</span>
-        </div>
-        <div class="toc-item">
-          <span class="toc-number">08</span>
-          <span class="toc-label">Iconography</span>
-        </div>
-        <div class="toc-item">
-          <span class="toc-number">09</span>
-          <span class="toc-label">Voice & Tone</span>
-        </div>
+  <!-- Cover Section -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 md:pt-24 pb-16 md:pb-20">
+    <div class="text-center">
+      <div class="inline-flex items-center space-x-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
+        <lucide-icon [img]="BookOpen" class="w-4 h-4"></lucide-icon>
+        <span>Version 9 -- April 2026</span>
       </div>
-    </section>
-
-    <!-- 01: Brand Identity -->
-    <section class="page">
-      <div class="page-header">
-        <span class="page-number">01</span>
-        <h2 class="section-title">Brand Identity</h2>
+      <div class="flex items-center justify-center space-x-3 mb-6">
+        <lucide-icon [img]="Heart" class="w-12 h-12 md:w-16 md:h-16 text-blue-600"></lucide-icon>
       </div>
-      <div class="section-body">
-        <div class="identity-block">
-          <h3 class="subsection-title">Brand Name</h3>
-          <p class="brand-name-display">SHIFO</p>
-          <p class="body-text">
-            "Shifo" means "healing" in Tajik/Uzbek, reflecting the core mission of the platform:
-            to bring modern digital solutions to healthcare management across Central Asia.
-          </p>
-        </div>
-        <div class="identity-block">
-          <h3 class="subsection-title">Mission Statement</h3>
-          <p class="body-text">
-            To empower medical clinics with an intuitive, comprehensive, and secure digital
-            management platform that streamlines operations, enhances patient care, and drives
-            data-informed decision making.
-          </p>
-        </div>
-        <div class="identity-block">
-          <h3 class="subsection-title">Brand Values</h3>
-          <div class="values-grid">
-            <div class="value-card">
-              <div class="value-title">Trust & Security</div>
-              <div class="value-desc">Patient data protection is paramount. Every feature is built with security first.</div>
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 mb-4 leading-tight tracking-wider">
+        SHIFO
+      </h1>
+      <p class="text-xl md:text-2xl text-gray-500 font-light tracking-widest uppercase mb-6">Brand Book</p>
+      <div class="w-16 h-1 bg-gradient-to-r from-blue-500 to-blue-700 rounded-full mx-auto mb-6"></div>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+        Modern Medical Clinic Management System
+      </p>
+    </div>
+  </section>
+
+  <!-- Table of Contents -->
+  <section class="bg-white py-12 md:py-16 page-break">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 text-center">Table of Contents</h2>
+      <p class="text-lg text-gray-600 max-w-3xl mx-auto text-center mb-10">
+        Complete brand guidelines and design system reference
+      </p>
+      <div class="grid md:grid-cols-3 gap-4 md:gap-6 max-w-4xl mx-auto">
+        @for (item of tocItems; track item.num) {
+          <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-shadow flex items-center space-x-4">
+            <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+              <span class="text-sm font-bold text-blue-600">{{ item.num }}</span>
             </div>
-            <div class="value-card">
-              <div class="value-title">Simplicity</div>
-              <div class="value-desc">Complex healthcare workflows made intuitive and accessible for all staff levels.</div>
-            </div>
-            <div class="value-card">
-              <div class="value-title">Reliability</div>
-              <div class="value-desc">24/7 system availability. Clinics depend on us for uninterrupted operations.</div>
-            </div>
-            <div class="value-card">
-              <div class="value-title">Innovation</div>
-              <div class="value-desc">Continuously evolving with modern technology to serve healthcare better.</div>
-            </div>
+            <span class="text-base font-semibold text-gray-900">{{ item.label }}</span>
           </div>
-        </div>
-        <div class="identity-block">
-          <h3 class="subsection-title">Target Audience</h3>
-          <p class="body-text">
-            Medical clinics and healthcare facilities across Central Asia, ranging from small private
-            practices to multi-location clinic networks. Primary users include clinic administrators,
-            doctors, and medical staff.
-          </p>
-        </div>
+        }
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- 02: Logo Guidelines -->
-    <section class="page">
-      <div class="page-header">
-        <span class="page-number">02</span>
-        <h2 class="section-title">Logo Guidelines</h2>
+  <!-- 01: Brand Identity -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 page-break">
+    <div class="text-center mb-12">
+      <div class="inline-flex items-center space-x-2 bg-blue-100 text-blue-700 px-3 py-1.5 rounded-full text-sm font-medium mb-4">
+        <span>01</span>
       </div>
-      <div class="section-body">
-        <div class="logo-showcase">
-          <div class="logo-variant logo-primary">
-            <div class="logo-display">
-              <lucide-icon [img]="Heart" [size]="40" [strokeWidth]="1.5"></lucide-icon>
-              <span class="logo-text">Shifo</span>
-            </div>
-            <div class="logo-label">Primary Logo</div>
-            <div class="logo-desc">Used on light backgrounds. Heart icon paired with "Shifo" wordmark.</div>
-          </div>
-          <div class="logo-variant logo-dark">
-            <div class="logo-display">
-              <lucide-icon [img]="Heart" [size]="40" [strokeWidth]="1.5"></lucide-icon>
-              <span class="logo-text">Shifo</span>
-            </div>
-            <div class="logo-label">Inverted Logo</div>
-            <div class="logo-desc">Used on dark or colored backgrounds with white elements.</div>
-          </div>
-          <div class="logo-variant logo-icon-only">
-            <div class="logo-display">
-              <lucide-icon [img]="Heart" [size]="48" [strokeWidth]="1.5"></lucide-icon>
-            </div>
-            <div class="logo-label">Icon Mark</div>
-            <div class="logo-desc">Used for favicons, app icons, and compact spaces.</div>
-          </div>
-        </div>
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Brand Identity</h2>
+    </div>
 
-        <div class="identity-block">
-          <h3 class="subsection-title">Clear Space</h3>
-          <p class="body-text">
-            Maintain a minimum clear space equal to the height of the heart icon around all sides
-            of the logo. Never crowd the logo with other elements.
-          </p>
-        </div>
-
-        <div class="identity-block">
-          <h3 class="subsection-title">Minimum Size</h3>
-          <p class="body-text">
-            The full logo should never appear smaller than 120px wide. The icon mark should never
-            be smaller than 24px.
-          </p>
-        </div>
-
-        <div class="identity-block">
-          <h3 class="subsection-title">Don'ts</h3>
-          <div class="donts-grid">
-            <div class="dont-item">Do not rotate the logo</div>
-            <div class="dont-item">Do not alter the colors</div>
-            <div class="dont-item">Do not stretch or distort</div>
-            <div class="dont-item">Do not add effects or shadows</div>
-            <div class="dont-item">Do not place on busy backgrounds</div>
-            <div class="dont-item">Do not rearrange elements</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 03: Color Palette -->
-    <section class="page">
-      <div class="page-header">
-        <span class="page-number">03</span>
-        <h2 class="section-title">Color Palette</h2>
-      </div>
-      <div class="section-body">
-        <h3 class="subsection-title">Primary Colors</h3>
-        <p class="body-text color-intro">The primary palette communicates trust, professionalism, and modern healthcare.</p>
-        <div class="color-grid">
-          @for (color of primaryColors; track color.hex) {
-            <div class="color-card">
-              <div class="color-swatch" [style.background]="color.hex"></div>
-              <div class="color-info">
-                <div class="color-name">{{ color.name }}</div>
-                <div class="color-hex">{{ color.hex }}</div>
-                <div class="color-rgb">RGB: {{ color.rgb }}</div>
-                <div class="color-usage">{{ color.usage }}</div>
-              </div>
-            </div>
-          }
-        </div>
-
-        <h3 class="subsection-title mt-section">Neutral Colors</h3>
-        <div class="color-grid">
-          @for (color of neutralColors; track color.hex) {
-            <div class="color-card">
-              <div class="color-swatch" [style.background]="color.hex"
-                   [class.bordered]="color.hex === '#ffffff'"></div>
-              <div class="color-info">
-                <div class="color-name">{{ color.name }}</div>
-                <div class="color-hex">{{ color.hex }}</div>
-                <div class="color-rgb">RGB: {{ color.rgb }}</div>
-                <div class="color-usage">{{ color.usage }}</div>
-              </div>
-            </div>
-          }
-        </div>
-
-        <h3 class="subsection-title mt-section">Semantic Colors</h3>
-        <div class="color-grid">
-          @for (color of semanticColors; track color.hex) {
-            <div class="color-card">
-              <div class="color-swatch" [style.background]="color.hex"></div>
-              <div class="color-info">
-                <div class="color-name">{{ color.name }}</div>
-                <div class="color-hex">{{ color.hex }}</div>
-                <div class="color-rgb">RGB: {{ color.rgb }}</div>
-                <div class="color-usage">{{ color.usage }}</div>
-              </div>
-            </div>
-          }
-        </div>
-
-        <h3 class="subsection-title mt-section">Gradients</h3>
-        <div class="gradient-grid">
-          @for (grad of gradients; track grad.name) {
-            <div class="gradient-card">
-              <div class="gradient-swatch" [style.background]="grad.css"></div>
-              <div class="gradient-info">
-                <div class="gradient-name">{{ grad.name }}</div>
-                <div class="gradient-css">{{ grad.css }}</div>
-                <div class="gradient-usage">{{ grad.usage }}</div>
-              </div>
-            </div>
-          }
-        </div>
-      </div>
-    </section>
-
-    <!-- 04: Typography -->
-    <section class="page">
-      <div class="page-header">
-        <span class="page-number">04</span>
-        <h2 class="section-title">Typography</h2>
-      </div>
-      <div class="section-body">
-        <div class="identity-block">
-          <h3 class="subsection-title">Typeface</h3>
-          <p class="body-text">
-            Shifo uses the system font stack for optimal performance and native feel across platforms.
-            The primary stack is: <code>-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-            Ubuntu, Cantarell, sans-serif</code>.
-          </p>
-        </div>
-
-        <h3 class="subsection-title">Type Scale</h3>
-        <div class="type-scale">
-          @for (type of typographyScale; track type.name) {
-            <div class="type-row">
-              <div class="type-sample"
-                   [style.fontSize]="type.size.split(' / ')[1]"
-                   [style.fontWeight]="type.weight"
-                   [style.lineHeight]="type.lineHeight">
-                {{ type.name }}
-              </div>
-              <div class="type-meta">
-                <span class="type-size">{{ type.size }}</span>
-                <span class="type-weight">Weight: {{ type.weight }}</span>
-                <span class="type-line">Line: {{ type.lineHeight }}</span>
-                <span class="type-usage">{{ type.usage }}</span>
-              </div>
-            </div>
-          }
-        </div>
-
-        <div class="identity-block">
-          <h3 class="subsection-title">Font Weights</h3>
-          <div class="weight-samples">
-            <div class="weight-row">
-              <span class="weight-demo" style="font-weight: 400">Regular (400)</span>
-              <span class="weight-use">Body text, descriptions, form inputs</span>
-            </div>
-            <div class="weight-row">
-              <span class="weight-demo" style="font-weight: 500">Medium (500)</span>
-              <span class="weight-use">Navigation items, labels, metadata</span>
-            </div>
-            <div class="weight-row">
-              <span class="weight-demo" style="font-weight: 600">Semibold (600)</span>
-              <span class="weight-use">Subheadings, card titles, buttons</span>
-            </div>
-            <div class="weight-row">
-              <span class="weight-demo" style="font-weight: 700">Bold (700)</span>
-              <span class="weight-use">Page headings, hero text, emphasis</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 05: Spacing & Layout -->
-    <section class="page">
-      <div class="page-header">
-        <span class="page-number">05</span>
-        <h2 class="section-title">Spacing & Layout</h2>
-      </div>
-      <div class="section-body">
-        <div class="identity-block">
-          <h3 class="subsection-title">8px Grid System</h3>
-          <p class="body-text">
-            All spacing follows an 8px base grid. This ensures visual consistency and alignment
-            across the entire application.
-          </p>
-        </div>
-
-        <h3 class="subsection-title">Spacing Scale</h3>
-        <div class="spacing-scale">
-          @for (space of spacingScale; track space.name) {
-            <div class="spacing-row">
-              <span class="spacing-name">{{ space.name }}</span>
-              <div class="spacing-bar" [style.width]="space.value" [style.minWidth]="space.value"></div>
-              <span class="spacing-value">{{ space.value }}</span>
-              <code class="spacing-tailwind">{{ space.tailwind }}</code>
-            </div>
-          }
-        </div>
-
-        <h3 class="subsection-title mt-section">Border Radius</h3>
-        <div class="radius-grid">
-          @for (r of borderRadii; track r.name) {
-            <div class="radius-card">
-              <div class="radius-sample" [style.borderRadius]="r.value"></div>
-              <div class="radius-info">
-                <div class="radius-name">{{ r.name }}</div>
-                <div class="radius-value">{{ r.value }}</div>
-                <code class="radius-tailwind">{{ r.tailwind }}</code>
-              </div>
-            </div>
-          }
-        </div>
-
-        <h3 class="subsection-title mt-section">Layout Breakpoints</h3>
-        <div class="breakpoint-table">
-          <div class="bp-row bp-header">
-            <span>Name</span>
-            <span>Min Width</span>
-            <span>Usage</span>
-          </div>
-          <div class="bp-row">
-            <span class="bp-name">sm</span>
-            <span>640px</span>
-            <span>Small tablets, large phones</span>
-          </div>
-          <div class="bp-row">
-            <span class="bp-name">md</span>
-            <span>768px</span>
-            <span>Tablets, small laptops</span>
-          </div>
-          <div class="bp-row">
-            <span class="bp-name">lg</span>
-            <span>1024px</span>
-            <span>Laptops, desktops</span>
-          </div>
-          <div class="bp-row">
-            <span class="bp-name">xl</span>
-            <span>1280px</span>
-            <span>Large desktops</span>
-          </div>
-          <div class="bp-row">
-            <span class="bp-name">2xl</span>
-            <span>1536px</span>
-            <span>Extra large screens</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 06: Components -->
-    <section class="page">
-      <div class="page-header">
-        <span class="page-number">06</span>
-        <h2 class="section-title">Components</h2>
-      </div>
-      <div class="section-body">
-        <h3 class="subsection-title">Buttons</h3>
-        <div class="component-showcase">
-          <div class="component-row">
-            <button class="demo-btn demo-btn-primary">Primary Button</button>
-            <button class="demo-btn demo-btn-secondary">Secondary Button</button>
-            <button class="demo-btn demo-btn-outline">Outline Button</button>
-            <button class="demo-btn demo-btn-ghost">Ghost Button</button>
-          </div>
-          <div class="component-specs">
-            <div class="spec-item">
-              <span class="spec-label">Padding</span>
-              <span class="spec-value">12px 24px</span>
-            </div>
-            <div class="spec-item">
-              <span class="spec-label">Border Radius</span>
-              <span class="spec-value">12px</span>
-            </div>
-            <div class="spec-item">
-              <span class="spec-label">Font Weight</span>
-              <span class="spec-value">600</span>
-            </div>
-            <div class="spec-item">
-              <span class="spec-label">Font Size</span>
-              <span class="spec-value">14px</span>
-            </div>
-          </div>
-        </div>
-
-        <h3 class="subsection-title mt-section">Cards</h3>
-        <div class="card-showcase">
-          <div class="demo-card">
-            <div class="demo-card-header">Card Header</div>
-            <div class="demo-card-body">
-              Cards use white backgrounds with subtle shadows. Standard padding is 24px.
-              Border radius is 16px for primary cards and 12px for nested cards.
-            </div>
-          </div>
-          <div class="card-specs">
-            <div class="spec-item">
-              <span class="spec-label">Background</span>
-              <span class="spec-value">#ffffff</span>
-            </div>
-            <div class="spec-item">
-              <span class="spec-label">Shadow</span>
-              <span class="spec-value">0 1px 3px rgba(0,0,0,0.1)</span>
-            </div>
-            <div class="spec-item">
-              <span class="spec-label">Radius</span>
-              <span class="spec-value">16px</span>
-            </div>
-            <div class="spec-item">
-              <span class="spec-label">Padding</span>
-              <span class="spec-value">24px</span>
-            </div>
-          </div>
-        </div>
-
-        <h3 class="subsection-title mt-section">Form Inputs</h3>
-        <div class="input-showcase">
-          <div class="demo-input-group">
-            <label class="demo-label">Label Text</label>
-            <input class="demo-input" type="text" placeholder="Placeholder text" readonly />
-          </div>
-          <div class="input-specs">
-            <div class="spec-item">
-              <span class="spec-label">Border</span>
-              <span class="spec-value">2px solid #e2e8f0</span>
-            </div>
-            <div class="spec-item">
-              <span class="spec-label">Focus Ring</span>
-              <span class="spec-value">#0ea5e9</span>
-            </div>
-            <div class="spec-item">
-              <span class="spec-label">Radius</span>
-              <span class="spec-value">12px</span>
-            </div>
-            <div class="spec-item">
-              <span class="spec-label">Padding</span>
-              <span class="spec-value">14px 16px</span>
-            </div>
-          </div>
-        </div>
-
-        <h3 class="subsection-title mt-section">Status Badges</h3>
-        <div class="badge-showcase">
-          <span class="demo-badge demo-badge-confirmed">Confirmed</span>
-          <span class="demo-badge demo-badge-pending">Pending</span>
-          <span class="demo-badge demo-badge-completed">Completed</span>
-          <span class="demo-badge demo-badge-cancelled">Cancelled</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- 07: Shadows & Elevation -->
-    <section class="page">
-      <div class="page-header">
-        <span class="page-number">07</span>
-        <h2 class="section-title">Shadows & Elevation</h2>
-      </div>
-      <div class="section-body">
-        <p class="body-text">
-          Shadows establish visual hierarchy and depth. Higher elevation indicates more
-          interactive or prominent elements.
+    <div class="grid lg:grid-cols-2 gap-8 md:gap-12 items-start">
+      <div>
+        <h3 class="text-xl font-semibold text-gray-900 mb-3">Brand Name</h3>
+        <p class="text-5xl font-bold text-gray-900 tracking-widest mb-6">SHIFO</p>
+        <p class="text-gray-600 leading-relaxed mb-8">
+          "Shifo" means "healing" in Tajik/Uzbek, reflecting the core mission of the platform:
+          to bring modern digital solutions to healthcare management across Central Asia.
         </p>
-        <div class="shadow-showcase">
-          @for (s of shadowScale; track s.name) {
-            <div class="shadow-card" [style.boxShadow]="s.value">
-              <div class="shadow-name">{{ s.name }}</div>
-              <div class="shadow-value">{{ s.tailwind }}</div>
-              <div class="shadow-css">{{ s.value }}</div>
+        <h3 class="text-xl font-semibold text-gray-900 mb-3">Mission Statement</h3>
+        <p class="text-gray-600 leading-relaxed">
+          To empower medical clinics with an intuitive, comprehensive, and secure digital
+          management platform that streamlines operations, enhances patient care, and drives
+          data-informed decision making.
+        </p>
+      </div>
+      <div>
+        <h3 class="text-xl font-semibold text-gray-900 mb-4">Brand Values</h3>
+        <div class="space-y-4">
+          <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+            <div class="flex items-center space-x-3 mb-2">
+              <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                <lucide-icon [img]="Shield" class="w-5 h-5 text-blue-600"></lucide-icon>
+              </div>
+              <h4 class="font-semibold text-gray-900">Trust & Security</h4>
             </div>
-          }
-        </div>
-
-        <div class="identity-block">
-          <h3 class="subsection-title">Elevation Guidelines</h3>
-          <div class="elevation-table">
-            <div class="bp-row bp-header">
-              <span>Level</span>
-              <span>Shadow</span>
-              <span>Usage</span>
+            <p class="text-sm text-gray-600 leading-relaxed">Patient data protection is paramount. Every feature is built with security first.</p>
+          </div>
+          <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+            <div class="flex items-center space-x-3 mb-2">
+              <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                <lucide-icon [img]="Heart" class="w-5 h-5 text-blue-600"></lucide-icon>
+              </div>
+              <h4 class="font-semibold text-gray-900">Simplicity</h4>
             </div>
-            <div class="bp-row">
-              <span class="bp-name">0</span>
-              <span>None</span>
-              <span>Flat elements, backgrounds</span>
+            <p class="text-sm text-gray-600 leading-relaxed">Complex healthcare workflows made intuitive and accessible for all staff levels.</p>
+          </div>
+          <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+            <div class="flex items-center space-x-3 mb-2">
+              <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                <lucide-icon [img]="Layers" class="w-5 h-5 text-green-600"></lucide-icon>
+              </div>
+              <h4 class="font-semibold text-gray-900">Reliability</h4>
             </div>
-            <div class="bp-row">
-              <span class="bp-name">1</span>
-              <span>shadow-sm</span>
-              <span>Cards, list items</span>
+            <p class="text-sm text-gray-600 leading-relaxed">24/7 system availability. Clinics depend on us for uninterrupted operations.</p>
+          </div>
+          <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+            <div class="flex items-center space-x-3 mb-2">
+              <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
+                <lucide-icon [img]="Palette" class="w-5 h-5 text-orange-600"></lucide-icon>
+              </div>
+              <h4 class="font-semibold text-gray-900">Innovation</h4>
             </div>
-            <div class="bp-row">
-              <span class="bp-name">2</span>
-              <span>shadow-md</span>
-              <span>Dropdowns, popovers</span>
-            </div>
-            <div class="bp-row">
-              <span class="bp-name">3</span>
-              <span>shadow-lg</span>
-              <span>Modals, floating elements</span>
-            </div>
-            <div class="bp-row">
-              <span class="bp-name">4</span>
-              <span>shadow-xl</span>
-              <span>Sticky navigation, drawers</span>
-            </div>
+            <p class="text-sm text-gray-600 leading-relaxed">Continuously evolving with modern technology to serve healthcare better.</p>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- 08: Iconography -->
-    <section class="page">
-      <div class="page-header">
-        <span class="page-number">08</span>
-        <h2 class="section-title">Iconography</h2>
+  <!-- 02: Logo Guidelines -->
+  <section class="bg-white py-16 md:py-20 page-break">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <div class="inline-flex items-center space-x-2 bg-blue-100 text-blue-700 px-3 py-1.5 rounded-full text-sm font-medium mb-4">
+          <span>02</span>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Logo Guidelines</h2>
+        <p class="text-lg text-gray-600 max-w-3xl mx-auto">Heart icon paired with the Shifo wordmark</p>
       </div>
-      <div class="section-body">
-        <div class="identity-block">
-          <h3 class="subsection-title">Icon Library</h3>
-          <p class="body-text">
-            Shifo uses the <strong>Lucide</strong> icon library (lucide-angular). Lucide provides
-            consistent, clean, and modern line-based icons that align with the brand aesthetic.
+
+      <div class="grid md:grid-cols-3 gap-6 md:gap-8 mb-12">
+        <div class="bg-gray-50 rounded-2xl p-8 flex flex-col items-center border border-gray-100">
+          <div class="flex items-center space-x-3 mb-6 text-blue-600">
+            <lucide-icon [img]="Heart" class="w-10 h-10" [strokeWidth]="1.5"></lucide-icon>
+            <span class="text-3xl font-bold">Shifo</span>
+          </div>
+          <span class="text-sm font-semibold text-gray-700">Primary Logo</span>
+          <span class="text-xs text-gray-500 mt-1 text-center">Light backgrounds</span>
+        </div>
+        <div class="bg-gray-900 rounded-2xl p-8 flex flex-col items-center">
+          <div class="flex items-center space-x-3 mb-6 text-white">
+            <lucide-icon [img]="Heart" class="w-10 h-10" [strokeWidth]="1.5"></lucide-icon>
+            <span class="text-3xl font-bold">Shifo</span>
+          </div>
+          <span class="text-sm font-semibold text-gray-300">Inverted Logo</span>
+          <span class="text-xs text-gray-500 mt-1 text-center">Dark backgrounds</span>
+        </div>
+        <div class="bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl p-8 flex flex-col items-center">
+          <div class="flex items-center justify-center mb-6 text-white">
+            <lucide-icon [img]="Heart" class="w-12 h-12" [strokeWidth]="1.5"></lucide-icon>
+          </div>
+          <span class="text-sm font-semibold text-blue-100">Icon Mark</span>
+          <span class="text-xs text-blue-200 mt-1 text-center">Favicons, app icons</span>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        <div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-3">Clear Space & Sizing</h3>
+          <p class="text-gray-600 leading-relaxed mb-4">
+            Maintain a minimum clear space equal to the height of the heart icon on all sides.
+            Full logo minimum width: 120px. Icon mark minimum: 24px.
           </p>
         </div>
-
-        <div class="identity-block">
-          <h3 class="subsection-title">Icon Sizing</h3>
-          <div class="breakpoint-table">
-            <div class="bp-row bp-header">
-              <span>Size</span>
-              <span>Pixels</span>
-              <span>Usage</span>
-            </div>
-            <div class="bp-row">
-              <span class="bp-name">xs</span>
-              <span>14px</span>
-              <span>Inline with small text, badges</span>
-            </div>
-            <div class="bp-row">
-              <span class="bp-name">sm</span>
-              <span>16px</span>
-              <span>Inline with body text, buttons</span>
-            </div>
-            <div class="bp-row">
-              <span class="bp-name">md</span>
-              <span>20px</span>
-              <span>Navigation items, list icons</span>
-            </div>
-            <div class="bp-row">
-              <span class="bp-name">lg</span>
-              <span>24px</span>
-              <span>Section headers, feature cards</span>
-            </div>
-            <div class="bp-row">
-              <span class="bp-name">xl</span>
-              <span>32px</span>
-              <span>Feature showcases, empty states</span>
-            </div>
-            <div class="bp-row">
-              <span class="bp-name">2xl</span>
-              <span>48px</span>
-              <span>Hero sections, branding</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="identity-block">
-          <h3 class="subsection-title">Icon Style Rules</h3>
-          <div class="values-grid">
-            <div class="value-card">
-              <div class="value-title">Stroke Width</div>
-              <div class="value-desc">Default stroke width is 2px. Use 1.5px for large decorative icons (32px+).</div>
-            </div>
-            <div class="value-card">
-              <div class="value-title">Color</div>
-              <div class="value-desc">Icons inherit text color by default. Use brand colors for emphasis.</div>
-            </div>
-            <div class="value-card">
-              <div class="value-title">Alignment</div>
-              <div class="value-desc">Always vertically center icons with adjacent text. Use flexbox alignment.</div>
-            </div>
-            <div class="value-card">
-              <div class="value-title">Spacing</div>
-              <div class="value-desc">Maintain 8px minimum gap between icon and adjacent text elements.</div>
-            </div>
+        <div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-3">Restrictions</h3>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm text-red-800 text-center">Do not rotate</div>
+            <div class="bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm text-red-800 text-center">Do not alter colors</div>
+            <div class="bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm text-red-800 text-center">Do not stretch</div>
+            <div class="bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm text-red-800 text-center">Do not add effects</div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- 09: Voice & Tone -->
-    <section class="page">
-      <div class="page-header">
-        <span class="page-number">09</span>
-        <h2 class="section-title">Voice & Tone</h2>
+  <!-- 03: Color Palette -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 page-break">
+    <div class="text-center mb-12">
+      <div class="inline-flex items-center space-x-2 bg-blue-100 text-blue-700 px-3 py-1.5 rounded-full text-sm font-medium mb-4">
+        <span>03</span>
       </div>
-      <div class="section-body">
-        <div class="identity-block">
-          <h3 class="subsection-title">Brand Voice</h3>
-          <p class="body-text">
-            Shifo communicates with confidence and clarity. The tone is professional yet approachable,
-            reflecting the seriousness of healthcare with the warmth of a trusted partner.
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Color Palette</h2>
+      <p class="text-lg text-gray-600 max-w-3xl mx-auto">The primary palette communicates trust, professionalism, and modern healthcare.</p>
+    </div>
+
+    <h3 class="text-xl font-semibold text-gray-900 mb-4">Primary Colors</h3>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-10">
+      @for (color of primaryColors; track color.hex) {
+        <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100">
+          <div class="h-24 md:h-28" [style.background]="color.hex"></div>
+          <div class="p-4">
+            <div class="font-semibold text-gray-900 text-sm">{{ color.name }}</div>
+            <div class="text-xs text-gray-500 font-mono mt-1">{{ color.hex }}</div>
+            <div class="text-xs text-gray-400 font-mono">{{ color.rgb }}</div>
+            <div class="text-xs text-gray-500 mt-2">{{ color.usage }}</div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <h3 class="text-xl font-semibold text-gray-900 mb-4">Neutral Colors</h3>
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 mb-10">
+      @for (color of neutralColors; track color.hex) {
+        <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100">
+          <div class="h-16" [style.background]="color.hex" [class.border-b]="color.bordered" [class.border-gray-200]="color.bordered"></div>
+          <div class="p-3">
+            <div class="font-semibold text-gray-900 text-xs">{{ color.name }}</div>
+            <div class="text-[10px] text-gray-500 font-mono mt-0.5">{{ color.hex }}</div>
+            <div class="text-[10px] text-gray-500 mt-1">{{ color.usage }}</div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <h3 class="text-xl font-semibold text-gray-900 mb-4">Semantic Colors</h3>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-10">
+      @for (color of semanticColors; track color.hex) {
+        <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100">
+          <div class="h-20" [style.background]="color.hex"></div>
+          <div class="p-4">
+            <div class="font-semibold text-gray-900 text-sm">{{ color.name }}</div>
+            <div class="text-xs text-gray-500 font-mono mt-1">{{ color.hex }}</div>
+            <div class="text-xs text-gray-500 mt-1">{{ color.usage }}</div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <h3 class="text-xl font-semibold text-gray-900 mb-4">Gradients</h3>
+    <div class="grid md:grid-cols-3 gap-4 md:gap-6">
+      @for (grad of gradients; track grad.name) {
+        <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100">
+          <div class="h-20" [style.background]="grad.css"></div>
+          <div class="p-4">
+            <div class="font-semibold text-gray-900 text-sm">{{ grad.name }}</div>
+            <div class="text-[10px] text-gray-400 font-mono mt-1 break-all">{{ grad.css }}</div>
+            <div class="text-xs text-gray-500 mt-1">{{ grad.usage }}</div>
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- 04: Typography -->
+  <section class="bg-white py-16 md:py-20 page-break">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <div class="inline-flex items-center space-x-2 bg-blue-100 text-blue-700 px-3 py-1.5 rounded-full text-sm font-medium mb-4">
+          <span>04</span>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Typography</h2>
+        <p class="text-lg text-gray-600 max-w-3xl mx-auto">System font stack for optimal performance and native feel across platforms.</p>
+      </div>
+
+      <div class="bg-gray-50 rounded-2xl p-6 md:p-8 mb-10 border border-gray-100">
+        <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">Typeface</h3>
+        <p class="text-sm text-gray-600 font-mono">
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif
+        </p>
+      </div>
+
+      <h3 class="text-xl font-semibold text-gray-900 mb-6">Type Scale</h3>
+      <div class="space-y-0 border border-gray-200 rounded-xl overflow-hidden mb-10">
+        @for (type of typographyScale; track type.name) {
+          <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100 last:border-b-0 hover:bg-gray-50 transition-colors">
+            <span class="text-gray-900 truncate flex-1"
+                  [style.fontSize]="type.size"
+                  [style.fontWeight]="type.weight"
+                  [style.lineHeight]="type.lh">{{ type.name }}</span>
+            <div class="flex items-center gap-3 md:gap-6 flex-shrink-0 ml-4">
+              <span class="text-xs text-gray-400 font-mono hidden md:inline">{{ type.size }}</span>
+              <span class="text-xs text-gray-400 font-mono hidden md:inline">{{ type.weight }}</span>
+              <span class="text-xs text-blue-600 font-mono bg-blue-50 px-2 py-0.5 rounded">{{ type.tw }}</span>
+              <span class="text-xs text-gray-500 hidden lg:inline min-w-[100px] text-right">{{ type.usage }}</span>
+            </div>
+          </div>
+        }
+      </div>
+
+      <h3 class="text-xl font-semibold text-gray-900 mb-6">Font Weights</h3>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+          <span class="text-lg text-gray-900" style="font-weight: 400">Regular (400)</span>
+          <span class="text-sm text-gray-500">Body, descriptions, inputs</span>
+        </div>
+        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+          <span class="text-lg text-gray-900" style="font-weight: 500">Medium (500)</span>
+          <span class="text-sm text-gray-500">Navigation, labels</span>
+        </div>
+        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+          <span class="text-lg text-gray-900" style="font-weight: 600">Semibold (600)</span>
+          <span class="text-sm text-gray-500">Subheadings, buttons</span>
+        </div>
+        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+          <span class="text-lg text-gray-900" style="font-weight: 700">Bold (700)</span>
+          <span class="text-sm text-gray-500">Headings, hero text</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05: Spacing & Layout -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 page-break">
+    <div class="text-center mb-12">
+      <div class="inline-flex items-center space-x-2 bg-blue-100 text-blue-700 px-3 py-1.5 rounded-full text-sm font-medium mb-4">
+        <span>05</span>
+      </div>
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Spacing & Layout</h2>
+      <p class="text-lg text-gray-600 max-w-3xl mx-auto">8px base grid for visual consistency and alignment.</p>
+    </div>
+
+    <h3 class="text-xl font-semibold text-gray-900 mb-6">Spacing Scale</h3>
+    <div class="space-y-3 mb-12">
+      @for (space of spacingScale; track space.name) {
+        <div class="flex items-center gap-4 p-3 bg-white rounded-lg border border-gray-100">
+          <span class="text-sm font-semibold text-gray-700 min-w-[32px]">{{ space.name }}</span>
+          <div class="h-6 rounded bg-gradient-to-r from-blue-500 to-blue-600 color-bar" [style.width]="space.value" [style.min-width]="space.value"></div>
+          <span class="text-xs text-gray-500 min-w-[40px]">{{ space.value }}</span>
+          <span class="text-xs text-blue-600 font-mono bg-blue-50 px-2 py-0.5 rounded">{{ space.tw }}</span>
+        </div>
+      }
+    </div>
+
+    <h3 class="text-xl font-semibold text-gray-900 mb-6">Border Radius</h3>
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 mb-12">
+      @for (r of radii; track r.name) {
+        <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 flex flex-col items-center">
+          <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-700 mb-3 color-bar" [style.borderRadius]="r.value"></div>
+          <span class="text-sm font-semibold text-gray-900">{{ r.name }}</span>
+          <span class="text-xs text-gray-500">{{ r.value }}</span>
+          <span class="text-xs text-blue-600 font-mono mt-1">{{ r.tw }}</span>
+        </div>
+      }
+    </div>
+
+    <h3 class="text-xl font-semibold text-gray-900 mb-6">Responsive Breakpoints</h3>
+    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+      <div class="grid grid-cols-3 bg-gray-50 px-5 py-3 border-b border-gray-200">
+        <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Name</span>
+        <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Min Width</span>
+        <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Usage</span>
+      </div>
+      <div class="grid grid-cols-3 px-5 py-3 border-b border-gray-100">
+        <span class="text-sm font-semibold text-blue-600 font-mono">sm</span>
+        <span class="text-sm text-gray-700">640px</span>
+        <span class="text-sm text-gray-600">Small tablets, large phones</span>
+      </div>
+      <div class="grid grid-cols-3 px-5 py-3 border-b border-gray-100">
+        <span class="text-sm font-semibold text-blue-600 font-mono">md</span>
+        <span class="text-sm text-gray-700">768px</span>
+        <span class="text-sm text-gray-600">Tablets, small laptops</span>
+      </div>
+      <div class="grid grid-cols-3 px-5 py-3 border-b border-gray-100">
+        <span class="text-sm font-semibold text-blue-600 font-mono">lg</span>
+        <span class="text-sm text-gray-700">1024px</span>
+        <span class="text-sm text-gray-600">Laptops, desktops</span>
+      </div>
+      <div class="grid grid-cols-3 px-5 py-3 border-b border-gray-100">
+        <span class="text-sm font-semibold text-blue-600 font-mono">xl</span>
+        <span class="text-sm text-gray-700">1280px</span>
+        <span class="text-sm text-gray-600">Large desktops</span>
+      </div>
+      <div class="grid grid-cols-3 px-5 py-3">
+        <span class="text-sm font-semibold text-blue-600 font-mono">2xl</span>
+        <span class="text-sm text-gray-700">1536px</span>
+        <span class="text-sm text-gray-600">Extra large screens</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06: Components -->
+  <section class="bg-white py-16 md:py-20 page-break">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <div class="inline-flex items-center space-x-2 bg-blue-100 text-blue-700 px-3 py-1.5 rounded-full text-sm font-medium mb-4">
+          <span>06</span>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Components</h2>
+        <p class="text-lg text-gray-600 max-w-3xl mx-auto">Reusable UI elements and their specifications</p>
+      </div>
+
+      <h3 class="text-xl font-semibold text-gray-900 mb-4">Buttons</h3>
+      <div class="bg-gray-50 rounded-2xl p-6 md:p-8 mb-4 border border-gray-100">
+        <div class="flex flex-wrap gap-4 items-center">
+          <button class="bg-sky-600 text-white px-6 py-2.5 rounded-lg font-semibold text-sm hover:bg-sky-700 transition-colors">Primary</button>
+          <button class="bg-blue-600 text-white px-6 py-2.5 rounded-lg font-semibold text-sm hover:bg-blue-700 transition-colors">Secondary</button>
+          <button class="bg-white text-gray-700 px-6 py-2.5 rounded-lg font-semibold text-sm border-2 border-gray-300 hover:border-gray-400 transition-colors">Outline</button>
+          <button class="text-blue-600 px-6 py-2.5 rounded-lg font-semibold text-sm hover:bg-blue-50 transition-colors">Ghost</button>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+        <div class="text-center">
+          <div class="text-xs text-gray-400 uppercase font-semibold tracking-wider mb-1">Padding</div>
+          <div class="text-sm font-mono text-gray-700">12px 24px</div>
+        </div>
+        <div class="text-center">
+          <div class="text-xs text-gray-400 uppercase font-semibold tracking-wider mb-1">Radius</div>
+          <div class="text-sm font-mono text-gray-700">8px (rounded-lg)</div>
+        </div>
+        <div class="text-center">
+          <div class="text-xs text-gray-400 uppercase font-semibold tracking-wider mb-1">Font Weight</div>
+          <div class="text-sm font-mono text-gray-700">600</div>
+        </div>
+        <div class="text-center">
+          <div class="text-xs text-gray-400 uppercase font-semibold tracking-wider mb-1">Font Size</div>
+          <div class="text-sm font-mono text-gray-700">14px</div>
+        </div>
+      </div>
+
+      <h3 class="text-xl font-semibold text-gray-900 mb-4">Cards</h3>
+      <div class="grid md:grid-cols-2 gap-6 mb-10">
+        <div class="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+          <div class="flex items-center space-x-2 mb-4">
+            <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+              <lucide-icon [img]="Heart" class="w-4 h-4 text-blue-600"></lucide-icon>
+            </div>
+            <h4 class="font-semibold text-gray-900">Card Title</h4>
+          </div>
+          <p class="text-sm text-gray-600 leading-relaxed">
+            Cards use white backgrounds with subtle shadows. Standard padding is 24px.
+            Border radius is 16px for primary cards (rounded-2xl).
           </p>
         </div>
+        <div class="space-y-3">
+          <div class="flex justify-between p-3 bg-gray-50 rounded-lg">
+            <span class="text-xs text-gray-400 uppercase font-semibold">Background</span>
+            <span class="text-sm font-mono text-gray-700">#ffffff</span>
+          </div>
+          <div class="flex justify-between p-3 bg-gray-50 rounded-lg">
+            <span class="text-xs text-gray-400 uppercase font-semibold">Border</span>
+            <span class="text-sm font-mono text-gray-700">1px solid #f3f4f6</span>
+          </div>
+          <div class="flex justify-between p-3 bg-gray-50 rounded-lg">
+            <span class="text-xs text-gray-400 uppercase font-semibold">Shadow</span>
+            <span class="text-sm font-mono text-gray-700">shadow-lg</span>
+          </div>
+          <div class="flex justify-between p-3 bg-gray-50 rounded-lg">
+            <span class="text-xs text-gray-400 uppercase font-semibold">Radius</span>
+            <span class="text-sm font-mono text-gray-700">16px (rounded-2xl)</span>
+          </div>
+          <div class="flex justify-between p-3 bg-gray-50 rounded-lg">
+            <span class="text-xs text-gray-400 uppercase font-semibold">Padding</span>
+            <span class="text-sm font-mono text-gray-700">24px (p-6)</span>
+          </div>
+        </div>
+      </div>
 
-        <div class="identity-block">
-          <h3 class="subsection-title">Principles</h3>
-          <div class="values-grid">
-            <div class="value-card">
-              <div class="value-title">Clear</div>
-              <div class="value-desc">Use plain language. Avoid jargon. Technical terms are explained when necessary.</div>
+      <h3 class="text-xl font-semibold text-gray-900 mb-4">Form Inputs</h3>
+      <div class="grid md:grid-cols-2 gap-6 mb-10">
+        <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+          <label class="block text-sm font-medium text-gray-700 mb-2">Label Text</label>
+          <input type="text" placeholder="Placeholder text" readonly
+                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white" />
+        </div>
+        <div class="space-y-3">
+          <div class="flex justify-between p-3 bg-gray-50 rounded-lg">
+            <span class="text-xs text-gray-400 uppercase font-semibold">Border</span>
+            <span class="text-sm font-mono text-gray-700">1px solid #d1d5db</span>
+          </div>
+          <div class="flex justify-between p-3 bg-gray-50 rounded-lg">
+            <span class="text-xs text-gray-400 uppercase font-semibold">Focus Ring</span>
+            <span class="text-sm font-mono text-gray-700">ring-blue-500</span>
+          </div>
+          <div class="flex justify-between p-3 bg-gray-50 rounded-lg">
+            <span class="text-xs text-gray-400 uppercase font-semibold">Radius</span>
+            <span class="text-sm font-mono text-gray-700">8px (rounded-lg)</span>
+          </div>
+          <div class="flex justify-between p-3 bg-gray-50 rounded-lg">
+            <span class="text-xs text-gray-400 uppercase font-semibold">Padding</span>
+            <span class="text-sm font-mono text-gray-700">12px 16px</span>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="text-xl font-semibold text-gray-900 mb-4">Status Badges</h3>
+      <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+        <div class="flex flex-wrap gap-3">
+          <span class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-sm font-semibold bg-blue-100 text-blue-800">
+            <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+            <span>Confirmed</span>
+          </span>
+          <span class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-sm font-semibold bg-amber-100 text-amber-800">
+            <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+            <span>Pending</span>
+          </span>
+          <span class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-sm font-semibold bg-green-100 text-green-800">
+            <span class="w-2 h-2 rounded-full bg-green-500"></span>
+            <span>Completed</span>
+          </span>
+          <span class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-sm font-semibold bg-red-100 text-red-800">
+            <span class="w-2 h-2 rounded-full bg-red-500"></span>
+            <span>Cancelled</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07: Shadows & Elevation -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 page-break">
+    <div class="text-center mb-12">
+      <div class="inline-flex items-center space-x-2 bg-blue-100 text-blue-700 px-3 py-1.5 rounded-full text-sm font-medium mb-4">
+        <span>07</span>
+      </div>
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Shadows & Elevation</h2>
+      <p class="text-lg text-gray-600 max-w-3xl mx-auto">Visual hierarchy through depth and shadow levels.</p>
+    </div>
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6">
+      @for (s of shadows; track s.name) {
+        <div class="bg-white rounded-xl p-6 text-center" [style.boxShadow]="s.css">
+          <div class="text-sm font-semibold text-gray-900 mb-1">{{ s.name }}</div>
+          <div class="text-xs text-blue-600 font-mono">{{ s.tw }}</div>
+          <div class="text-xs text-gray-500 mt-2">{{ s.usage }}</div>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- 08: Iconography -->
+  <section class="bg-white py-16 md:py-20 page-break">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <div class="inline-flex items-center space-x-2 bg-blue-100 text-blue-700 px-3 py-1.5 rounded-full text-sm font-medium mb-4">
+          <span>08</span>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Iconography</h2>
+        <p class="text-lg text-gray-600 max-w-3xl mx-auto">Lucide icon library for consistent, clean line-based icons.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8 mb-10">
+        <div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-3">Icon Library</h3>
+          <p class="text-gray-600 leading-relaxed mb-4">
+            Shifo uses <strong>Lucide</strong> (lucide-angular). Lucide provides consistent, modern
+            line-based icons that align with the brand aesthetic. Default stroke width is 2px,
+            use 1.5px for large decorative icons (32px+).
+          </p>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-3">Style Rules</h3>
+          <div class="space-y-3">
+            <div class="flex items-center space-x-3 text-gray-700">
+              <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+              <span class="text-sm">Icons inherit text color by default</span>
             </div>
-            <div class="value-card">
-              <div class="value-title">Confident</div>
-              <div class="value-desc">Speak with authority. The platform is reliable, and the language reflects that.</div>
+            <div class="flex items-center space-x-3 text-gray-700">
+              <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+              <span class="text-sm">Always vertically center with adjacent text</span>
             </div>
-            <div class="value-card">
-              <div class="value-title">Caring</div>
-              <div class="value-desc">Remember the human element. Healthcare is personal, and our words show empathy.</div>
+            <div class="flex items-center space-x-3 text-gray-700">
+              <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+              <span class="text-sm">8px minimum gap between icon and text</span>
             </div>
-            <div class="value-card">
-              <div class="value-title">Concise</div>
-              <div class="value-desc">Respect the reader's time. Say more with fewer words. Every word earns its place.</div>
+            <div class="flex items-center space-x-3 text-gray-700">
+              <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+              <span class="text-sm">Use brand colors for emphasis only</span>
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="identity-block">
-          <h3 class="subsection-title">Multilingual Support</h3>
-          <p class="body-text">
+      <h3 class="text-xl font-semibold text-gray-900 mb-4">Icon Sizing</h3>
+      <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+        <div class="grid grid-cols-3 bg-gray-50 px-5 py-3 border-b border-gray-200">
+          <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Size</span>
+          <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Pixels</span>
+          <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Usage</span>
+        </div>
+        <div class="grid grid-cols-3 px-5 py-3 border-b border-gray-100">
+          <span class="text-sm font-semibold text-blue-600">xs</span>
+          <span class="text-sm text-gray-700">14px</span>
+          <span class="text-sm text-gray-600">Inline with small text, badges</span>
+        </div>
+        <div class="grid grid-cols-3 px-5 py-3 border-b border-gray-100">
+          <span class="text-sm font-semibold text-blue-600">sm</span>
+          <span class="text-sm text-gray-700">16px</span>
+          <span class="text-sm text-gray-600">Buttons, body text icons</span>
+        </div>
+        <div class="grid grid-cols-3 px-5 py-3 border-b border-gray-100">
+          <span class="text-sm font-semibold text-blue-600">md</span>
+          <span class="text-sm text-gray-700">20px</span>
+          <span class="text-sm text-gray-600">Navigation, list icons</span>
+        </div>
+        <div class="grid grid-cols-3 px-5 py-3 border-b border-gray-100">
+          <span class="text-sm font-semibold text-blue-600">lg</span>
+          <span class="text-sm text-gray-700">24px</span>
+          <span class="text-sm text-gray-600">Section headers, feature cards</span>
+        </div>
+        <div class="grid grid-cols-3 px-5 py-3 border-b border-gray-100">
+          <span class="text-sm font-semibold text-blue-600">xl</span>
+          <span class="text-sm text-gray-700">32px</span>
+          <span class="text-sm text-gray-600">Feature showcases, empty states</span>
+        </div>
+        <div class="grid grid-cols-3 px-5 py-3">
+          <span class="text-sm font-semibold text-blue-600">2xl</span>
+          <span class="text-sm text-gray-700">48px</span>
+          <span class="text-sm text-gray-600">Hero sections, branding</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09: Voice & Tone -->
+  <section class="bg-blue-600 py-16 md:py-20 page-break">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <div class="inline-flex items-center space-x-2 bg-white/20 text-white px-3 py-1.5 rounded-full text-sm font-medium mb-4">
+          <span>09</span>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Voice & Tone</h2>
+        <p class="text-blue-100 text-lg max-w-3xl mx-auto">
+          Professional yet approachable, reflecting the seriousness of healthcare with warmth.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <div class="bg-white rounded-2xl p-6 shadow-xl">
+          <h4 class="font-semibold text-gray-900 mb-2">Clear</h4>
+          <p class="text-sm text-gray-600 leading-relaxed">Use plain language. Avoid jargon. Technical terms are explained when necessary.</p>
+        </div>
+        <div class="bg-white rounded-2xl p-6 shadow-xl">
+          <h4 class="font-semibold text-gray-900 mb-2">Confident</h4>
+          <p class="text-sm text-gray-600 leading-relaxed">Speak with authority. The platform is reliable, and the language reflects that.</p>
+        </div>
+        <div class="bg-white rounded-2xl p-6 shadow-xl">
+          <h4 class="font-semibold text-gray-900 mb-2">Caring</h4>
+          <p class="text-sm text-gray-600 leading-relaxed">Healthcare is personal. Words show empathy while maintaining professionalism.</p>
+        </div>
+        <div class="bg-white rounded-2xl p-6 shadow-xl">
+          <h4 class="font-semibold text-gray-900 mb-2">Concise</h4>
+          <p class="text-sm text-gray-600 leading-relaxed">Respect the reader's time. Say more with fewer words. Every word earns its place.</p>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        <div>
+          <h3 class="text-xl font-semibold text-white mb-3">Multilingual Support</h3>
+          <p class="text-blue-100 leading-relaxed">
             Shifo supports Russian and English as primary languages, with content localized for
-            the Central Asian market. All UI text should be translation-ready and stored in
-            structured translation objects. Right-to-left (RTL) support can be added as needed
-            for future market expansion.
+            the Central Asian market. All UI text is translation-ready and stored in structured
+            translation objects.
           </p>
         </div>
-
-        <div class="identity-block">
-          <h3 class="subsection-title">Contact Information</h3>
-          <div class="contact-grid">
-            <div class="contact-item">
-              <div class="contact-label">Email</div>
-              <div class="contact-value">info&#64;shifo.life</div>
-              <div class="contact-value">support&#64;shifo.life</div>
+        <div class="bg-white rounded-2xl p-6 shadow-xl">
+          <h3 class="text-xl font-semibold text-gray-900 mb-4">Contact</h3>
+          <div class="space-y-3">
+            <div class="flex items-start space-x-3">
+              <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                <lucide-icon [img]="MessageCircle" class="w-4 h-4 text-blue-600"></lucide-icon>
+              </div>
+              <div>
+                <div class="text-sm text-gray-600">info&#64;shifo.life</div>
+                <div class="text-sm text-gray-600">support&#64;shifo.life</div>
+              </div>
             </div>
-            <div class="contact-item">
-              <div class="contact-label">Phone</div>
-              <div class="contact-value">+992 92 713 22 50</div>
+            <div class="flex items-center space-x-3">
+              <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                <lucide-icon [img]="Heart" class="w-4 h-4 text-green-600"></lucide-icon>
+              </div>
+              <div class="text-sm text-gray-600">+992 92 713 22 50</div>
             </div>
-            <div class="contact-item">
-              <div class="contact-label">Locations</div>
-              <div class="contact-value">Khujand, Tajikistan</div>
-              <div class="contact-value">Tashkent, Uzbekistan</div>
+            <div class="flex items-start space-x-3">
+              <div class="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                <lucide-icon [img]="Layout" class="w-4 h-4 text-orange-600"></lucide-icon>
+              </div>
+              <div>
+                <div class="text-sm text-gray-600">Khujand, Tajikistan</div>
+                <div class="text-sm text-gray-600">Tashkent, Uzbekistan</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Footer -->
-    <section class="page footer-page">
-      <div class="footer-inner">
-        <div class="footer-logo">
-          <lucide-icon [img]="Heart" [size]="32" [strokeWidth]="1.5"></lucide-icon>
-          <span class="footer-logo-text">Shifo</span>
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-gray-400 py-8 md:py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col items-center justify-center space-y-4">
+        <div class="flex items-center space-x-2">
+          <lucide-icon [img]="Heart" class="w-6 h-6 text-blue-500"></lucide-icon>
+          <span class="text-xl font-bold text-white">Shifo</span>
         </div>
-        <p class="footer-text">Brand Book v{{ version }} - {{ date }}</p>
-        <p class="footer-text">Modern Medical Clinic Management System</p>
-        <p class="footer-copyright">&copy; 2026 Shifo. All rights reserved.</p>
+        <p class="text-sm text-center">Brand Book v9 -- April 2026</p>
+        <p class="text-sm">Modern Medical Clinic Management System</p>
+        <p class="text-xs text-gray-500">&copy; 2026 Shifo. All rights reserved.</p>
       </div>
-    </section>
-  </div>
+    </div>
+  </footer>
 </div>
