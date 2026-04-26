@@ -43,4 +43,24 @@ export interface Translations {
     rights: string;
     features: Feature[];
     benefits: string[];
+    quickBookTitle: string;
+    quickBookDesc: string;
+    selectClinic: string;
+    searchClinics: string;
+    selectDate: string;
+    selectTime: string;
+    yourPhone: string;
+    bookNow: string;
+    booking: string;
+    noClinicsFound: string;
+    loadingClinics: string;
+    clinicLoadError: string;
+    retry: string;
+    today: string;
+    quickBookSuccess: string;
+    quickBookSuccessDesc: string;
+    quickBookAnother: string;
+    phoneRequired: string;
+    fillAllFields: string;
+    quickBookError: string;
 }
