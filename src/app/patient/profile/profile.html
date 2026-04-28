@@ -1,150 +1,330 @@
 <div class="profile-container">
   <div class="page-header">
-    <div class="header-content">
-      <div class="header-text">
-        <h1>Мой профиль</h1>
-        <p>Управление личной информацией и настройками</p>
+    <h1>Мой профиль</h1>
+    <p>Личная информация, медицинская карта и настройки безопасности</p>
+  </div>
+
+  <!-- Identity card -->
+  <div class="identity-card">
+    <div class="avatar-wrapper">
+      <div class="avatar">
+        <span class="avatar-text">{{ initials() }}</span>
+      </div>
+      <button class="avatar-edit-btn" title="Изменить фото" type="button">
+        <lucide-angular [img]="Camera" [size]="14"></lucide-angular>
+      </button>
+    </div>
+    <div class="identity-info">
+      <h2>{{ firstName() }} {{ lastName() }}</h2>
+      <p class="identity-meta">
+        <span><lucide-angular [img]="Mail" [size]="14"></lucide-angular>{{ email() }}</span>
+        <span><lucide-angular [img]="Phone" [size]="14"></lucide-angular>{{ phone() }}</span>
+        @if (age() !== null) {
+          <span><lucide-angular [img]="Calendar" [size]="14"></lucide-angular>{{ age() }} лет</span>
+        }
+      </p>
+    </div>
+  </div>
+
+  <!-- Stats strip -->
+  <div class="stats-strip">
+    <div class="stat-card">
+      <div class="stat-icon up"><lucide-angular [img]="CalendarClock" [size]="18"></lucide-angular></div>
+      <div class="stat-text">
+        <span class="stat-value">{{ upcomingCount() }}</span>
+        <span class="stat-label">Предстоящих</span>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon done"><lucide-angular [img]="CalendarCheck" [size]="18"></lucide-angular></div>
+      <div class="stat-text">
+        <span class="stat-value">{{ completedCount() }}</span>
+        <span class="stat-label">Завершённых</span>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon canc"><lucide-angular [img]="CalendarX" [size]="18"></lucide-angular></div>
+      <div class="stat-text">
+        <span class="stat-value">{{ cancelledCount() }}</span>
+        <span class="stat-label">Отменённых</span>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon docs"><lucide-angular [img]="FileText" [size]="18"></lucide-angular></div>
+      <div class="stat-text">
+        <span class="stat-value">{{ documentsCount() }}</span>
+        <span class="stat-label">Документов</span>
       </div>
     </div>
   </div>
 
-  <div class="profile-layout">
-    <div class="profile-sidebar">
-      <div class="avatar-card">
-        <div class="avatar-wrapper">
-          <div class="avatar">
-            <span class="avatar-text">{{ firstName().charAt(0) }}{{ lastName().charAt(0) }}</span>
-          </div>
-          <button class="avatar-edit-btn" title="Изменить фото">
-            <lucide-angular [img]="Camera" [size]="18"></lucide-angular>
-          </button>
-        </div>
-        <h2 class="profile-name">{{ firstName() }} {{ lastName() }}</h2>
-        <p class="profile-email">{{ email() }}</p>
+  <!-- Personal info -->
+  <section class="profile-card">
+    <header class="card-header">
+      <div class="card-title">
+        <div class="card-title-icon"><lucide-angular [img]="User" [size]="18"></lucide-angular></div>
+        <h3>Личная информация</h3>
+      </div>
+      @if (!isEditing('personal')) {
+        <button class="btn-edit" type="button" (click)="startEdit('personal')">
+          <lucide-angular [img]="Pencil" [size]="14"></lucide-angular>
+          <span>Редактировать</span>
+        </button>
+      }
+    </header>
 
-        <div class="profile-stats">
-          <div class="stat-box">
-            <lucide-angular [img]="CalendarCheck" [size]="20"></lucide-angular>
-            <div class="stat-content">
-              <span class="stat-value">6</span>
-              <span class="stat-label">Записей</span>
-            </div>
-          </div>
-          <div class="stat-box">
-            <lucide-angular [img]="FileText" [size]="20"></lucide-angular>
-            <div class="stat-content">
-              <span class="stat-value">8</span>
-              <span class="stat-label">Документов</span>
-            </div>
+    @if (!isEditing('personal')) {
+      <div class="info-grid">
+        <div class="info-row"><span class="info-label">Имя</span><span class="info-value">{{ firstName() || '—' }}</span></div>
+        <div class="info-row"><span class="info-label">Фамилия</span><span class="info-value">{{ lastName() || '—' }}</span></div>
+        <div class="info-row"><span class="info-label">Email</span><span class="info-value">{{ email() || '—' }}</span></div>
+        <div class="info-row"><span class="info-label">Телефон</span><span class="info-value">{{ phone() || '—' }}</span></div>
+        <div class="info-row"><span class="info-label">Дата рождения</span><span class="info-value">{{ formatDateOfBirth() }}</span></div>
+        <div class="info-row"><span class="info-label">Пол</span><span class="info-value">{{ genderLabel() }}</span></div>
+      </div>
+    } @else {
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Имя</label>
+          <input type="text" [value]="firstName()" (input)="firstName.set($any($event.target).value)" />
+        </div>
+        <div class="form-field">
+          <label>Фамилия</label>
+          <input type="text" [value]="lastName()" (input)="lastName.set($any($event.target).value)" />
+        </div>
+        <div class="form-field">
+          <label>Email</label>
+          <input type="email" [value]="email()" (input)="email.set($any($event.target).value)" />
+        </div>
+        <div class="form-field">
+          <label>Телефон</label>
+          <input type="tel" [value]="phone()" (input)="phone.set($any($event.target).value)" />
+        </div>
+        <div class="form-field">
+          <label>Дата рождения</label>
+          <input type="date" [value]="dateOfBirth()" (input)="dateOfBirth.set($any($event.target).value)" />
+        </div>
+        <div class="form-field">
+          <label>Пол</label>
+          <div class="radio-group">
+            <label class="radio">
+              <input type="radio" name="gender" [checked]="gender() === 'male'" (change)="gender.set('male')" />
+              <span>Мужской</span>
+            </label>
+            <label class="radio">
+              <input type="radio" name="gender" [checked]="gender() === 'female'" (change)="gender.set('female')" />
+              <span>Женский</span>
+            </label>
           </div>
         </div>
       </div>
-    </div>
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="cancelEdit('personal')">
+          <lucide-angular [img]="X" [size]="16"></lucide-angular><span>Отмена</span>
+        </button>
+        <button type="button" class="btn-save" (click)="save('personal')">
+          <lucide-angular [img]="Check" [size]="16"></lucide-angular><span>Сохранить</span>
+        </button>
+      </div>
+    }
+  </section>
 
-    <div class="profile-main">
-      <div class="profile-card">
-        <div class="card-header">
-          <h3>Личная информация</h3>
-          @if (!isEditing()) {
-            <button class="btn-edit" (click)="toggleEdit()">
-              <lucide-angular [img]="Pencil" [size]="18"></lucide-angular>
-              <span>Редактировать</span>
-            </button>
-          }
+  <!-- Medical info -->
+  <section class="profile-card">
+    <header class="card-header">
+      <div class="card-title">
+        <div class="card-title-icon medical"><lucide-angular [img]="HeartPulse" [size]="18"></lucide-angular></div>
+        <h3>Медицинская карта</h3>
+      </div>
+      @if (!isEditing('medical')) {
+        <button class="btn-edit" type="button" (click)="startEdit('medical')">
+          <lucide-angular [img]="Pencil" [size]="14"></lucide-angular>
+          <span>Редактировать</span>
+        </button>
+      }
+    </header>
+
+    @if (!isEditing('medical')) {
+      <div class="medical-summary">
+        <div class="med-tile">
+          <div class="med-tile-icon"><lucide-angular [img]="Droplet" [size]="18"></lucide-angular></div>
+          <div class="med-tile-text">
+            <span class="med-label">Группа крови</span>
+            <span class="med-value">{{ bloodType() || '—' }}</span>
+          </div>
         </div>
-
-        <form class="profile-form">
-          <div class="form-grid">
-            <div class="form-field">
-              <label for="firstName">
-                <lucide-angular [img]="User" [size]="18"></lucide-angular>
-                <span>Имя</span>
-              </label>
-              <input
-                type="text"
-                id="firstName"
-                [value]="firstName()"
-                (input)="firstName.set($any($event.target).value)"
-                [disabled]="!isEditing()"
-                [class.editing]="isEditing()"
-              />
-            </div>
-
-            <div class="form-field">
-              <label for="lastName">
-                <lucide-angular [img]="User" [size]="18"></lucide-angular>
-                <span>Фамилия</span>
-              </label>
-              <input
-                type="text"
-                id="lastName"
-                [value]="lastName()"
-                (input)="lastName.set($any($event.target).value)"
-                [disabled]="!isEditing()"
-                [class.editing]="isEditing()"
-              />
-            </div>
-
-            <div class="form-field">
-              <label for="email">
-                <lucide-angular [img]="Mail" [size]="18"></lucide-angular>
-                <span>Email</span>
-              </label>
-              <input
-                type="email"
-                id="email"
-                [value]="email()"
-                (input)="email.set($any($event.target).value)"
-                [disabled]="!isEditing()"
-                [class.editing]="isEditing()"
-              />
-            </div>
-
-            <div class="form-field">
-              <label for="phone">
-                <lucide-angular [img]="Phone" [size]="18"></lucide-angular>
-                <span>Телефон</span>
-              </label>
-              <input
-                type="tel"
-                id="phone"
-                [value]="phone()"
-                (input)="phone.set($any($event.target).value)"
-                [disabled]="!isEditing()"
-                [class.editing]="isEditing()"
-              />
-            </div>
-
-            <div class="form-field full-width">
-              <label for="dateOfBirth">
-                <lucide-angular [img]="Calendar" [size]="18"></lucide-angular>
-                <span>Дата рождения</span>
-              </label>
-              <input
-                type="date"
-                id="dateOfBirth"
-                [value]="dateOfBirth()"
-                (input)="dateOfBirth.set($any($event.target).value)"
-                [disabled]="!isEditing()"
-                [class.editing]="isEditing()"
-              />
+        <div class="med-tile">
+          <div class="med-tile-icon"><lucide-angular [img]="Ruler" [size]="18"></lucide-angular></div>
+          <div class="med-tile-text">
+            <span class="med-label">Рост</span>
+            <span class="med-value">{{ height() ? height() + ' см' : '—' }}</span>
+          </div>
+        </div>
+        <div class="med-tile">
+          <div class="med-tile-icon"><lucide-angular [img]="Weight" [size]="18"></lucide-angular></div>
+          <div class="med-tile-text">
+            <span class="med-label">Вес</span>
+            <span class="med-value">{{ weight() ? weight() + ' кг' : '—' }}</span>
+          </div>
+        </div>
+        @if (bmi(); as bmiData) {
+          <div class="med-tile">
+            <div class="med-tile-icon"><lucide-angular [img]="Activity" [size]="18"></lucide-angular></div>
+            <div class="med-tile-text">
+              <span class="med-label">ИМТ</span>
+              <span class="med-value">{{ bmiData.value }} <span class="med-tag" [class]="'bmi-' + bmiData.cls">{{ bmiData.label }}</span></span>
             </div>
           </div>
-
-          @if (isEditing()) {
-            <div class="form-actions">
-              <button type="button" class="btn-cancel" (click)="cancelEdit()">
-                <lucide-angular [img]="X" [size]="18"></lucide-angular>
-                <span>Отмена</span>
-              </button>
-              <button type="button" class="btn-save" (click)="saveProfile()">
-                <lucide-angular [img]="Check" [size]="18"></lucide-angular>
-                <span>Сохранить изменения</span>
-              </button>
-            </div>
-          }
-        </form>
+        }
       </div>
+
+      <div class="medical-notes">
+        <div class="note-block warning">
+          <div class="note-head">
+            <lucide-angular [img]="AlertTriangle" [size]="16"></lucide-angular>
+            <span>Аллергии</span>
+          </div>
+          <p>{{ allergies() || 'Не указаны' }}</p>
+        </div>
+        <div class="note-block">
+          <div class="note-head">
+            <lucide-angular [img]="HeartPulse" [size]="16"></lucide-angular>
+            <span>Хронические заболевания</span>
+          </div>
+          <p>{{ chronicConditions() || 'Не указаны' }}</p>
+        </div>
+      </div>
+    } @else {
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Группа крови</label>
+          <div class="blood-grid">
+            @for (bt of bloodTypeOptions; track bt) {
+              <button
+                type="button"
+                class="blood-chip"
+                [class.selected]="bloodType() === bt"
+                (click)="bloodType.set(bt)"
+              >{{ bt }}</button>
+            }
+          </div>
+        </div>
+        <div class="form-field">
+          <label>Рост (см)</label>
+          <input type="number" [value]="height()" (input)="height.set($any($event.target).value)" />
+        </div>
+        <div class="form-field">
+          <label>Вес (кг)</label>
+          <input type="number" [value]="weight()" (input)="weight.set($any($event.target).value)" />
+        </div>
+        <div class="form-field full-width">
+          <label>Аллергии</label>
+          <textarea
+            rows="2"
+            [value]="allergies()"
+            (input)="allergies.set($any($event.target).value)"
+            placeholder="Перечислите аллергены..."
+          ></textarea>
+        </div>
+        <div class="form-field full-width">
+          <label>Хронические заболевания</label>
+          <textarea
+            rows="2"
+            [value]="chronicConditions()"
+            (input)="chronicConditions.set($any($event.target).value)"
+            placeholder="Например: гипертония, диабет..."
+          ></textarea>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="cancelEdit('medical')">
+          <lucide-angular [img]="X" [size]="16"></lucide-angular><span>Отмена</span>
+        </button>
+        <button type="button" class="btn-save" (click)="save('medical')">
+          <lucide-angular [img]="Check" [size]="16"></lucide-angular><span>Сохранить</span>
+        </button>
+      </div>
+    }
+  </section>
+
+  <!-- Emergency contact -->
+  <section class="profile-card">
+    <header class="card-header">
+      <div class="card-title">
+        <div class="card-title-icon emergency"><lucide-angular [img]="ShieldAlert" [size]="18"></lucide-angular></div>
+        <h3>Экстренный контакт</h3>
+      </div>
+      @if (!isEditing('emergency')) {
+        <button class="btn-edit" type="button" (click)="startEdit('emergency')">
+          <lucide-angular [img]="Pencil" [size]="14"></lucide-angular>
+          <span>Редактировать</span>
+        </button>
+      }
+    </header>
+
+    @if (!isEditing('emergency')) {
+      <div class="info-grid">
+        <div class="info-row"><span class="info-label">ФИО</span><span class="info-value">{{ emergencyName() || '—' }}</span></div>
+        <div class="info-row"><span class="info-label">Кем приходится</span><span class="info-value">{{ emergencyRelation() || '—' }}</span></div>
+        <div class="info-row"><span class="info-label">Телефон</span><span class="info-value">{{ emergencyPhone() || '—' }}</span></div>
+      </div>
+    } @else {
+      <div class="form-grid">
+        <div class="form-field">
+          <label>ФИО</label>
+          <input type="text" [value]="emergencyName()" (input)="emergencyName.set($any($event.target).value)" />
+        </div>
+        <div class="form-field">
+          <label>Кем приходится</label>
+          <input type="text" [value]="emergencyRelation()" (input)="emergencyRelation.set($any($event.target).value)" placeholder="Например: супруга, отец..." />
+        </div>
+        <div class="form-field full-width">
+          <label>Телефон</label>
+          <input type="tel" [value]="emergencyPhone()" (input)="emergencyPhone.set($any($event.target).value)" />
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="cancelEdit('emergency')">
+          <lucide-angular [img]="X" [size]="16"></lucide-angular><span>Отмена</span>
+        </button>
+        <button type="button" class="btn-save" (click)="save('emergency')">
+          <lucide-angular [img]="Check" [size]="16"></lucide-angular><span>Сохранить</span>
+        </button>
+      </div>
+    }
+  </section>
+
+  <!-- Security -->
+  <section class="profile-card security-card">
+    <header class="card-header">
+      <div class="card-title">
+        <div class="card-title-icon security"><lucide-angular [img]="Lock" [size]="18"></lucide-angular></div>
+        <h3>Безопасность</h3>
+      </div>
+    </header>
+
+    <div class="security-list">
+      <button type="button" class="security-item" (click)="changePassword()">
+        <div class="security-item-icon"><lucide-angular [img]="Lock" [size]="16"></lucide-angular></div>
+        <div class="security-item-text">
+          <span class="security-item-title">Изменить пароль</span>
+          <span class="security-item-meta">Последнее изменение: 3 месяца назад</span>
+        </div>
+      </button>
+      <button type="button" class="security-item" (click)="logoutAllDevices()">
+        <div class="security-item-icon"><lucide-angular [img]="LogOut" [size]="16"></lucide-angular></div>
+        <div class="security-item-text">
+          <span class="security-item-title">Завершить все сеансы</span>
+          <span class="security-item-meta">Выйти на всех других устройствах</span>
+        </div>
+      </button>
+      <button type="button" class="security-item danger" (click)="deleteAccount()">
+        <div class="security-item-icon"><lucide-angular [img]="Trash2" [size]="16"></lucide-angular></div>
+        <div class="security-item-text">
+          <span class="security-item-title">Удалить аккаунт</span>
+          <span class="security-item-meta">Это действие необратимо</span>
+        </div>
+      </button>
     </div>
-  </div>
+  </section>
 </div>

@@ -1,26 +1,26 @@
 .new-appointment-container {
-  max-width: 900px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 20px;
 }
 
 .header {
-  margin-bottom: 40px;
+  margin-bottom: 24px;
 
   .back-btn {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 10px 16px;
+    gap: 6px;
+    padding: 8px 14px;
     background: white;
     border: 1px solid #e2e8f0;
     border-radius: 8px;
     color: #4a5568;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 
     &:hover {
       background: #f7fafc;
@@ -30,15 +30,9 @@
   }
 
   h1 {
-    font-size: 36px;
+    font-size: 28px;
     font-weight: 700;
     color: #1a202c;
-    margin: 0 0 8px 0;
-  }
-
-  p {
-    font-size: 16px;
-    color: #718096;
     margin: 0;
   }
 }
@@ -46,20 +40,25 @@
 .appointment-form {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 16px;
 }
 
 .step-section {
   background: white;
-  border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  padding: 32px;
-  animation: slideIn 0.3s ease-out;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  padding: 24px;
+  animation: slideIn 0.25s ease-out;
+  transition: padding 0.2s ease;
+
+  &.compact {
+    padding: 14px 18px;
+  }
 
   @keyframes slideIn {
     from {
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateY(12px);
     }
     to {
       opacity: 1;
@@ -71,35 +70,129 @@
 .step-header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 24px;
-  padding-bottom: 16px;
-  border-bottom: 2px solid #f0f4f8;
+  gap: 10px;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #f0f4f8;
 
-  lucide-angular {
+  > lucide-angular {
     color: #0ea5e9;
   }
 
   h2 {
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 700;
     color: #1a202c;
     margin: 0;
+  }
+
+  &.compact-header {
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+  }
+}
+
+.step-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  background: linear-gradient(135deg, #0ea5e9, #06b6d4);
+  color: white;
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* Summary row (collapsed clinic / doctor) */
+.summary-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.summary-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #e0f2fe, #f0f9ff);
+  color: #0284c7;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.summary-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.summary-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.summary-value {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a202c;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  .summary-meta {
+    font-weight: 500;
+    color: #64748b;
+    margin-left: 4px;
+  }
+}
+
+.edit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: #f1f5f9;
+  color: #0284c7;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+
+  &:hover {
+    background: #e0f2fe;
+    border-color: #bae6fd;
   }
 }
 
 .clinics-grid,
 .doctors-grid {
   display: grid;
-  gap: 16px;
+  gap: 12px;
+}
+
+.doctors-grid {
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
 }
 
 .clinic-card,
 .doctor-card {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 20px;
+  gap: 14px;
+  padding: 14px 16px;
   background: #f8fafc;
   border: 2px solid #e2e8f0;
   border-radius: 12px;
@@ -110,14 +203,14 @@
   &:hover {
     background: #f0f9ff;
     border-color: #0ea5e9;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.12);
   }
 
   &.selected {
     background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
     border-color: #0ea5e9;
-    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2);
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.18);
 
     .clinic-icon,
     .doctor-avatar {
@@ -131,8 +224,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   background: white;
   border-radius: 10px;
   color: #0ea5e9;
@@ -143,18 +236,25 @@
 .clinic-info,
 .doctor-info {
   flex: 1;
+  min-width: 0;
 
   h3 {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
     color: #1a202c;
-    margin: 0 0 4px 0;
+    margin: 0 0 2px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   p {
-    font-size: 14px;
+    font-size: 13px;
     color: #64748b;
     margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 
@@ -162,12 +262,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 56px;
-  height: 56px;
+  width: 44px;
+  height: 44px;
   background: linear-gradient(135deg, #0ea5e9, #06b6d4);
   border-radius: 50%;
   color: white;
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 600;
   flex-shrink: 0;
   transition: all 0.2s;
@@ -177,27 +277,34 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 26px;
+  height: 26px;
   background: #0ea5e9;
   border-radius: 50%;
   color: white;
   flex-shrink: 0;
 }
 
+/* Date + Time combined */
+.datetime-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
 .calendar-container {
-  max-width: 600px;
-  margin: 0 auto;
+  min-width: 0;
 }
 
 .calendar-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 24px;
+  margin-bottom: 14px;
 
   .month-label {
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 600;
     color: #1a202c;
   }
@@ -206,10 +313,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     background: white;
-    border: 2px solid #e2e8f0;
+    border: 1px solid #e2e8f0;
     border-radius: 8px;
     color: #4a5568;
     cursor: pointer;
@@ -226,22 +333,24 @@
 .calendar-weekdays {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 8px;
-  margin-bottom: 8px;
+  gap: 4px;
+  margin-bottom: 4px;
 
   .weekday {
     text-align: center;
-    font-size: 13px;
+    font-size: 11px;
     font-weight: 600;
-    color: #64748b;
-    padding: 8px 0;
+    color: #94a3b8;
+    padding: 4px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
 }
 
 .calendar-days {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 8px;
+  gap: 4px;
 }
 
 .calendar-day {
@@ -250,23 +359,21 @@
   align-items: center;
   justify-content: center;
   background: white;
-  border: 2px solid #e2e8f0;
-  border-radius: 10px;
-  font-size: 15px;
+  border: 1.5px solid transparent;
+  border-radius: 8px;
+  font-size: 13px;
   font-weight: 500;
   color: #1a202c;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.15s;
 
   &:hover:not(:disabled):not(.empty) {
     background: #f0f9ff;
-    border-color: #0ea5e9;
-    transform: scale(1.05);
+    border-color: #bae6fd;
   }
 
   &.today {
     background: #fef3c7;
-    border-color: #fbbf24;
     color: #92400e;
     font-weight: 700;
   }
@@ -276,7 +383,7 @@
     border-color: #0ea5e9;
     color: white;
     font-weight: 700;
-    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(14, 165, 233, 0.4);
 
     &:hover {
       background: #0284c7;
@@ -285,10 +392,8 @@
   }
 
   &.past {
-    background: #f8fafc;
     color: #cbd5e0;
     cursor: not-allowed;
-    border-color: #f1f5f9;
   }
 
   &.empty {
@@ -302,56 +407,134 @@
   }
 }
 
+/* Times panel */
+.times-panel {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 16px;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+}
+
+.times-panel-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a202c;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e2e8f0;
+
+  lucide-angular {
+    color: #0ea5e9;
+  }
+
+  .muted {
+    color: #94a3b8;
+    font-weight: 500;
+  }
+}
+
 .times-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  gap: 12px;
-  max-width: 700px;
-  margin: 0 auto;
+  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+  gap: 8px;
+  flex: 1;
+  align-content: start;
 }
 
 .time-slot {
-  padding: 16px;
+  padding: 10px 8px;
   background: white;
-  border: 2px solid #e2e8f0;
-  border-radius: 10px;
-  font-size: 16px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 13px;
   font-weight: 600;
   color: #1a202c;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.15s;
 
   &:hover {
     background: #f0f9ff;
     border-color: #0ea5e9;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
+    color: #0ea5e9;
   }
 
   &.selected {
     background: #0ea5e9;
     border-color: #0ea5e9;
     color: white;
-    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+    box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3);
+  }
+}
+
+.times-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #94a3b8;
+  padding: 20px;
+
+  lucide-angular {
+    margin-bottom: 10px;
+    color: #cbd5e0;
+  }
+
+  p {
+    font-size: 13px;
+    margin: 0;
+    max-width: 220px;
+    line-height: 1.4;
+  }
+}
+
+/* Notes (compact) */
+.notes-section {
+  &.compact {
+    padding: 14px 18px;
+  }
+}
+
+.notes-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  background: transparent;
+  border: none;
+  color: #0284c7;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s;
+
+  &:hover {
+    color: #0369a1;
   }
 }
 
 .notes-input {
   width: 100%;
-  padding: 16px;
-  border: 2px solid #e2e8f0;
-  border-radius: 12px;
-  font-size: 15px;
+  padding: 12px 14px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 14px;
   font-family: inherit;
   resize: vertical;
-  min-height: 120px;
+  min-height: 80px;
   transition: all 0.2s;
   box-sizing: border-box;
 
   &:focus {
     outline: none;
     border-color: #0ea5e9;
-    box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
   }
 
   &::placeholder {
@@ -359,26 +542,30 @@
   }
 }
 
+/* Form actions */
 .form-actions {
   display: flex;
-  gap: 16px;
+  gap: 12px;
   justify-content: flex-end;
-  padding: 32px;
+  padding: 18px 24px;
   background: white;
-  border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  position: sticky;
+  bottom: 16px;
+  z-index: 10;
 }
 
 .btn-primary {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 14px 32px;
+  gap: 8px;
+  padding: 12px 28px;
   background: linear-gradient(135deg, #0ea5e9, #06b6d4);
   color: white;
   border: none;
   border-radius: 10px;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
@@ -398,12 +585,12 @@
 }
 
 .btn-secondary {
-  padding: 14px 28px;
+  padding: 12px 24px;
   background: white;
   color: #4a5568;
-  border: 2px solid #e2e8f0;
+  border: 1.5px solid #e2e8f0;
   border-radius: 10px;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
@@ -414,34 +601,287 @@
   }
 }
 
+/* Tablet (≤1024px): even split for date/time so calendar isn't cramped */
+@media (max-width: 1024px) {
+  .datetime-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+}
+
+/* Tablet portrait / small tablet (≤860px): stack date and time vertically */
+@media (max-width: 860px) {
+  .datetime-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .times-panel {
+    min-height: 0;
+  }
+}
+
+/* Mobile (≤768px) */
 @media (max-width: 768px) {
   .new-appointment-container {
     padding: 16px;
   }
 
   .header {
-    margin-bottom: 24px;
+    margin-bottom: 18px;
+
+    .back-btn {
+      padding: 7px 12px;
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
 
     h1 {
-      font-size: 28px;
+      font-size: 22px;
     }
   }
 
+  .appointment-form {
+    gap: 12px;
+  }
+
+  /* Step sections */
   .step-section {
-    padding: 24px;
+    padding: 16px;
+    border-radius: 12px;
+
+    &.compact {
+      padding: 12px 14px;
+    }
+  }
+
+  .step-header {
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    gap: 8px;
+
+    h2 {
+      font-size: 16px;
+    }
+  }
+
+  .step-badge {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+  }
+
+  /* Summary row when collapsed */
+  .summary-row {
+    gap: 10px;
+  }
+
+  .summary-icon {
+    width: 32px;
+    height: 32px;
+
+    lucide-angular {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  .summary-value {
+    font-size: 14px;
+  }
+
+  .edit-btn {
+    padding: 8px;
+
+    span {
+      display: none;
+    }
+  }
+
+  /* Clinic / doctor cards */
+  .clinics-grid {
+    gap: 8px;
+  }
+
+  .doctors-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .clinic-card,
+  .doctor-card {
+    padding: 12px 14px;
+    gap: 12px;
+  }
+
+  .clinic-icon {
+    width: 36px;
+    height: 36px;
+
+    lucide-angular {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  .doctor-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .clinic-info,
+  .doctor-info {
+    h3 {
+      font-size: 14px;
+    }
+
+    p {
+      font-size: 12px;
+    }
+  }
+
+  .check-icon {
+    width: 22px;
+    height: 22px;
+
+    lucide-angular {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  /* Calendar */
+  .calendar-header {
+    margin-bottom: 12px;
+
+    .month-label {
+      font-size: 14px;
+    }
+
+    .month-nav-btn {
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  .calendar-weekdays {
+    gap: 3px;
+    margin-bottom: 3px;
+
+    .weekday {
+      font-size: 10px;
+      padding: 3px 0;
+    }
+  }
+
+  .calendar-days {
+    gap: 3px;
+  }
+
+  .calendar-day {
+    font-size: 12px;
+    border-radius: 7px;
+  }
+
+  /* Times */
+  .times-panel {
+    padding: 14px;
+    border-radius: 10px;
+  }
+
+  .times-panel-header {
+    font-size: 12px;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
   }
 
   .times-grid {
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+    gap: 6px;
   }
 
+  .time-slot {
+    padding: 9px 6px;
+    font-size: 12px;
+  }
+
+  .times-empty {
+    padding: 16px;
+
+    p {
+      font-size: 12px;
+    }
+  }
+
+  /* Notes — 16px font on input prevents iOS zoom */
+  .notes-input {
+    font-size: 16px;
+    padding: 11px 12px;
+    min-height: 70px;
+  }
+
+  .notes-toggle {
+    font-size: 13px;
+  }
+
+  /* Form actions: stack and stay sticky at bottom */
   .form-actions {
-    flex-direction: column;
-    gap: 12px;
+    flex-direction: column-reverse;
+    gap: 8px;
+    padding: 12px;
+    border-radius: 12px;
+    bottom: 12px;
 
     button {
       width: 100%;
       justify-content: center;
+      padding: 11px 18px;
+      font-size: 14px;
     }
+  }
+}
+
+/* Very narrow phones (≤480px) */
+@media (max-width: 480px) {
+  .new-appointment-container {
+    padding: 12px;
+  }
+
+  .header h1 {
+    font-size: 20px;
+  }
+
+  .step-section {
+    padding: 14px;
+  }
+
+  .step-header h2 {
+    font-size: 15px;
+  }
+
+  /* Calendar tighter on tiny screens */
+  .calendar-day {
+    font-size: 11px;
+  }
+
+  /* Times panel: 4-column min */
+  .times-grid {
+    grid-template-columns: repeat(auto-fill, minmax(56px, 1fr));
+    gap: 5px;
+  }
+
+  .time-slot {
+    padding: 8px 4px;
+    font-size: 11px;
+  }
+
+  /* Hide the back button text on tiny screens — just arrow */
+  .header .back-btn span {
+    display: none;
+  }
+
+  .header .back-btn {
+    padding: 7px;
   }
 }

@@ -1,15 +1,13 @@
 <div class="appointments-container">
   <div class="page-header">
-    <div class="header-content">
-      <div class="header-text">
-        <h1>Мои записи</h1>
-        <p>Управление вашими визитами к врачам</p>
-      </div>
-      <a routerLink="/patient/appointments/new" class="btn-new-appointment">
-        <lucide-angular [img]="Plus" [size]="20"></lucide-angular>
-        <span>Записаться на прием</span>
-      </a>
+    <div class="header-text">
+      <h1>Мои записи</h1>
+      <p>Управление вашими визитами к врачам</p>
     </div>
+    <a routerLink="/patient/appointments/new" class="btn-new-appointment">
+      <lucide-angular [img]="Plus" [size]="18"></lucide-angular>
+      <span>Записаться на приём</span>
+    </a>
   </div>
 
   @if (isLoading()) {
@@ -30,9 +28,100 @@
       </a>
     </div>
   } @else {
+    <div class="tabs" role="tablist">
+      <button
+        type="button"
+        class="tab"
+        role="tab"
+        [class.active]="selectedTab() === 'upcoming'"
+        [attr.aria-selected]="selectedTab() === 'upcoming'"
+        (click)="setTab('upcoming')"
+      >
+        <span>Предстоящие</span>
+        <span class="tab-count">{{ upcomingCount() }}</span>
+      </button>
+      <button
+        type="button"
+        class="tab"
+        role="tab"
+        [class.active]="selectedTab() === 'past'"
+        [attr.aria-selected]="selectedTab() === 'past'"
+        (click)="setTab('past')"
+      >
+        <span>Прошедшие</span>
+        <span class="tab-count">{{ pastCount() }}</span>
+      </button>
+      <button
+        type="button"
+        class="tab"
+        role="tab"
+        [class.active]="selectedTab() === 'cancelled'"
+        [attr.aria-selected]="selectedTab() === 'cancelled'"
+        (click)="setTab('cancelled')"
+      >
+        <span>Отменённые</span>
+        <span class="tab-count">{{ cancelledCount() }}</span>
+      </button>
+    </div>
+
+    <div class="filter-bar">
+      <div class="search-input">
+        <lucide-angular [img]="Search" [size]="16"></lucide-angular>
+        <input
+          type="text"
+          placeholder="Поиск по врачу или специальности..."
+          [value]="searchQuery()"
+          (input)="setSearch($any($event.target).value)"
+        />
+        @if (searchQuery()) {
+          <button type="button" class="clear-btn" (click)="setSearch('')" aria-label="Очистить">
+            <lucide-angular [img]="X" [size]="14"></lucide-angular>
+          </button>
+        }
+      </div>
+      <select
+        class="clinic-select"
+        [value]="selectedClinic()"
+        (change)="setClinic($any($event.target).value)"
+      >
+        <option value="">Все клиники</option>
+        @for (c of clinics(); track c) {
+          <option [value]="c">{{ c }}</option>
+        }
+      </select>
+      @if (hasActiveFilters()) {
+        <button type="button" class="clear-filters-btn" (click)="clearFilters()">
+          <lucide-angular [img]="X" [size]="14"></lucide-angular>
+          <span>Сбросить</span>
+        </button>
+      }
+    </div>
+
+    @if (filteredAppointments().length === 0) {
+      <div class="tab-empty-state">
+        <lucide-angular [img]="CalendarX" [size]="48" [strokeWidth]="1.5"></lucide-angular>
+        @if (hasActiveFilters()) {
+          <p>Ничего не найдено по выбранным фильтрам</p>
+          <button type="button" class="reset-filters-link" (click)="clearFilters()">
+            Сбросить фильтры
+          </button>
+        } @else if (selectedTab() === 'upcoming') {
+          <p>Нет предстоящих записей</p>
+        } @else if (selectedTab() === 'past') {
+          <p>Нет прошедших записей</p>
+        } @else {
+          <p>Нет отменённых записей</p>
+        }
+      </div>
+    } @else {
     <div class="appointments-list">
-      @for (appointment of appointments(); track appointment.id) {
-        <div class="appointment-item" [class]="'status-' + appointment.status">
+      @for (appointment of displayedAppointments(); track appointment.id) {
+        <div
+          class="appointment-item"
+          [class]="'status-' + appointment.status"
+          [class.highlighted]="highlightedId() === appointment.id"
+          [attr.data-appointment-id]="appointment.id"
+        >
           <div class="appointment-status-indicator"></div>
 
           <div class="appointment-main">
@@ -97,5 +186,11 @@
         </div>
       }
     </div>
+    @if (hasMore()) {
+      <button type="button" class="load-more" (click)="loadMore()">
+        Показать ещё <span class="load-more-count">{{ remainingCount() }}</span>
+      </button>
+    }
+    }
   }
 </div>

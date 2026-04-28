@@ -12,7 +12,8 @@ import {
   FileText,
   Check,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Pencil
 } from 'lucide-angular';
 
 interface Doctor {
@@ -27,6 +28,8 @@ interface Clinic {
   name: string;
   address: string;
 }
+
+type EditingStep = 'clinic' | 'doctor' | null;
 
 @Component({
   selector: 'app-new-appointment',
@@ -45,6 +48,7 @@ export class NewAppointmentComponent implements OnInit {
   readonly Check = Check;
   readonly ChevronLeft = ChevronLeft;
   readonly ChevronRight = ChevronRight;
+  readonly Pencil = Pencil;
 
   clinics = signal<Clinic[]>([]);
   doctors = signal<Doctor[]>([]);
@@ -55,11 +59,33 @@ export class NewAppointmentComponent implements OnInit {
   selectedDate = signal('');
   selectedTime = signal('');
   notes = signal('');
+  showNotes = signal(false);
+
+  editingStep = signal<EditingStep>(null);
 
   currentMonth = signal(new Date());
   calendarDays = computed(() => this.generateCalendarDays());
 
   isLoading = signal(false);
+
+  selectedClinicData = computed(() =>
+    this.clinics().find(c => c.id === this.selectedClinic())
+  );
+
+  selectedDoctorData = computed(() =>
+    this.doctors().find(d => d.id === this.selectedDoctor())
+  );
+
+  isClinicExpanded = computed(() =>
+    this.editingStep() === 'clinic' || !this.selectedClinic()
+  );
+
+  isDoctorExpanded = computed(() => {
+    if (!this.selectedClinic()) return false;
+    return this.editingStep() === 'doctor' || !this.selectedDoctor();
+  });
+
+  isDateTimeVisible = computed(() => !!this.selectedDoctor());
 
   constructor(private router: Router) {}
 
@@ -77,16 +103,15 @@ export class NewAppointmentComponent implements OnInit {
     ]);
   }
 
-  onClinicChange(): void {
-    this.selectedDoctor.set('');
-    this.selectedDate.set('');
-    this.selectedTime.set('');
-
-    if (this.selectedClinic()) {
+  selectClinic(id: string): void {
+    if (this.selectedClinic() !== id) {
+      this.selectedClinic.set(id);
+      this.selectedDoctor.set('');
+      this.selectedDate.set('');
+      this.selectedTime.set('');
       this.loadDoctors();
-    } else {
-      this.doctors.set([]);
     }
+    this.editingStep.set(null);
   }
 
   loadDoctors(): void {
@@ -104,9 +129,21 @@ export class NewAppointmentComponent implements OnInit {
     ]);
   }
 
-  onDoctorChange(): void {
-    this.selectedDate.set('');
-    this.selectedTime.set('');
+  selectDoctor(id: string): void {
+    if (this.selectedDoctor() !== id) {
+      this.selectedDoctor.set(id);
+      this.selectedDate.set('');
+      this.selectedTime.set('');
+    }
+    this.editingStep.set(null);
+  }
+
+  editClinic(): void {
+    this.editingStep.set('clinic');
+  }
+
+  editDoctor(): void {
+    this.editingStep.set('doctor');
   }
 
   onDateChange(date: string): void {
@@ -162,14 +199,20 @@ export class NewAppointmentComponent implements OnInit {
   selectDate(day: {date: Date | null, isCurrentMonth: boolean, isPast: boolean}): void {
     if (!day.date || day.isPast || !this.selectedDoctor()) return;
 
-    const dateStr = day.date.toISOString().split('T')[0];
+    const dateStr = this.formatLocalDate(day.date);
     this.onDateChange(dateStr);
   }
 
   isDateSelected(day: {date: Date | null}): boolean {
     if (!day.date || !this.selectedDate()) return false;
-    const dateStr = day.date.toISOString().split('T')[0];
-    return dateStr === this.selectedDate();
+    return this.formatLocalDate(day.date) === this.selectedDate();
+  }
+
+  private formatLocalDate(date: Date): string {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, '0');
+    const d = String(date.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
   }
 
   getMonthYearLabel(): string {
@@ -180,11 +223,25 @@ export class NewAppointmentComponent implements OnInit {
     return `${months[this.currentMonth().getMonth()]} ${this.currentMonth().getFullYear()}`;
   }
 
+  formatSelectedDate(): string {
+    if (!this.selectedDate()) return '';
+    const date = new Date(this.selectedDate());
+    return date.toLocaleDateString('ru-RU', {
+      day: 'numeric',
+      month: 'long',
+      weekday: 'short'
+    });
+  }
+
   loadAvailableTimes(): void {
     this.availableTimes.set([
       '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
       '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00'
     ]);
+  }
+
+  toggleNotes(): void {
+    this.showNotes.update(v => !v);
   }
 
   get minDate(): string {

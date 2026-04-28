@@ -1,4 +1,20 @@
 <div class="patient-container">
+  <button
+    class="mobile-menu-btn"
+    type="button"
+    (click)="toggleSidebar()"
+    aria-label="Открыть меню"
+  >
+    <lucide-angular [img]="Menu" [size]="22"></lucide-angular>
+  </button>
+
+  <div
+    class="sidebar-backdrop"
+    [class.visible]="isSidebarOpen()"
+    (click)="toggleSidebar()"
+    aria-hidden="true"
+  ></div>
+
   <aside class="sidebar" [class.collapsed]="!isSidebarOpen()">
     <div class="sidebar-header">
       <div>
@@ -6,25 +22,25 @@
         <p>Портал пациента</p>
       </div>
       <button class="toggle-btn" (click)="toggleSidebar()">
-        <lucide-angular name="menu" [size]="25"></lucide-angular>
+        <lucide-angular [img]="Menu" [size]="25"></lucide-angular>
       </button>
     </div>
 
     <nav class="sidebar-nav">
       <a routerLink="/patient/appointments" routerLinkActive="active" class="nav-item">
-        <lucide-angular name="calendar" [size]="20"></lucide-angular>
+        <lucide-angular [img]="Calendar" [size]="20"></lucide-angular>
         @if (isSidebarOpen()) {
           <span>Мои записи</span>
         }
       </a>
       <a routerLink="/patient/documents" routerLinkActive="active" class="nav-item">
-        <lucide-angular name="file-text" [size]="20"></lucide-angular>
+        <lucide-angular [img]="FileText" [size]="20"></lucide-angular>
         @if (isSidebarOpen()) {
           <span>Документы</span>
         }
       </a>
       <a routerLink="/patient/profile" routerLinkActive="active" class="nav-item">
-        <lucide-angular name="user" [size]="20"></lucide-angular>
+        <lucide-angular [img]="User" [size]="20"></lucide-angular>
         @if (isSidebarOpen()) {
           <span>Профиль</span>
         }
@@ -43,7 +59,7 @@
         </div>
       }
       <button class="logout-btn" (click)="logout()" [title]="'Выйти'">
-        <lucide-angular name="log-out" [size]="20"></lucide-angular>
+        <lucide-angular [img]="LogOut" [size]="20"></lucide-angular>
         @if (isSidebarOpen()) {
           <span>Выйти</span>
         }

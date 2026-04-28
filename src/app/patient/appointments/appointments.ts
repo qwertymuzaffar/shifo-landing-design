@@ -1,6 +1,6 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, computed, inject, ElementRef, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import {
   LucideAngularModule,
   Plus,
@@ -10,18 +10,12 @@ import {
   Calendar,
   Clock,
   Building2,
-  XCircle
+  XCircle,
+  Search,
+  X,
+  SlidersHorizontal
 } from 'lucide-angular';
-
-interface Appointment {
-  id: string;
-  doctor: string;
-  specialization: string;
-  clinic: string;
-  date: string;
-  time: string;
-  status: 'pending' | 'confirmed' | 'completed' | 'cancelled';
-}
+import { AppointmentsService, Appointment, AppointmentStatus } from '../../core/services/appointments.service';
 
 @Component({
   selector: 'app-appointments',
@@ -30,7 +24,7 @@ interface Appointment {
   templateUrl: './appointments.html',
   styleUrls: ['./appointments.scss']
 })
-export class AppointmentsComponent implements OnInit {
+export class AppointmentsComponent implements OnInit, AfterViewInit {
   readonly Plus = Plus;
   readonly CalendarX = CalendarX;
   readonly CalendarPlus = CalendarPlus;
@@ -39,72 +33,134 @@ export class AppointmentsComponent implements OnInit {
   readonly Clock = Clock;
   readonly Building2 = Building2;
   readonly XCircle = XCircle;
+  readonly Search = Search;
+  readonly X = X;
+  readonly SlidersHorizontal = SlidersHorizontal;
 
-  appointments = signal<Appointment[]>([]);
-  isLoading = signal(true);
+  private appointmentsService = inject(AppointmentsService);
+  private route = inject(ActivatedRoute);
+  private host: ElementRef<HTMLElement> = inject(ElementRef);
 
-  ngOnInit(): void {
-    this.loadAppointments();
+  appointments = this.appointmentsService.appointments;
+  isLoading = signal(false);
+
+  selectedTab = signal<'upcoming' | 'past' | 'cancelled'>('upcoming');
+  highlightedId = signal<string | null>(null);
+
+  searchQuery = signal('');
+  selectedClinic = signal('');
+
+  private readonly PAGE_SIZE = 6;
+  visibleCount = signal(this.PAGE_SIZE);
+
+  clinics = computed(() => {
+    const set = new Set<string>();
+    this.appointments().forEach(a => set.add(a.clinic));
+    return Array.from(set).sort();
+  });
+
+  hasActiveFilters = computed(() => !!this.searchQuery().trim() || !!this.selectedClinic());
+
+  upcomingCount = computed(() =>
+    this.appointments().filter(a => a.status === 'pending' || a.status === 'confirmed').length
+  );
+  pastCount = computed(() =>
+    this.appointments().filter(a => a.status === 'completed').length
+  );
+  cancelledCount = computed(() =>
+    this.appointments().filter(a => a.status === 'cancelled').length
+  );
+
+  filteredAppointments = computed(() => {
+    const tab = this.selectedTab();
+    const query = this.searchQuery().toLowerCase().trim();
+    const clinic = this.selectedClinic();
+    const list = this.appointments().filter(a => {
+      if (tab === 'upcoming' && !(a.status === 'pending' || a.status === 'confirmed')) return false;
+      if (tab === 'past' && a.status !== 'completed') return false;
+      if (tab === 'cancelled' && a.status !== 'cancelled') return false;
+      if (clinic && a.clinic !== clinic) return false;
+      if (query) {
+        const hay = `${a.doctor} ${a.specialization}`.toLowerCase();
+        if (!hay.includes(query)) return false;
+      }
+      return true;
+    });
+    const dir = tab === 'upcoming' ? 1 : -1;
+    return [...list].sort((a, b) => {
+      const cmp = a.date.localeCompare(b.date);
+      if (cmp !== 0) return dir * cmp;
+      return dir * a.time.localeCompare(b.time);
+    });
+  });
+
+  displayedAppointments = computed(() =>
+    this.filteredAppointments().slice(0, this.visibleCount())
+  );
+
+  hasMore = computed(() =>
+    this.visibleCount() < this.filteredAppointments().length
+  );
+
+  remainingCount = computed(() =>
+    this.filteredAppointments().length - this.visibleCount()
+  );
+
+  setTab(tab: 'upcoming' | 'past' | 'cancelled'): void {
+    this.selectedTab.set(tab);
+    this.visibleCount.set(this.PAGE_SIZE);
   }
 
-  loadAppointments(): void {
-    this.appointments.set([
-        {
-          id: '1',
-          doctor: 'Алишер Каримов',
-          specialization: 'Терапевт',
-          clinic: 'Клиника "Здоровье"',
-          date: '2026-01-15',
-          time: '10:00',
-          status: 'confirmed'
-        },
-        {
-          id: '2',
-          doctor: 'Дилноза Рашидова',
-          specialization: 'Кардиолог',
-          clinic: 'Медицинский Центр "Shifo"',
-          date: '2026-01-20',
-          time: '14:30',
-          status: 'pending'
-        },
-        {
-          id: '3',
-          doctor: 'Шерзод Махмудов',
-          specialization: 'Хирург',
-          clinic: 'Городская Больница №1',
-          date: '2026-01-12',
-          time: '09:00',
-          status: 'completed'
-        },
-        {
-          id: '4',
-          doctor: 'Нилуфар Азимова',
-          specialization: 'Невролог',
-          clinic: 'Клиника "Здоровье"',
-          date: '2026-02-01',
-          time: '15:00',
-          status: 'confirmed'
-        },
-        {
-          id: '5',
-          doctor: 'Фарход Юсупов',
-          specialization: 'Офтальмолог',
-          clinic: 'Центр Офтальмологии',
-          date: '2026-01-08',
-          time: '11:30',
-          status: 'completed'
-        },
-        {
-          id: '6',
-          doctor: 'Малика Сатторова',
-          specialization: 'Дерматолог',
-          clinic: 'Медицинский Центр "Shifo"',
-          date: '2026-01-05',
-          time: '16:00',
-          status: 'cancelled'
+  setSearch(value: string): void {
+    this.searchQuery.set(value);
+    this.visibleCount.set(this.PAGE_SIZE);
+  }
+
+  setClinic(value: string): void {
+    this.selectedClinic.set(value);
+    this.visibleCount.set(this.PAGE_SIZE);
+  }
+
+  clearFilters(): void {
+    this.searchQuery.set('');
+    this.selectedClinic.set('');
+    this.visibleCount.set(this.PAGE_SIZE);
+  }
+
+  loadMore(): void {
+    this.visibleCount.update(n => n + this.PAGE_SIZE);
+  }
+
+  ngOnInit(): void {
+    const highlightId = this.route.snapshot.queryParamMap.get('highlight');
+    if (highlightId) {
+      const target = this.appointmentsService.getById(highlightId);
+      if (target) {
+        this.selectedTab.set(this.tabFor(target.status));
+        this.highlightedId.set(highlightId);
+        const index = this.filteredAppointments().findIndex(a => a.id === highlightId);
+        if (index >= this.visibleCount()) {
+          const needed = Math.ceil((index + 1) / this.PAGE_SIZE) * this.PAGE_SIZE;
+          this.visibleCount.set(needed);
         }
-      ]);
-    this.isLoading.set(false);
+      }
+    }
+  }
+
+  ngAfterViewInit(): void {
+    const id = this.highlightedId();
+    if (!id) return;
+    setTimeout(() => {
+      const el = this.host.nativeElement.querySelector<HTMLElement>(`[data-appointment-id="${id}"]`);
+      el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => this.highlightedId.set(null), 2400);
+    }, 50);
+  }
+
+  private tabFor(status: AppointmentStatus): 'upcoming' | 'past' | 'cancelled' {
+    if (status === 'pending' || status === 'confirmed') return 'upcoming';
+    if (status === 'completed') return 'past';
+    return 'cancelled';
   }
 
   getStatusLabel(status: string): string {
@@ -132,9 +188,7 @@ export class AppointmentsComponent implements OnInit {
 
   cancelAppointment(id: string): void {
     if (confirm('Вы уверены, что хотите отменить запись?')) {
-      this.appointments.update(apps =>
-        apps.map(app => app.id === id ? { ...app, status: 'cancelled' as const } : app)
-      );
+      this.appointmentsService.cancel(id);
     }
   }
 }

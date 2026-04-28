@@ -205,20 +205,75 @@
   padding: 32px;
 }
 
+/* Mobile floating menu trigger and backdrop */
+.mobile-menu-btn {
+  display: none;
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 999;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  color: #4a5568;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+  transition: all 0.2s;
+
+  &:hover {
+    background: #f8fafc;
+    color: #1a202c;
+  }
+
+  &:active {
+    transform: scale(0.96);
+  }
+}
+
+.sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
 @media (max-width: 768px) {
+  .mobile-menu-btn {
+    display: flex;
+  }
+
   .sidebar {
     position: fixed;
     left: 0;
     top: 0;
     bottom: 0;
     z-index: 1000;
+    transition: transform 0.25s ease;
 
     &.collapsed {
       transform: translateX(-100%);
     }
   }
 
+  .sidebar-backdrop {
+    display: block;
+
+    &.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
   .main-content {
     margin-left: 0;
+    padding: 60px 14px 16px;
   }
 }
