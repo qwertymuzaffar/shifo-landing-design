@@ -196,12 +196,29 @@
             <span>Добавить примечание (необязательно)</span>
           </button>
         } @else {
-          <div class="step-header compact-header">
-            <lucide-angular [img]="FileText" [size]="18"></lucide-angular>
-            <h2>Примечание</h2>
+          <div class="step-header compact-header notes-header">
+            <div class="notes-header-title">
+              <lucide-angular [img]="FileText" [size]="18"></lucide-angular>
+              <h2>Примечание</h2>
+            </div>
+            <button
+              type="button"
+              class="ai-generate-btn"
+              [disabled]="isGeneratingNote()"
+              (click)="generateNoteWithAI()"
+            >
+              @if (isGeneratingNote()) {
+                <lucide-angular class="spin" [img]="Loader2" [size]="16"></lucide-angular>
+                <span>Генерация...</span>
+              } @else {
+                <lucide-angular [img]="Sparkles" [size]="16"></lucide-angular>
+                <span>{{ hasNoteDraft() ? 'Улучшить с AI' : 'Написать с AI' }}</span>
+              }
+            </button>
           </div>
           <textarea
             class="notes-input"
+            [class.generating]="isGeneratingNote()"
             [value]="notes()"
             (input)="notes.set($any($event.target).value)"
             rows="3"

@@ -10,6 +10,7 @@ export interface Appointment {
   date: string;
   time: string;
   status: AppointmentStatus;
+  cancellationReason?: string;
 }
 
 const HEALTH = 'Клиника "Здоровье"';
@@ -85,9 +86,13 @@ export class AppointmentsService {
     return this._appointments().find(a => a.id === id);
   }
 
-  cancel(id: string): void {
+  cancel(id: string, reason?: string): void {
     this._appointments.update(apps =>
-      apps.map(a => (a.id === id ? { ...a, status: 'cancelled' } : a))
+      apps.map(a =>
+        a.id === id
+          ? { ...a, status: 'cancelled', cancellationReason: reason }
+          : a
+      )
     );
   }
 }

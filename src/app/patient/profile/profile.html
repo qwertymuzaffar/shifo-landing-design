@@ -328,3 +328,110 @@
     </div>
   </section>
 </div>
+
+<!-- Change password modal -->
+@if (showPasswordModal()) {
+  <div class="modal-overlay" (click)="closePasswordModal()">
+    <div class="modal-card" (click)="$event.stopPropagation()" role="dialog" aria-modal="true" aria-labelledby="pwdModalTitle">
+      @if (passwordSaved()) {
+        <div class="modal-success">
+          <div class="success-icon">
+            <lucide-angular [img]="ShieldCheck" [size]="32"></lucide-angular>
+          </div>
+          <h3>Пароль обновлён</h3>
+          <p>Новый пароль вступил в силу. Используйте его при следующем входе.</p>
+        </div>
+      } @else {
+        <header class="modal-header">
+          <div class="modal-title">
+            <div class="modal-title-icon"><lucide-angular [img]="KeyRound" [size]="18"></lucide-angular></div>
+            <h3 id="pwdModalTitle">Изменить пароль</h3>
+          </div>
+          <button type="button" class="modal-close" (click)="closePasswordModal()" aria-label="Закрыть">
+            <lucide-angular [img]="X" [size]="18"></lucide-angular>
+          </button>
+        </header>
+
+        <div class="modal-body">
+          <div class="pwd-field">
+            <label>Текущий пароль</label>
+            <div class="pwd-input">
+              <input
+                [type]="showCurrentPassword() ? 'text' : 'password'"
+                [value]="currentPassword()"
+                (input)="currentPassword.set($any($event.target).value)"
+                placeholder="Введите текущий пароль"
+                autocomplete="current-password"
+              />
+              <button type="button" class="pwd-toggle" (click)="showCurrentPassword.set(!showCurrentPassword())" [attr.aria-label]="showCurrentPassword() ? 'Скрыть пароль' : 'Показать пароль'">
+                <lucide-angular [img]="showCurrentPassword() ? EyeOff : Eye" [size]="16"></lucide-angular>
+              </button>
+            </div>
+          </div>
+
+          <div class="pwd-field">
+            <label>Новый пароль</label>
+            <div class="pwd-input">
+              <input
+                [type]="showNewPassword() ? 'text' : 'password'"
+                [value]="newPassword()"
+                (input)="newPassword.set($any($event.target).value)"
+                placeholder="Минимум 8 символов"
+                autocomplete="new-password"
+              />
+              <button type="button" class="pwd-toggle" (click)="showNewPassword.set(!showNewPassword())" [attr.aria-label]="showNewPassword() ? 'Скрыть пароль' : 'Показать пароль'">
+                <lucide-angular [img]="showNewPassword() ? EyeOff : Eye" [size]="16"></lucide-angular>
+              </button>
+            </div>
+            @if (newPassword()) {
+              <div class="pwd-strength" [class]="'strength-' + passwordStrength().cls">
+                <div class="pwd-strength-bar">
+                  <span [style.width.%]="(passwordStrength().score / 5) * 100"></span>
+                </div>
+                <span class="pwd-strength-label">{{ passwordStrength().label }}</span>
+              </div>
+            }
+          </div>
+
+          <div class="pwd-field">
+            <label>Подтвердите новый пароль</label>
+            <div class="pwd-input">
+              <input
+                [type]="showConfirmPassword() ? 'text' : 'password'"
+                [value]="confirmPassword()"
+                (input)="confirmPassword.set($any($event.target).value)"
+                placeholder="Повторите новый пароль"
+                autocomplete="new-password"
+                (keyup.enter)="submitPasswordChange()"
+              />
+              <button type="button" class="pwd-toggle" (click)="showConfirmPassword.set(!showConfirmPassword())" [attr.aria-label]="showConfirmPassword() ? 'Скрыть пароль' : 'Показать пароль'">
+                <lucide-angular [img]="showConfirmPassword() ? EyeOff : Eye" [size]="16"></lucide-angular>
+              </button>
+            </div>
+          </div>
+
+          @if (passwordError()) {
+            <div class="pwd-error">
+              <lucide-angular [img]="AlertTriangle" [size]="14"></lucide-angular>
+              <span>{{ passwordError() }}</span>
+            </div>
+          }
+        </div>
+
+        <footer class="modal-footer">
+          <button type="button" class="btn-cancel" (click)="closePasswordModal()" [disabled]="passwordSaving()">
+            <span>Отмена</span>
+          </button>
+          <button type="button" class="btn-save" (click)="submitPasswordChange()" [disabled]="passwordSaving()">
+            @if (passwordSaving()) {
+              <span>Сохранение...</span>
+            } @else {
+              <lucide-angular [img]="Check" [size]="16"></lucide-angular>
+              <span>Сохранить пароль</span>
+            }
+          </button>
+        </footer>
+      }
+    </div>
+  </div>
+}

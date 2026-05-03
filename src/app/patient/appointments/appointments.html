@@ -194,3 +194,94 @@
     }
   }
 </div>
+
+@if (cancellingAppointment(); as appt) {
+  <div class="cancel-modal-overlay" (click)="closeCancelModal()">
+    <div class="cancel-modal-card" (click)="$event.stopPropagation()" role="dialog" aria-modal="true" aria-labelledby="cancelModalTitle">
+      @if (cancelDone()) {
+        <div class="cancel-modal-success">
+          <div class="cancel-success-icon">
+            <lucide-angular [img]="CheckCircle2" [size]="36"></lucide-angular>
+          </div>
+          <h3>Запись отменена</h3>
+          <p>Мы сообщили клинике о вашей отмене. Вы можете записаться снова в любое время.</p>
+        </div>
+      } @else {
+        <header class="cancel-modal-header">
+          <div class="cancel-modal-title">
+            <div class="cancel-modal-title-icon">
+              <lucide-angular [img]="AlertTriangle" [size]="20"></lucide-angular>
+            </div>
+            <h3 id="cancelModalTitle">Отменить запись?</h3>
+          </div>
+          <button type="button" class="cancel-modal-close" (click)="closeCancelModal()" aria-label="Закрыть">
+            <lucide-angular [img]="X" [size]="18"></lucide-angular>
+          </button>
+        </header>
+
+        <div class="cancel-modal-body">
+          <div class="cancel-appointment-summary">
+            <div class="cancel-summary-row">
+              <lucide-angular [img]="UserRound" [size]="16"></lucide-angular>
+              <span>{{ appt.doctor }} — {{ appt.specialization }}</span>
+            </div>
+            <div class="cancel-summary-row">
+              <lucide-angular [img]="Calendar" [size]="16"></lucide-angular>
+              <span>{{ formatDate(appt.date) }} в {{ appt.time }}</span>
+            </div>
+            <div class="cancel-summary-row">
+              <lucide-angular [img]="Building2" [size]="16"></lucide-angular>
+              <span>{{ appt.clinic }}</span>
+            </div>
+          </div>
+
+          <div class="cancel-reason-section">
+            <label class="cancel-reason-label">Укажите причину отмены</label>
+            <div class="cancel-reason-chips">
+              @for (reason of cancelReasons; track reason) {
+                <button
+                  type="button"
+                  class="cancel-reason-chip"
+                  [class.selected]="selectedReason() === reason"
+                  (click)="selectReason(reason)"
+                >{{ reason }}</button>
+              }
+            </div>
+
+            @if (selectedReason() === 'Другое') {
+              <textarea
+                class="cancel-reason-textarea"
+                rows="3"
+                [value]="customReason()"
+                (input)="customReason.set($any($event.target).value); cancelError.set('')"
+                placeholder="Опишите причину отмены..."
+                maxlength="200"
+              ></textarea>
+            }
+
+            @if (cancelError()) {
+              <div class="cancel-error">
+                <lucide-angular [img]="AlertTriangle" [size]="14"></lucide-angular>
+                <span>{{ cancelError() }}</span>
+              </div>
+            }
+          </div>
+        </div>
+
+        <footer class="cancel-modal-footer">
+          <button type="button" class="cancel-btn-keep" (click)="closeCancelModal()" [disabled]="cancelSubmitting()">
+            <span>Оставить запись</span>
+          </button>
+          <button type="button" class="cancel-btn-confirm" (click)="confirmCancellation()" [disabled]="cancelSubmitting()">
+            @if (cancelSubmitting()) {
+              <span>Отмена...</span>
+            } @else {
+              <lucide-angular [img]="XCircle" [size]="16"></lucide-angular>
+              <span>Отменить запись</span>
+            }
+          </button>
+        </footer>
+      }
+    </div>
+  </div>
+}

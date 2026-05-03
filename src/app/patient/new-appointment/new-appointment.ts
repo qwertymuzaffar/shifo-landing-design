@@ -13,7 +13,9 @@ import {
   Check,
   ChevronLeft,
   ChevronRight,
-  Pencil
+  Pencil,
+  Sparkles,
+  Loader2
 } from 'lucide-angular';
 
 interface Doctor {
@@ -49,6 +51,8 @@ export class NewAppointmentComponent implements OnInit {
   readonly ChevronLeft = ChevronLeft;
   readonly ChevronRight = ChevronRight;
   readonly Pencil = Pencil;
+  readonly Sparkles = Sparkles;
+  readonly Loader2 = Loader2;
 
   clinics = signal<Clinic[]>([]);
   doctors = signal<Doctor[]>([]);
@@ -60,6 +64,7 @@ export class NewAppointmentComponent implements OnInit {
   selectedTime = signal('');
   notes = signal('');
   showNotes = signal(false);
+  isGeneratingNote = signal(false);
 
   editingStep = signal<EditingStep>(null);
 
@@ -242,6 +247,112 @@ export class NewAppointmentComponent implements OnInit {
 
   toggleNotes(): void {
     this.showNotes.update(v => !v);
+  }
+
+  hasNoteDraft = computed(() => this.notes().trim().length > 0);
+
+  async generateNoteWithAI(): Promise<void> {
+    if (this.isGeneratingNote()) return;
+    this.isGeneratingNote.set(true);
+
+    const specialization = this.selectedDoctorData()?.specialization?.toLowerCase() ?? '';
+    const draft = this.notes().trim();
+
+    await new Promise(resolve => setTimeout(resolve, 1200));
+
+    const result = draft
+      ? this.expandDraftWithAI(draft, specialization)
+      : this.pickFreshTemplate(specialization);
+
+    this.notes.set(result);
+    this.isGeneratingNote.set(false);
+  }
+
+  private pickFreshTemplate(specialization: string): string {
+    const templates = this.getNoteTemplates(specialization);
+    return templates[Math.floor(Math.random() * templates.length)];
+  }
+
+  private expandDraftWithAI(draft: string, specialization: string): string {
+    const lower = draft.toLowerCase();
+    const startsFormally = /^(беспокоит|жалоб|прошу|нужн|хочу|обращаюсь|плановый)/i.test(draft);
+    const endsWithPunctuation = /[.!?]$/.test(draft);
+
+    const symptomFragment = startsFormally
+      ? draft + (endsWithPunctuation ? '' : '.')
+      : `Беспокоит: ${draft}${endsWithPunctuation ? '' : '.'}`;
+
+    const closings: Record<string, string> = {
+      'терапевт': ' Прошу провести осмотр, при необходимости назначить анализы и дать рекомендации по лечению.',
+      'кардиолог': ' Прошу провести осмотр, измерить давление и при необходимости назначить ЭКГ.',
+      'хирург': ' Прошу осмотреть и определить дальнейшую тактику лечения.',
+      'невролог': ' Прошу провести неврологический осмотр и назначить необходимое обследование.',
+      'офтальмолог': ' Прошу проверить остроту зрения и дать рекомендации.',
+      'дерматолог': ' Прошу осмотреть кожные изменения и назначить лечение при необходимости.',
+      'педиатр': ' Прошу осмотреть ребёнка и дать рекомендации.',
+      'эндокринолог': ' Прошу проконсультировать и при необходимости назначить анализы на гормоны.',
+      'уролог': ' Прошу провести осмотр и назначить необходимое обследование.',
+      'гинеколог': ' Прошу провести осмотр и дать рекомендации.'
+    };
+    const closing = closings[specialization] ?? ' Прошу провести осмотр и дать рекомендации.';
+
+    const durationHint = /(дн|недел|месяц|год)/i.test(lower)
+      ? ''
+      : ' Симптомы беспокоят на протяжении последнего времени.';
+
+    return `${symptomFragment}${durationHint}${closing}`;
+  }
+
+  private getNoteTemplates(specialization: string): string[] {
+    const generic = [
+      'Профилактический осмотр и консультация по общему состоянию здоровья.',
+      'Обращаюсь по поводу периодических недомоганий: общая слабость, утомляемость в течение последних двух недель.',
+      'Плановый визит для уточнения диагноза и обсуждения дальнейших шагов лечения.',
+      'Прошу проконсультировать по результатам последних анализов и назначить дальнейшее обследование.'
+    ];
+    const bySpec: Record<string, string[]> = {
+      'терапевт': [
+        'Беспокоят головные боли, повышенная утомляемость и эпизодически повышенная температура. Прошу осмотр и рекомендации.',
+        'Нужна консультация по результатам общего анализа крови и направление к узкому специалисту при необходимости.'
+      ],
+      'кардиолог': [
+        'Беспокоят периодические боли в области сердца и одышка при физической нагрузке. Прошу провести осмотр и при необходимости назначить ЭКГ.',
+        'Контроль артериального давления: за последнюю неделю отмечаются скачки до 150/95. Прошу скорректировать лечение.'
+      ],
+      'хирург': [
+        'Прошу осмотреть в связи с жалобами на боль и припухлость в области правого предплечья после ушиба.',
+        'Консультация по результатам УЗИ и обсуждение возможных вариантов лечения.'
+      ],
+      'невролог': [
+        'Беспокоят частые головные боли, головокружение и нарушения сна на протяжении последнего месяца.',
+        'Жалобы на онемение и покалывание в правой руке, прошу осмотреть и назначить обследование.'
+      ],
+      'офтальмолог': [
+        'Беспокоит ухудшение зрения вдаль и быстрая утомляемость глаз при работе за компьютером. Прошу проверить остроту зрения.',
+        'Плановый осмотр и подбор корректирующих линз/очков.'
+      ],
+      'дерматолог': [
+        'Появилось высыпание и зуд на коже предплечий, прошу осмотреть и определить причину.',
+        'Хочу проконсультироваться по поводу родинки, которая немного изменилась за последние месяцы.'
+      ],
+      'педиатр': [
+        'У ребёнка несколько дней держится субфебрильная температура и насморк. Прошу осмотр и рекомендации.',
+        'Плановый осмотр ребёнка, консультация по вакцинации и общему развитию.'
+      ],
+      'эндокринолог': [
+        'Беспокоит резкое изменение веса, прошу проконсультировать и назначить анализы на гормоны.',
+        'Контроль уровня сахара в крови и обсуждение коррекции терапии.'
+      ],
+      'уролог': [
+        'Прошу проконсультировать по результатам УЗИ почек и общим жалобам на дискомфорт в поясничной области.',
+        'Профилактический осмотр и сдача необходимых анализов.'
+      ],
+      'гинеколог': [
+        'Плановый профилактический осмотр и консультация.',
+        'Прошу проконсультировать по результатам анализов и назначить дальнейшее обследование.'
+      ]
+    };
+    return [...(bySpec[specialization] ?? []), ...generic];
   }
 
   get minDate(): string {

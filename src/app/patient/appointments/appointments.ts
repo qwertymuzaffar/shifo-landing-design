@@ -13,7 +13,10 @@ import {
   XCircle,
   Search,
   X,
-  SlidersHorizontal
+  SlidersHorizontal,
+  AlertTriangle,
+  Check,
+  CheckCircle2
 } from 'lucide-angular';
 import { AppointmentsService, Appointment, AppointmentStatus } from '../../core/services/appointments.service';
 
@@ -36,6 +39,17 @@ export class AppointmentsComponent implements OnInit, AfterViewInit {
   readonly Search = Search;
   readonly X = X;
   readonly SlidersHorizontal = SlidersHorizontal;
+  readonly AlertTriangle = AlertTriangle;
+  readonly Check = Check;
+  readonly CheckCircle2 = CheckCircle2;
+
+  readonly cancelReasons: string[] = [
+    'Изменились планы',
+    'Записался к другому врачу',
+    'Плохо себя чувствую',
+    'Не смогу прийти вовремя',
+    'Другое'
+  ];
 
   private appointmentsService = inject(AppointmentsService);
   private route = inject(ActivatedRoute);
@@ -52,6 +66,14 @@ export class AppointmentsComponent implements OnInit, AfterViewInit {
 
   private readonly PAGE_SIZE = 6;
   visibleCount = signal(this.PAGE_SIZE);
+
+  // Cancellation modal
+  cancellingAppointment = signal<Appointment | null>(null);
+  selectedReason = signal<string>('');
+  customReason = signal<string>('');
+  cancelError = signal<string>('');
+  cancelSubmitting = signal(false);
+  cancelDone = signal(false);
 
   clinics = computed(() => {
     const set = new Set<string>();
@@ -187,8 +209,58 @@ export class AppointmentsComponent implements OnInit, AfterViewInit {
   }
 
   cancelAppointment(id: string): void {
-    if (confirm('Вы уверены, что хотите отменить запись?')) {
-      this.appointmentsService.cancel(id);
+    const appt = this.appointmentsService.getById(id);
+    if (!appt) return;
+    this.cancellingAppointment.set(appt);
+    this.selectedReason.set('');
+    this.customReason.set('');
+    this.cancelError.set('');
+    this.cancelDone.set(false);
+  }
+
+  closeCancelModal(): void {
+    if (this.cancelSubmitting()) return;
+    this.cancellingAppointment.set(null);
+  }
+
+  selectReason(reason: string): void {
+    this.selectedReason.set(reason);
+    this.cancelError.set('');
+    if (reason !== 'Другое') {
+      this.customReason.set('');
     }
+  }
+
+  confirmCancellation(): void {
+    const appt = this.cancellingAppointment();
+    if (!appt) return;
+
+    const picked = this.selectedReason();
+    if (!picked) {
+      this.cancelError.set('Пожалуйста, выберите причину отмены');
+      return;
+    }
+
+    let reason = picked;
+    if (picked === 'Другое') {
+      const custom = this.customReason().trim();
+      if (custom.length < 3) {
+        this.cancelError.set('Опишите причину (минимум 3 символа)');
+        return;
+      }
+      reason = custom;
+    }
+
+    this.cancelError.set('');
+    this.cancelSubmitting.set(true);
+
+    setTimeout(() => {
+      this.appointmentsService.cancel(appt.id, reason);
+      this.cancelSubmitting.set(false);
+      this.cancelDone.set(true);
+      setTimeout(() => {
+        this.cancellingAppointment.set(null);
+      }, 1400);
+    }, 600);
   }
 }

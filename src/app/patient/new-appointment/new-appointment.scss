@@ -519,6 +519,67 @@
   }
 }
 
+.notes-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.notes-header-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  > lucide-angular {
+    color: #0ea5e9;
+  }
+
+  h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a202c;
+    margin: 0;
+  }
+}
+
+.ai-generate-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: linear-gradient(135deg, #8b5cf6, #6366f1);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.25);
+  flex-shrink: 0;
+
+  &:hover:not(:disabled) {
+    background: linear-gradient(135deg, #7c3aed, #4f46e5);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .spin {
+    animation: ai-spin 0.9s linear infinite;
+  }
+}
+
+@keyframes ai-spin {
+  to { transform: rotate(360deg); }
+}
+
 .notes-input {
   width: 100%;
   padding: 12px 14px;
@@ -540,6 +601,18 @@
   &::placeholder {
     color: #cbd5e0;
   }
+
+  &.generating {
+    background: linear-gradient(110deg, #f8fafc 30%, #ede9fe 50%, #f8fafc 70%);
+    background-size: 200% 100%;
+    animation: ai-shimmer 1.4s linear infinite;
+    border-color: #c4b5fd;
+  }
+}
+
+@keyframes ai-shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
 }
 
 /* Form actions */
@@ -823,6 +896,12 @@
 
   .notes-toggle {
     font-size: 13px;
+  }
+
+  .ai-generate-btn {
+    padding: 7px 10px;
+    font-size: 12px;
+    gap: 5px;
   }
 
   /* Form actions: stack and stay sticky at bottom */

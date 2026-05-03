@@ -27,7 +27,11 @@ import {
   PhoneCall,
   Lock,
   LogOut,
-  Trash2
+  Trash2,
+  Eye,
+  EyeOff,
+  KeyRound,
+  ShieldCheck
 } from 'lucide-angular';
 
 type EditableSection = 'personal' | 'medical' | 'emergency';
@@ -66,6 +70,10 @@ export class ProfileComponent {
   readonly Lock = Lock;
   readonly LogOut = LogOut;
   readonly Trash2 = Trash2;
+  readonly Eye = Eye;
+  readonly EyeOff = EyeOff;
+  readonly KeyRound = KeyRound;
+  readonly ShieldCheck = ShieldCheck;
 
   currentPatient = this.authService.currentPatient;
   editingSection = signal<EditableSection | null>(null);
@@ -89,6 +97,32 @@ export class ProfileComponent {
   emergencyName = signal('Сафар Каримов');
   emergencyRelation = signal('Отец');
   emergencyPhone = signal('+998 90 123 45 67');
+
+  // Change password modal
+  showPasswordModal = signal(false);
+  currentPassword = signal('');
+  newPassword = signal('');
+  confirmPassword = signal('');
+  showCurrentPassword = signal(false);
+  showNewPassword = signal(false);
+  showConfirmPassword = signal(false);
+  passwordError = signal('');
+  passwordSaving = signal(false);
+  passwordSaved = signal(false);
+
+  passwordStrength = computed<{ score: number; label: string; cls: string }>(() => {
+    const pwd = this.newPassword();
+    if (!pwd) return { score: 0, label: '', cls: '' };
+    let score = 0;
+    if (pwd.length >= 8) score++;
+    if (pwd.length >= 12) score++;
+    if (/[A-Z]/.test(pwd) && /[a-z]/.test(pwd)) score++;
+    if (/\d/.test(pwd)) score++;
+    if (/[^A-Za-z0-9]/.test(pwd)) score++;
+    if (score <= 2) return { score, label: 'Слабый', cls: 'weak' };
+    if (score === 3) return { score, label: 'Средний', cls: 'medium' };
+    return { score, label: 'Надёжный', cls: 'strong' };
+  });
 
   // Stats
   upcomingCount = computed(() =>
@@ -190,7 +224,54 @@ export class ProfileComponent {
   }
 
   changePassword(): void {
-    alert('Откроется окно смены пароля');
+    this.currentPassword.set('');
+    this.newPassword.set('');
+    this.confirmPassword.set('');
+    this.showCurrentPassword.set(false);
+    this.showNewPassword.set(false);
+    this.showConfirmPassword.set(false);
+    this.passwordError.set('');
+    this.passwordSaved.set(false);
+    this.showPasswordModal.set(true);
+  }
+
+  closePasswordModal(): void {
+    if (this.passwordSaving()) return;
+    this.showPasswordModal.set(false);
+  }
+
+  submitPasswordChange(): void {
+    const current = this.currentPassword();
+    const next = this.newPassword();
+    const confirm = this.confirmPassword();
+
+    if (!current) {
+      this.passwordError.set('Введите текущий пароль');
+      return;
+    }
+    if (next.length < 8) {
+      this.passwordError.set('Новый пароль должен содержать минимум 8 символов');
+      return;
+    }
+    if (next === current) {
+      this.passwordError.set('Новый пароль должен отличаться от текущего');
+      return;
+    }
+    if (next !== confirm) {
+      this.passwordError.set('Пароли не совпадают');
+      return;
+    }
+
+    this.passwordError.set('');
+    this.passwordSaving.set(true);
+
+    setTimeout(() => {
+      this.passwordSaving.set(false);
+      this.passwordSaved.set(true);
+      setTimeout(() => {
+        this.showPasswordModal.set(false);
+      }, 1200);
+    }, 800);
   }
 
   logoutAllDevices(): void {
