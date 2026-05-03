@@ -2,7 +2,7 @@ import { Component, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LucideAngularModule, Loader2 } from 'lucide-angular';
+import { LucideAngularModule, Loader2, ArrowLeft } from 'lucide-angular';
 import { AuthService } from '../core/services/auth.service';
 
 type AuthMethod = 'phone' | 'login';
@@ -16,6 +16,7 @@ type AuthMethod = 'phone' | 'login';
 })
 export class LoginComponent {
   readonly Loader2 = Loader2;
+  readonly ArrowLeft = ArrowLeft;
 
   authMethod = signal<AuthMethod>('phone');
 
@@ -134,6 +135,10 @@ export class LoginComponent {
     } finally {
       this.otpVerifying.set(false);
     }
+  }
+
+  goHome(): void {
+    this.router.navigate(['/']);
   }
 
   // ---- Login tab ----
