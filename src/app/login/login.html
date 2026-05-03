@@ -5,56 +5,166 @@
       <p>Войдите в свой личный кабинет</p>
     </div>
 
-    <form (ngSubmit)="onSubmit()" class="login-form">
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input
-          type="email"
-          id="email"
-          [value]="email()"
-          (input)="email.set($any($event.target).value)"
-          placeholder="admin@clinic.com"
-          required
-          autocomplete="email"
-        />
-      </div>
+    <div class="auth-tabs" role="tablist">
+      <button
+        type="button"
+        class="auth-tab"
+        [class.active]="authMethod() === 'phone'"
+        (click)="setMethod('phone')"
+        role="tab"
+        [attr.aria-selected]="authMethod() === 'phone'"
+      >Телефон</button>
+      <button
+        type="button"
+        class="auth-tab"
+        [class.active]="authMethod() === 'login'"
+        (click)="setMethod('login')"
+        role="tab"
+        [attr.aria-selected]="authMethod() === 'login'"
+      >Логин</button>
+    </div>
 
-      <div class="form-group">
-        <label for="password">Пароль</label>
-        <input
-          type="password"
-          id="password"
-          [value]="password()"
-          (input)="password.set($any($event.target).value)"
-          placeholder="••••••••"
-          required
-          autocomplete="current-password"
-        />
-      </div>
+    @if (authMethod() === 'phone') {
+      @if (!otpSent()) {
+        <form (ngSubmit)="requestOtp()" class="login-form">
+          <div class="form-group">
+            <label for="phone">Номер телефона</label>
+            <div class="phone-input">
+              <span class="phone-prefix">+992</span>
+              <input
+                type="tel"
+                id="phone"
+                inputmode="numeric"
+                [value]="formattedPhone()"
+                (input)="onPhoneInput($any($event.target).value)"
+                placeholder="92 123 45 67"
+                autocomplete="tel-national"
+                maxlength="12"
+              />
+            </div>
+          </div>
 
-      @if (errorMessage()) {
-        <div class="error-message">
-          {{ errorMessage() }}
-        </div>
+          @if (errorMessage()) {
+            <div class="error-message">{{ errorMessage() }}</div>
+          }
+
+          <button
+            type="submit"
+            class="login-btn"
+            [disabled]="otpRequesting() || !isPhoneValid()"
+          >
+            @if (otpRequesting()) {
+              <span>Отправка кода...</span>
+            } @else {
+              <span>Получить код</span>
+            }
+          </button>
+
+          <div class="help-text">
+            <p>На указанный номер придёт SMS с кодом подтверждения.</p>
+          </div>
+        </form>
+      } @else {
+        <form (ngSubmit)="verifyOtp()" class="login-form">
+          <div class="otp-info">
+            <p>Код отправлен на номер</p>
+            <div class="otp-phone-row">
+              <strong>+992 {{ formattedPhone() }}</strong>
+              <button type="button" class="link-btn" (click)="changePhone()">Изменить</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="otp">Код из SMS</label>
+            <input
+              type="text"
+              id="otp"
+              inputmode="numeric"
+              class="otp-input"
+              [value]="otp()"
+              (input)="onOtpInput($any($event.target).value)"
+              placeholder="000000"
+              autocomplete="one-time-code"
+              maxlength="6"
+            />
+          </div>
+
+          @if (errorMessage()) {
+            <div class="error-message">{{ errorMessage() }}</div>
+          }
+
+          <button
+            type="submit"
+            class="login-btn"
+            [disabled]="otpVerifying() || !isOtpValid()"
+          >
+            @if (otpVerifying()) {
+              <span>Проверка...</span>
+            } @else {
+              <span>Войти</span>
+            }
+          </button>
+
+          <button
+            type="button"
+            class="resend-btn"
+            (click)="resendOtp()"
+            [disabled]="resendCooldown() > 0 || otpRequesting()"
+          >
+            @if (resendCooldown() > 0) {
+              <span>Отправить код повторно через {{ resendCooldown() }}с</span>
+            } @else {
+              <span>Отправить код повторно</span>
+            }
+          </button>
+        </form>
       }
+    } @else {
+      <form (ngSubmit)="onSubmit()" class="login-form">
+        <div class="form-group">
+          <label for="login">Логин</label>
+          <input
+            type="text"
+            id="login"
+            [value]="login()"
+            (input)="login.set($any($event.target).value)"
+            placeholder="Введите логин"
+            required
+            autocomplete="username"
+          />
+        </div>
 
-      <button type="button" class="forgot-password-btn" (click)="onForgotPassword()">
-        Забыли пароль?
-      </button>
+        <div class="form-group">
+          <label for="password">Пароль</label>
+          <input
+            type="password"
+            id="password"
+            [value]="password()"
+            (input)="password.set($any($event.target).value)"
+            placeholder="••••••••"
+            required
+            autocomplete="current-password"
+          />
+        </div>
 
-      <button type="submit" class="login-btn" [disabled]="isLoading()">
-        @if (isLoading()) {
-          <span>Вход...</span>
-        } @else {
-          <span>Войти</span>
+        @if (errorMessage()) {
+          <div class="error-message">{{ errorMessage() }}</div>
         }
-      </button>
 
-      <div class="help-text">
-        <p>Для тестирования используйте:</p>
-        <p><strong>Email:</strong> admin@clinic.com</p>
-        <p><strong>Пароль:</strong> admin</p>
-      </div>
-    </form>
+        <button type="submit" class="login-btn" [disabled]="isLoading() || !isCredentialsValid()">
+          @if (isLoading()) {
+            <span>Вход...</span>
+          } @else {
+            <span>Войти</span>
+          }
+        </button>
+
+        <div class="help-text">
+          <p>Для тестирования используйте:</p>
+          <p><strong>Логин:</strong> admin&#64;clinic.com</p>
+          <p><strong>Пароль:</strong> admin</p>
+        </div>
+      </form>
+    }
   </div>
 </div>
