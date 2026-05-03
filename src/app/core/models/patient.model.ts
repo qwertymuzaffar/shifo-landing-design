@@ -5,6 +5,8 @@ export interface Patient {
   first_name: string;
   last_name: string;
   date_of_birth?: string;
+  gender?: 'male' | 'female';
+  avatar?: string;
   created_at: string;
   updated_at: string;
 }

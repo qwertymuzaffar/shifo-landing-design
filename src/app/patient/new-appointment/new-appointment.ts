@@ -15,7 +15,10 @@ import {
   ChevronRight,
   Pencil,
   Sparkles,
-  Loader2
+  Loader2,
+  CheckCircle2,
+  CalendarPlus,
+  ListChecks
 } from 'lucide-angular';
 
 interface Doctor {
@@ -53,6 +56,9 @@ export class NewAppointmentComponent implements OnInit {
   readonly Pencil = Pencil;
   readonly Sparkles = Sparkles;
   readonly Loader2 = Loader2;
+  readonly CheckCircle2 = CheckCircle2;
+  readonly CalendarPlus = CalendarPlus;
+  readonly ListChecks = ListChecks;
 
   clinics = signal<Clinic[]>([]);
   doctors = signal<Doctor[]>([]);
@@ -72,6 +78,7 @@ export class NewAppointmentComponent implements OnInit {
   calendarDays = computed(() => this.generateCalendarDays());
 
   isLoading = signal(false);
+  showSuccessModal = signal(false);
 
   selectedClinicData = computed(() =>
     this.clinics().find(c => c.id === this.selectedClinic())
@@ -371,9 +378,25 @@ export class NewAppointmentComponent implements OnInit {
     this.isLoading.set(true);
 
     setTimeout(() => {
-      alert('Запись успешно создана!');
-      this.router.navigate(['/patient/appointments']);
+      this.isLoading.set(false);
+      this.showSuccessModal.set(true);
     }, 1000);
+  }
+
+  goToAppointments(): void {
+    this.showSuccessModal.set(false);
+    this.router.navigate(['/patient/appointments']);
+  }
+
+  createAnother(): void {
+    this.showSuccessModal.set(false);
+    this.selectedDoctor.set('');
+    this.selectedDate.set('');
+    this.selectedTime.set('');
+    this.notes.set('');
+    this.showNotes.set(false);
+    this.editingStep.set('doctor');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   goBack(): void {

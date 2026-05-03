@@ -246,3 +246,58 @@
     }
   </form>
 </div>
+
+@if (showSuccessModal()) {
+  <div class="success-modal-overlay">
+    <div class="success-modal-card" role="dialog" aria-modal="true" aria-labelledby="successModalTitle">
+      <div class="success-icon-wrap">
+        <div class="success-ring"></div>
+        <div class="success-icon">
+          <lucide-angular [img]="CheckCircle2" [size]="40"></lucide-angular>
+        </div>
+      </div>
+
+      <h3 id="successModalTitle">Запись успешно создана!</h3>
+      <p class="success-subtitle">Мы отправим вам напоминание накануне визита.</p>
+
+      <div class="success-summary">
+        @if (selectedDoctorData(); as doc) {
+          <div class="success-row">
+            <div class="success-row-icon"><lucide-angular [img]="Stethoscope" [size]="16"></lucide-angular></div>
+            <div class="success-row-text">
+              <span class="success-row-label">Врач</span>
+              <span class="success-row-value">{{ doc.name }} — {{ doc.specialization }}</span>
+            </div>
+          </div>
+        }
+        @if (selectedClinicData(); as clinic) {
+          <div class="success-row">
+            <div class="success-row-icon"><lucide-angular [img]="MapPin" [size]="16"></lucide-angular></div>
+            <div class="success-row-text">
+              <span class="success-row-label">Клиника</span>
+              <span class="success-row-value">{{ clinic.name }}</span>
+            </div>
+          </div>
+        }
+        <div class="success-row">
+          <div class="success-row-icon"><lucide-angular [img]="Calendar" [size]="16"></lucide-angular></div>
+          <div class="success-row-text">
+            <span class="success-row-label">Дата и время</span>
+            <span class="success-row-value">{{ formatSelectedDate() }} в {{ selectedTime() }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="success-actions">
+        <button type="button" class="btn-success-secondary" (click)="createAnother()">
+          <lucide-angular [img]="CalendarPlus" [size]="16"></lucide-angular>
+          <span>Создать ещё одну</span>
+        </button>
+        <button type="button" class="btn-success-primary" (click)="goToAppointments()">
+          <lucide-angular [img]="ListChecks" [size]="16"></lucide-angular>
+          <span>Перейти к моим записям</span>
+        </button>
+      </div>
+    </div>
+  </div>
+}

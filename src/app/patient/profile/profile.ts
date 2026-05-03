@@ -1,6 +1,7 @@
-import { Component, signal, computed, inject } from '@angular/core';
+import { Component, signal, computed, inject, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { AppointmentsService } from '../../core/services/appointments.service';
 import {
@@ -31,7 +32,9 @@ import {
   Eye,
   EyeOff,
   KeyRound,
-  ShieldCheck
+  ShieldCheck,
+  CheckCircle2,
+  AlertOctagon
 } from 'lucide-angular';
 
 type EditableSection = 'personal' | 'medical' | 'emergency';
@@ -46,6 +49,9 @@ type EditableSection = 'personal' | 'medical' | 'emergency';
 export class ProfileComponent {
   private authService = inject(AuthService);
   private appointmentsService = inject(AppointmentsService);
+  private router = inject(Router);
+
+  @ViewChild('photoInput') photoInput?: ElementRef<HTMLInputElement>;
 
   readonly Camera = Camera;
   readonly CalendarCheck = CalendarCheck;
@@ -74,6 +80,8 @@ export class ProfileComponent {
   readonly EyeOff = EyeOff;
   readonly KeyRound = KeyRound;
   readonly ShieldCheck = ShieldCheck;
+  readonly CheckCircle2 = CheckCircle2;
+  readonly AlertOctagon = AlertOctagon;
 
   currentPatient = this.authService.currentPatient;
   editingSection = signal<EditableSection | null>(null);
@@ -109,6 +117,24 @@ export class ProfileComponent {
   passwordError = signal('');
   passwordSaving = signal(false);
   passwordSaved = signal(false);
+
+  // Inline saved-feedback per section
+  savedSection = signal<EditableSection | null>(null);
+  private savedTimer: ReturnType<typeof setTimeout> | null = null;
+
+  // Avatar
+  avatar = signal<string | null>(null);
+
+  // Logout-all sessions modal
+  showLogoutAllModal = signal(false);
+  logoutAllSubmitting = signal(false);
+  logoutAllDone = signal(false);
+
+  // Delete-account modal
+  showDeleteAccountModal = signal(false);
+  deleteConfirmText = signal('');
+  deleteSubmitting = signal(false);
+  deleteError = signal('');
 
   passwordStrength = computed<{ score: number; label: string; cls: string }>(() => {
     const pwd = this.newPassword();
@@ -149,6 +175,8 @@ export class ProfileComponent {
       this.email.set(patient.email);
       this.phone.set(patient.phone);
       this.dateOfBirth.set(patient.date_of_birth || '');
+      if (patient.gender) this.gender.set(patient.gender);
+      this.avatar.set(patient.avatar || null);
     }
   }
 
@@ -175,7 +203,25 @@ export class ProfileComponent {
   }
 
   save(section: EditableSection): void {
+    if (section === 'personal') {
+      this.authService.updatePatient({
+        first_name: this.firstName().trim(),
+        last_name: this.lastName().trim(),
+        email: this.email().trim(),
+        phone: this.phone().trim(),
+        date_of_birth: this.dateOfBirth() || undefined,
+        gender: this.gender() || undefined
+      });
+    }
+    // Medical and emergency stay in component signals (no backend field yet)
     this.editingSection.set(null);
+    this.flashSaved(section);
+  }
+
+  private flashSaved(section: EditableSection): void {
+    if (this.savedTimer) clearTimeout(this.savedTimer);
+    this.savedSection.set(section);
+    this.savedTimer = setTimeout(() => this.savedSection.set(null), 2400);
   }
 
   initials(): string {
@@ -275,14 +321,87 @@ export class ProfileComponent {
   }
 
   logoutAllDevices(): void {
-    if (confirm('Завершить все сеансы на других устройствах?')) {
-      alert('Все сеансы завершены');
-    }
+    this.logoutAllDone.set(false);
+    this.showLogoutAllModal.set(true);
+  }
+
+  closeLogoutAllModal(): void {
+    if (this.logoutAllSubmitting()) return;
+    this.showLogoutAllModal.set(false);
+  }
+
+  confirmLogoutAll(): void {
+    this.logoutAllSubmitting.set(true);
+    setTimeout(() => {
+      this.logoutAllSubmitting.set(false);
+      this.logoutAllDone.set(true);
+      setTimeout(() => this.showLogoutAllModal.set(false), 1400);
+    }, 700);
   }
 
   deleteAccount(): void {
-    if (confirm('Это действие необратимо. Продолжить?')) {
-      alert('Запрос на удаление аккаунта отправлен');
+    this.deleteConfirmText.set('');
+    this.deleteError.set('');
+    this.showDeleteAccountModal.set(true);
+  }
+
+  closeDeleteAccountModal(): void {
+    if (this.deleteSubmitting()) return;
+    this.showDeleteAccountModal.set(false);
+  }
+
+  confirmDeleteAccount(): void {
+    if (this.deleteConfirmText().trim().toUpperCase() !== 'УДАЛИТЬ') {
+      this.deleteError.set('Введите УДАЛИТЬ для подтверждения');
+      return;
     }
+    this.deleteError.set('');
+    this.deleteSubmitting.set(true);
+    setTimeout(() => {
+      this.deleteSubmitting.set(false);
+      this.showDeleteAccountModal.set(false);
+      this.authService.logout();
+    }, 900);
+  }
+
+  // Avatar upload
+  triggerPhotoUpload(): void {
+    this.photoInput?.nativeElement.click();
+  }
+
+  onPhotoSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      input.value = '';
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      input.value = '';
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      const dataUrl = reader.result as string;
+      this.avatar.set(dataUrl);
+      this.authService.updatePatient({ avatar: dataUrl });
+      input.value = '';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  removePhoto(): void {
+    this.avatar.set(null);
+    this.authService.updatePatient({ avatar: undefined });
+  }
+
+  // Stat-card navigation
+  goToTab(tab: 'upcoming' | 'past' | 'cancelled'): void {
+    this.router.navigate(['/patient/appointments'], { queryParams: { tab } });
+  }
+
+  goToDocuments(): void {
+    this.router.navigate(['/patient/documents']);
   }
 }

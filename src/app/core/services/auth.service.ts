@@ -54,6 +54,43 @@ export class AuthService {
     return this.currentPatient() !== null;
   }
 
+  async loginByPhone(phone: string, otp: string): Promise<boolean> {
+    // Demo: accept any 6-digit code
+    if (!/^\d{6}$/.test(otp)) return false;
+
+    const patient: Patient = {
+      id: '1',
+      email: '',
+      phone,
+      first_name: 'Пациент',
+      last_name: '',
+      date_of_birth: '',
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    };
+
+    this.currentPatientSignal.set(patient);
+
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('currentPatient', JSON.stringify(patient));
+    }
+    return true;
+  }
+
+  updatePatient(updates: Partial<Patient>): void {
+    const current = this.currentPatientSignal();
+    if (!current) return;
+    const updated: Patient = {
+      ...current,
+      ...updates,
+      updated_at: new Date().toISOString()
+    };
+    this.currentPatientSignal.set(updated);
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('currentPatient', JSON.stringify(updated));
+    }
+  }
+
   private loadPatientFromStorage(): void {
     if (!isPlatformBrowser(this.platformId)) {
       return;

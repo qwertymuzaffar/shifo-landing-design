@@ -7,12 +7,28 @@
   <!-- Identity card -->
   <div class="identity-card">
     <div class="avatar-wrapper">
-      <div class="avatar">
-        <span class="avatar-text">{{ initials() }}</span>
+      <div class="avatar" [class.has-photo]="avatar()">
+        @if (avatar(); as src) {
+          <img [src]="src" alt="Аватар" />
+        } @else {
+          <span class="avatar-text">{{ initials() }}</span>
+        }
       </div>
-      <button class="avatar-edit-btn" title="Изменить фото" type="button">
+      <button class="avatar-edit-btn" title="Изменить фото" type="button" (click)="triggerPhotoUpload()">
         <lucide-angular [img]="Camera" [size]="14"></lucide-angular>
       </button>
+      @if (avatar()) {
+        <button class="avatar-remove-btn" title="Удалить фото" type="button" (click)="removePhoto()">
+          <lucide-angular [img]="X" [size]="12"></lucide-angular>
+        </button>
+      }
+      <input
+        #photoInput
+        type="file"
+        accept="image/*"
+        hidden
+        (change)="onPhotoSelected($event)"
+      />
     </div>
     <div class="identity-info">
       <h2>{{ firstName() }} {{ lastName() }}</h2>
@@ -28,34 +44,34 @@
 
   <!-- Stats strip -->
   <div class="stats-strip">
-    <div class="stat-card">
+    <button type="button" class="stat-card" (click)="goToTab('upcoming')">
       <div class="stat-icon up"><lucide-angular [img]="CalendarClock" [size]="18"></lucide-angular></div>
       <div class="stat-text">
         <span class="stat-value">{{ upcomingCount() }}</span>
         <span class="stat-label">Предстоящих</span>
       </div>
-    </div>
-    <div class="stat-card">
+    </button>
+    <button type="button" class="stat-card" (click)="goToTab('past')">
       <div class="stat-icon done"><lucide-angular [img]="CalendarCheck" [size]="18"></lucide-angular></div>
       <div class="stat-text">
         <span class="stat-value">{{ completedCount() }}</span>
         <span class="stat-label">Завершённых</span>
       </div>
-    </div>
-    <div class="stat-card">
+    </button>
+    <button type="button" class="stat-card" (click)="goToTab('cancelled')">
       <div class="stat-icon canc"><lucide-angular [img]="CalendarX" [size]="18"></lucide-angular></div>
       <div class="stat-text">
         <span class="stat-value">{{ cancelledCount() }}</span>
         <span class="stat-label">Отменённых</span>
       </div>
-    </div>
-    <div class="stat-card">
+    </button>
+    <button type="button" class="stat-card" (click)="goToDocuments()">
       <div class="stat-icon docs"><lucide-angular [img]="FileText" [size]="18"></lucide-angular></div>
       <div class="stat-text">
         <span class="stat-value">{{ documentsCount() }}</span>
         <span class="stat-label">Документов</span>
       </div>
-    </div>
+    </button>
   </div>
 
   <!-- Personal info -->
@@ -64,6 +80,12 @@
       <div class="card-title">
         <div class="card-title-icon"><lucide-angular [img]="User" [size]="18"></lucide-angular></div>
         <h3>Личная информация</h3>
+        @if (savedSection() === 'personal') {
+          <span class="saved-badge">
+            <lucide-angular [img]="Check" [size]="12"></lucide-angular>
+            <span>Сохранено</span>
+          </span>
+        }
       </div>
       @if (!isEditing('personal')) {
         <button class="btn-edit" type="button" (click)="startEdit('personal')">
@@ -135,6 +157,12 @@
       <div class="card-title">
         <div class="card-title-icon medical"><lucide-angular [img]="HeartPulse" [size]="18"></lucide-angular></div>
         <h3>Медицинская карта</h3>
+        @if (savedSection() === 'medical') {
+          <span class="saved-badge">
+            <lucide-angular [img]="Check" [size]="12"></lucide-angular>
+            <span>Сохранено</span>
+          </span>
+        }
       </div>
       @if (!isEditing('medical')) {
         <button class="btn-edit" type="button" (click)="startEdit('medical')">
@@ -253,6 +281,12 @@
       <div class="card-title">
         <div class="card-title-icon emergency"><lucide-angular [img]="ShieldAlert" [size]="18"></lucide-angular></div>
         <h3>Экстренный контакт</h3>
+        @if (savedSection() === 'emergency') {
+          <span class="saved-badge">
+            <lucide-angular [img]="Check" [size]="12"></lucide-angular>
+            <span>Сохранено</span>
+          </span>
+        }
       </div>
       @if (!isEditing('emergency')) {
         <button class="btn-edit" type="button" (click)="startEdit('emergency')">
@@ -432,6 +466,108 @@
           </button>
         </footer>
       }
+    </div>
+  </div>
+}
+
+<!-- Logout-all-devices modal -->
+@if (showLogoutAllModal()) {
+  <div class="modal-overlay" (click)="closeLogoutAllModal()">
+    <div class="modal-card" (click)="$event.stopPropagation()" role="dialog" aria-modal="true">
+      @if (logoutAllDone()) {
+        <div class="modal-success">
+          <div class="success-icon">
+            <lucide-angular [img]="CheckCircle2" [size]="32"></lucide-angular>
+          </div>
+          <h3>Сеансы завершены</h3>
+          <p>Все другие устройства были отключены от вашего аккаунта.</p>
+        </div>
+      } @else {
+        <header class="modal-header">
+          <div class="modal-title">
+            <div class="modal-title-icon"><lucide-angular [img]="LogOut" [size]="18"></lucide-angular></div>
+            <h3>Завершить все сеансы?</h3>
+          </div>
+          <button type="button" class="modal-close" (click)="closeLogoutAllModal()" aria-label="Закрыть">
+            <lucide-angular [img]="X" [size]="18"></lucide-angular>
+          </button>
+        </header>
+        <div class="modal-body">
+          <p class="modal-message">
+            Вы будете отключены на всех других устройствах, кроме текущего. На этом устройстве сеанс сохранится.
+          </p>
+        </div>
+        <footer class="modal-footer">
+          <button type="button" class="btn-cancel" (click)="closeLogoutAllModal()" [disabled]="logoutAllSubmitting()">
+            <span>Отмена</span>
+          </button>
+          <button type="button" class="btn-save" (click)="confirmLogoutAll()" [disabled]="logoutAllSubmitting()">
+            @if (logoutAllSubmitting()) {
+              <span>Завершение...</span>
+            } @else {
+              <lucide-angular [img]="LogOut" [size]="16"></lucide-angular>
+              <span>Завершить сеансы</span>
+            }
+          </button>
+        </footer>
+      }
+    </div>
+  </div>
+}
+
+<!-- Delete-account modal -->
+@if (showDeleteAccountModal()) {
+  <div class="modal-overlay" (click)="closeDeleteAccountModal()">
+    <div class="modal-card" (click)="$event.stopPropagation()" role="dialog" aria-modal="true">
+      <header class="modal-header">
+        <div class="modal-title">
+          <div class="modal-title-icon danger"><lucide-angular [img]="AlertOctagon" [size]="18"></lucide-angular></div>
+          <h3>Удалить аккаунт?</h3>
+        </div>
+        <button type="button" class="modal-close" (click)="closeDeleteAccountModal()" aria-label="Закрыть">
+          <lucide-angular [img]="X" [size]="18"></lucide-angular>
+        </button>
+      </header>
+      <div class="modal-body">
+        <div class="danger-block">
+          <lucide-angular [img]="AlertTriangle" [size]="16"></lucide-angular>
+          <div>
+            <strong>Это действие нельзя отменить.</strong>
+            <p>Все ваши данные, записи и медицинская карта будут удалены без возможности восстановления.</p>
+          </div>
+        </div>
+        <div class="pwd-field">
+          <label>Для подтверждения введите <code>УДАЛИТЬ</code></label>
+          <div class="pwd-input">
+            <input
+              type="text"
+              [value]="deleteConfirmText()"
+              (input)="deleteConfirmText.set($any($event.target).value); deleteError.set('')"
+              placeholder="УДАЛИТЬ"
+              autocomplete="off"
+            />
+          </div>
+        </div>
+        @if (deleteError()) {
+          <div class="pwd-error">
+            <lucide-angular [img]="AlertTriangle" [size]="14"></lucide-angular>
+            <span>{{ deleteError() }}</span>
+          </div>
+        }
+      </div>
+      <footer class="modal-footer">
+        <button type="button" class="btn-cancel" (click)="closeDeleteAccountModal()" [disabled]="deleteSubmitting()">
+          <span>Отмена</span>
+        </button>
+        <button type="button" class="btn-delete" (click)="confirmDeleteAccount()" [disabled]="deleteSubmitting()">
+          @if (deleteSubmitting()) {
+            <span>Удаление...</span>
+          } @else {
+            <lucide-angular [img]="Trash2" [size]="16"></lucide-angular>
+            <span>Удалить аккаунт</span>
+          }
+        </button>
+      </footer>
     </div>
   </div>
 }

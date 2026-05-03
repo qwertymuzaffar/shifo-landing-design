@@ -154,6 +154,11 @@ export class AppointmentsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    const tabParam = this.route.snapshot.queryParamMap.get('tab');
+    if (tabParam === 'upcoming' || tabParam === 'past' || tabParam === 'cancelled') {
+      this.selectedTab.set(tabParam);
+    }
+
     const highlightId = this.route.snapshot.queryParamMap.get('highlight');
     if (highlightId) {
       const target = this.appointmentsService.getById(highlightId);
