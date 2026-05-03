@@ -2,6 +2,7 @@ import { Component, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LucideAngularModule, Loader2 } from 'lucide-angular';
 import { AuthService } from '../core/services/auth.service';
 
 type AuthMethod = 'phone' | 'login';
@@ -9,11 +10,13 @@ type AuthMethod = 'phone' | 'login';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, LucideAngularModule],
   templateUrl: './login.html',
   styleUrls: ['./login.scss']
 })
 export class LoginComponent {
+  readonly Loader2 = Loader2;
+
   authMethod = signal<AuthMethod>('phone');
 
   // Phone tab

@@ -54,6 +54,7 @@
             [disabled]="otpRequesting() || !isPhoneValid()"
           >
             @if (otpRequesting()) {
+              <lucide-angular class="spin" [img]="Loader2" [size]="16"></lucide-angular>
               <span>Отправка кода...</span>
             } @else {
               <span>Получить код</span>
@@ -99,6 +100,7 @@
             [disabled]="otpVerifying() || !isOtpValid()"
           >
             @if (otpVerifying()) {
+              <lucide-angular class="spin" [img]="Loader2" [size]="16"></lucide-angular>
               <span>Проверка...</span>
             } @else {
               <span>Войти</span>
@@ -153,6 +155,7 @@
 
         <button type="submit" class="login-btn" [disabled]="isLoading() || !isCredentialsValid()">
           @if (isLoading()) {
+            <lucide-angular class="spin" [img]="Loader2" [size]="16"></lucide-angular>
             <span>Вход...</span>
           } @else {
             <span>Войти</span>

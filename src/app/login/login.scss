@@ -241,6 +241,10 @@
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 
     &:hover:not(:disabled) {
       background: #0284c7;
@@ -249,6 +253,11 @@
     &:disabled {
       opacity: 0.6;
       cursor: not-allowed;
+    }
+
+    .spin {
+      animation: login-spin 0.9s linear infinite;
+      display: inline-flex;
     }
   }
 
@@ -268,4 +277,8 @@
       }
     }
   }
+}
+
+@keyframes login-spin {
+  to { transform: rotate(360deg); }
 }
