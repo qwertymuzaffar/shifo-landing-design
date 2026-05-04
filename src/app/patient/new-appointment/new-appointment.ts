@@ -208,6 +208,16 @@ export class NewAppointmentComponent implements OnInit {
     this.currentMonth.set(new Date(current.getFullYear(), current.getMonth() + 1, 1));
   }
 
+  goToCurrentMonth(): void {
+    this.currentMonth.set(new Date());
+  }
+
+  isCurrentMonth(): boolean {
+    const now = new Date();
+    const cur = this.currentMonth();
+    return cur.getFullYear() === now.getFullYear() && cur.getMonth() === now.getMonth();
+  }
+
   selectDate(day: {date: Date | null, isCurrentMonth: boolean, isPast: boolean}): void {
     if (!day.date || day.isPast || !this.selectedDoctor()) return;
 

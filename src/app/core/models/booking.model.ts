@@ -1,9 +1,10 @@
 export interface BookingRequest {
     clinic_id: string;
+    doctor_id?: string;
     date: string;
     time: string;
     name: string;
-    email: string;
+    email?: string;
     phone: string;
     notes?: string;
 }

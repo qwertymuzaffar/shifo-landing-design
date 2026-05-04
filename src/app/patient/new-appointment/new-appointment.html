@@ -122,7 +122,12 @@
               <button type="button" class="month-nav-btn" (click)="previousMonth()">
                 <lucide-angular [img]="ChevronLeft" [size]="18"></lucide-angular>
               </button>
-              <span class="month-label">{{ getMonthYearLabel() }}</span>
+              <div class="calendar-header-center">
+                <span class="month-label">{{ getMonthYearLabel() }}</span>
+                @if (!isCurrentMonth()) {
+                  <button type="button" class="today-btn" (click)="goToCurrentMonth()">Сегодня</button>
+                }
+              </div>
               <button type="button" class="month-nav-btn" (click)="nextMonth()">
                 <lucide-angular [img]="ChevronRight" [size]="18"></lucide-angular>
               </button>
