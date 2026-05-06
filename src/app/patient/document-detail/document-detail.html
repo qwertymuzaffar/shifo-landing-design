@@ -20,20 +20,22 @@
       </button>
     </div>
 
-    <!-- Preview placeholder -->
+    <!-- Preview -->
     <section class="preview-card">
-      <div class="preview-icon" [class]="'cat-' + d.category">
-        <lucide-angular [img]="iconFor(d.category)" [size]="56" [strokeWidth]="1.5"></lucide-angular>
-      </div>
-      <div class="preview-meta">
-        <span class="filename-big">{{ d.name }}</span>
-        <span class="filesize">{{ d.size }}</span>
-      </div>
-      <p class="preview-note">Превью PDF будет доступно после интеграции с хранилищем.<br/>Сейчас файл можно только скачать.</p>
-      <button type="button" class="btn-primary" (click)="download()">
-        <lucide-angular [img]="Download" [size]="16"></lucide-angular>
-        <span>Скачать файл</span>
-      </button>
+      <header class="preview-card-header">
+        <div class="preview-meta">
+          <span class="filename-big">{{ d.name }}</span>
+          <span class="filesize">{{ d.size }} · PDF</span>
+        </div>
+        <a class="preview-open-link" [href]="rawPreviewHref()" target="_blank" rel="noopener">
+          Открыть в новой вкладке
+        </a>
+      </header>
+      <iframe
+        class="preview-frame"
+        [src]="previewUrl()"
+        title="Preview document"
+      ></iframe>
     </section>
 
     <!-- Metadata -->

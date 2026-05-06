@@ -114,4 +114,17 @@ export class DocumentsService {
   forAppointment(appointmentId: string): PatientDocument[] {
     return this._documents().filter(d => d.appointment.id === appointmentId);
   }
+
+  /**
+   * Returns the URL of a sample PDF for previewing this document.
+   * In production this would map to the real file URL from storage.
+   */
+  previewUrlFor(doc: PatientDocument): string {
+    const map: Record<DocumentCategory, string> = {
+      tests:   'assets/documents/sample-test.pdf',
+      imaging: 'assets/documents/sample-imaging.pdf',
+      reports: 'assets/documents/sample-report.pdf'
+    };
+    return map[doc.category];
+  }
 }

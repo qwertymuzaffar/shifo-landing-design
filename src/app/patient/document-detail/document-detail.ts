@@ -1,6 +1,7 @@
 import { Component, OnInit, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import {
   LucideAngularModule,
   ArrowLeft,
@@ -42,6 +43,7 @@ export class DocumentDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private documentsService = inject(DocumentsService);
+  private sanitizer = inject(DomSanitizer);
 
   documentId = signal<string>('');
 
@@ -50,6 +52,19 @@ export class DocumentDetailComponent implements OnInit {
     if (!id) return null;
     return this.documentsService.getById(id) ?? null;
   });
+
+  previewUrl = computed<SafeResourceUrl | null>(() => {
+    const d = this.document();
+    if (!d) return null;
+    const raw = this.documentsService.previewUrlFor(d);
+    // #toolbar=0&navpanes=0 hides the built-in PDF UI on Chromium for a cleaner embed
+    return this.sanitizer.bypassSecurityTrustResourceUrl(`${raw}#toolbar=0&navpanes=0`);
+  });
+
+  rawPreviewHref(): string {
+    const d = this.document();
+    return d ? this.documentsService.previewUrlFor(d) : '';
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id') || '';
@@ -63,7 +78,14 @@ export class DocumentDetailComponent implements OnInit {
   download(): void {
     const d = this.document();
     if (!d) return;
-    alert(`Скачивание документа: ${d.name}`);
+    const url = this.documentsService.previewUrlFor(d);
+    const a = window.document.createElement('a');
+    a.href = url;
+    a.download = d.name;
+    a.target = '_blank';
+    window.document.body.appendChild(a);
+    a.click();
+    window.document.body.removeChild(a);
   }
 
   formatDate(dateStr: string): string {
