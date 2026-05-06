@@ -1,0 +1,100 @@
+<div class="doc-detail-container">
+  <button type="button" class="back-btn" (click)="goBack()">
+    <lucide-angular [img]="ArrowLeft" [size]="16"></lucide-angular>
+    <span>К документам</span>
+  </button>
+
+  @if (document(); as d) {
+    <div class="page-header">
+      <div class="header-left">
+        <span class="category-pill" [class]="'cat-' + d.category">
+          <lucide-angular [img]="iconFor(d.category)" [size]="12"></lucide-angular>
+          <span>{{ categoryLabel(d.category) }}</span>
+        </span>
+        <h1>{{ d.type }}</h1>
+        <p class="filename">{{ d.name }}</p>
+      </div>
+      <button type="button" class="btn-primary" (click)="download()">
+        <lucide-angular [img]="Download" [size]="16"></lucide-angular>
+        <span>Скачать</span>
+      </button>
+    </div>
+
+    <!-- Preview placeholder -->
+    <section class="preview-card">
+      <div class="preview-icon" [class]="'cat-' + d.category">
+        <lucide-angular [img]="iconFor(d.category)" [size]="56" [strokeWidth]="1.5"></lucide-angular>
+      </div>
+      <div class="preview-meta">
+        <span class="filename-big">{{ d.name }}</span>
+        <span class="filesize">{{ d.size }}</span>
+      </div>
+      <p class="preview-note">Превью PDF будет доступно после интеграции с хранилищем.<br/>Сейчас файл можно только скачать.</p>
+      <button type="button" class="btn-primary" (click)="download()">
+        <lucide-angular [img]="Download" [size]="16"></lucide-angular>
+        <span>Скачать файл</span>
+      </button>
+    </section>
+
+    <!-- Metadata -->
+    <section class="meta-card">
+      <h2>Сведения о документе</h2>
+      <div class="meta-grid">
+        <div class="info-row">
+          <div class="info-row-icon"><lucide-angular [img]="Tag" [size]="18"></lucide-angular></div>
+          <div class="info-row-text">
+            <span class="info-row-label">Категория</span>
+            <span class="info-row-value">{{ categoryLabel(d.category) }}</span>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-row-icon"><lucide-angular [img]="Calendar" [size]="18"></lucide-angular></div>
+          <div class="info-row-text">
+            <span class="info-row-label">Дата документа</span>
+            <span class="info-row-value">{{ formatDate(d.date) }}</span>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-row-icon"><lucide-angular [img]="HardDrive" [size]="18"></lucide-angular></div>
+          <div class="info-row-text">
+            <span class="info-row-label">Размер</span>
+            <span class="info-row-value">{{ d.size }}</span>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-row-icon"><lucide-angular [img]="FileText" [size]="18"></lucide-angular></div>
+          <div class="info-row-text">
+            <span class="info-row-label">Имя файла</span>
+            <span class="info-row-value file-name-mono">{{ d.name }}</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Source appointment link -->
+    <a class="source-card" [routerLink]="['/patient/appointments', d.appointment.id]">
+      <div class="source-icon"><lucide-angular [img]="Stethoscope" [size]="18"></lucide-angular></div>
+      <div class="source-info">
+        <span class="info-row-label">Связанная запись</span>
+        <span class="source-value">
+          {{ d.appointment.doctor }}
+          <span class="source-meta">· {{ d.appointment.specialization }} · {{ formatShortDate(d.appointment.date) }}</span>
+        </span>
+      </div>
+      <lucide-angular [img]="ChevronRight" [size]="18" class="source-chevron"></lucide-angular>
+    </a>
+
+  } @else {
+    <div class="not-found">
+      <div class="not-found-icon">
+        <lucide-angular [img]="AlertTriangle" [size]="36"></lucide-angular>
+      </div>
+      <h2>Документ не найден</h2>
+      <p>Возможно, он был удалён или вы перешли по неверной ссылке.</p>
+      <button type="button" class="btn-secondary" (click)="goBack()">
+        <lucide-angular [img]="ArrowLeft" [size]="16"></lucide-angular>
+        <span>Назад к документам</span>
+      </button>
+    </div>
+  }
+</div>

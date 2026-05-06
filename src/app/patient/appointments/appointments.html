@@ -116,11 +116,12 @@
     } @else {
     <div class="appointments-list">
       @for (appointment of displayedAppointments(); track appointment.id) {
-        <div
+        <a
           class="appointment-item"
           [class]="'status-' + appointment.status"
           [class.highlighted]="highlightedId() === appointment.id"
           [attr.data-appointment-id]="appointment.id"
+          [routerLink]="['/patient/appointments', appointment.id]"
         >
           <div class="appointment-status-indicator"></div>
 
@@ -176,14 +177,18 @@
 
             @if (appointment.status === 'pending' || appointment.status === 'confirmed') {
               <div class="appointment-actions">
-                <button class="btn-cancel" (click)="cancelAppointment(appointment.id)">
+                <button
+                  class="btn-cancel"
+                  type="button"
+                  (click)="cancelAppointment(appointment.id); $event.preventDefault(); $event.stopPropagation()"
+                >
                   <lucide-angular [img]="XCircle" [size]="18"></lucide-angular>
                   <span>Отменить запись</span>
                 </button>
               </div>
             }
           </div>
-        </div>
+        </a>
       }
     </div>
     @if (hasMore()) {

@@ -1,0 +1,208 @@
+<div class="detail-container">
+  <button type="button" class="back-btn" (click)="goBack()">
+    <lucide-angular [img]="ArrowLeft" [size]="16"></lucide-angular>
+    <span>К моим записям</span>
+  </button>
+
+  @if (appointment(); as a) {
+    <div class="page-header">
+      <div class="header-left">
+        <h1>Приём у врача</h1>
+        <p>Подробности и управление записью</p>
+      </div>
+      <span class="status-pill" [class]="getStatusClass(a.status)">
+        {{ getStatusLabel(a.status) }}
+      </span>
+    </div>
+
+    <!-- Doctor card -->
+    <section class="info-card doctor-card">
+      <div class="doctor-avatar">{{ doctorInitials(a.doctor) }}</div>
+      <div class="doctor-info">
+        <span class="card-eyebrow">Врач</span>
+        <h2>{{ a.doctor }}</h2>
+        <p>{{ a.specialization }}</p>
+      </div>
+    </section>
+
+    <!-- Schedule + Clinic side-by-side on desktop -->
+    <div class="meta-grid">
+      <section class="info-card">
+        <div class="info-row">
+          <div class="info-row-icon"><lucide-angular [img]="Calendar" [size]="18"></lucide-angular></div>
+          <div class="info-row-text">
+            <span class="info-row-label">Дата</span>
+            <span class="info-row-value">{{ formatDate(a.date) }}</span>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-row-icon"><lucide-angular [img]="Clock" [size]="18"></lucide-angular></div>
+          <div class="info-row-text">
+            <span class="info-row-label">Время</span>
+            <span class="info-row-value">{{ a.time }}</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="info-card">
+        <div class="info-row">
+          <div class="info-row-icon"><lucide-angular [img]="Building2" [size]="18"></lucide-angular></div>
+          <div class="info-row-text">
+            <span class="info-row-label">Клиника</span>
+            <span class="info-row-value">{{ a.clinic }}</span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    @if (a.status === 'cancelled' && a.cancellationReason) {
+      <section class="info-card cancellation-block">
+        <div class="cancellation-icon">
+          <lucide-angular [img]="AlertTriangle" [size]="18"></lucide-angular>
+        </div>
+        <div class="cancellation-text">
+          <span class="info-row-label">Причина отмены</span>
+          <span class="info-row-value">{{ a.cancellationReason }}</span>
+        </div>
+      </section>
+    }
+
+    @if (isUpcoming()) {
+      <div class="actions-row">
+        <button type="button" class="btn-secondary" (click)="downloadIcs()">
+          <lucide-angular [img]="CalendarPlus" [size]="16"></lucide-angular>
+          <span>Добавить в календарь</span>
+        </button>
+        <button type="button" class="btn-danger" (click)="openCancelModal()">
+          <lucide-angular [img]="XCircle" [size]="16"></lucide-angular>
+          <span>Отменить запись</span>
+        </button>
+      </div>
+    }
+
+    @if (relatedDocuments().length > 0) {
+      <section class="docs-section">
+        <header class="docs-header">
+          <div class="docs-title">
+            <lucide-angular [img]="FileText" [size]="18"></lucide-angular>
+            <h2>Документы визита</h2>
+          </div>
+          <span class="docs-count">{{ relatedDocuments().length }}</span>
+        </header>
+        <div class="docs-list">
+          @for (doc of relatedDocuments(); track doc.id) {
+            <a class="doc-card" [routerLink]="['/patient/documents', doc.id]">
+              <div class="doc-icon" [class]="'cat-' + doc.category">
+                <lucide-angular [img]="iconFor(doc.category)" [size]="18"></lucide-angular>
+              </div>
+              <div class="doc-info">
+                <h3>{{ doc.type }}</h3>
+                <p>{{ doc.name }} · {{ doc.size }}</p>
+              </div>
+              <span class="doc-date">{{ formatShortDate(doc.date) }}</span>
+            </a>
+          }
+        </div>
+      </section>
+    }
+  } @else {
+    <div class="not-found">
+      <div class="not-found-icon">
+        <lucide-angular [img]="AlertTriangle" [size]="36"></lucide-angular>
+      </div>
+      <h2>Запись не найдена</h2>
+      <p>Возможно, она была удалена или вы перешли по неверной ссылке.</p>
+      <button type="button" class="btn-secondary" (click)="goBack()">
+        <lucide-angular [img]="ArrowLeft" [size]="16"></lucide-angular>
+        <span>Назад к записям</span>
+      </button>
+    </div>
+  }
+</div>
+
+<!-- Cancel modal -->
+@if (showCancelModal() && appointment(); as a) {
+  <div class="cancel-modal-overlay" (click)="closeCancelModal()">
+    <div class="cancel-modal-card" (click)="$event.stopPropagation()" role="dialog" aria-modal="true">
+      @if (cancelDone()) {
+        <div class="cancel-modal-success">
+          <div class="cancel-success-icon">
+            <lucide-angular [img]="CheckCircle2" [size]="36"></lucide-angular>
+          </div>
+          <h3>Запись отменена</h3>
+          <p>Мы сообщили клинике о вашей отмене. Вы можете записаться снова в любое время.</p>
+        </div>
+      } @else {
+        <header class="cancel-modal-header">
+          <div class="cancel-modal-title">
+            <div class="cancel-modal-title-icon">
+              <lucide-angular [img]="AlertTriangle" [size]="20"></lucide-angular>
+            </div>
+            <h3>Отменить запись?</h3>
+          </div>
+          <button type="button" class="cancel-modal-close" (click)="closeCancelModal()" aria-label="Закрыть">
+            <lucide-angular [img]="X" [size]="18"></lucide-angular>
+          </button>
+        </header>
+        <div class="cancel-modal-body">
+          <div class="cancel-summary">
+            <div class="cancel-summary-row">
+              <lucide-angular [img]="UserRound" [size]="16"></lucide-angular>
+              <span>{{ a.doctor }} — {{ a.specialization }}</span>
+            </div>
+            <div class="cancel-summary-row">
+              <lucide-angular [img]="Calendar" [size]="16"></lucide-angular>
+              <span>{{ formatDate(a.date) }} в {{ a.time }}</span>
+            </div>
+            <div class="cancel-summary-row">
+              <lucide-angular [img]="Building2" [size]="16"></lucide-angular>
+              <span>{{ a.clinic }}</span>
+            </div>
+          </div>
+          <div class="cancel-reason-section">
+            <label class="cancel-reason-label">Укажите причину отмены</label>
+            <div class="cancel-reason-chips">
+              @for (reason of cancelReasons; track reason) {
+                <button
+                  type="button"
+                  class="cancel-reason-chip"
+                  [class.selected]="selectedReason() === reason"
+                  (click)="selectReason(reason)"
+                >{{ reason }}</button>
+              }
+            </div>
+            @if (selectedReason() === 'Другое') {
+              <textarea
+                class="cancel-reason-textarea"
+                rows="3"
+                [value]="customReason()"
+                (input)="customReason.set($any($event.target).value); cancelError.set('')"
+                placeholder="Опишите причину отмены..."
+                maxlength="200"
+              ></textarea>
+            }
+            @if (cancelError()) {
+              <div class="cancel-error">
+                <lucide-angular [img]="AlertTriangle" [size]="14"></lucide-angular>
+                <span>{{ cancelError() }}</span>
+              </div>
+            }
+          </div>
+        </div>
+        <footer class="cancel-modal-footer">
+          <button type="button" class="cancel-btn-keep" (click)="closeCancelModal()" [disabled]="cancelSubmitting()">
+            <span>Оставить запись</span>
+          </button>
+          <button type="button" class="cancel-btn-confirm" (click)="confirmCancellation()" [disabled]="cancelSubmitting()">
+            @if (cancelSubmitting()) {
+              <span>Отмена...</span>
+            } @else {
+              <lucide-angular [img]="XCircle" [size]="16"></lucide-angular>
+              <span>Отменить запись</span>
+            }
+          </button>
+        </footer>
+      }
+    </div>
+  </div>
+}

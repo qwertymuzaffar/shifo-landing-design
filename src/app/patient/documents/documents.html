@@ -85,41 +85,34 @@
     } @else {
       <div class="documents-grid">
         @for (doc of displayedDocuments(); track doc.id) {
-          <div class="document-tile" [class]="'cat-' + doc.category">
+          <a
+            class="document-tile"
+            [class]="'cat-' + doc.category"
+            [routerLink]="['/patient/documents', doc.id]"
+          >
             <div class="tile-icon">
               <lucide-angular [img]="iconFor(doc.category)" [size]="22"></lucide-angular>
             </div>
             <div class="tile-body">
               <h3 class="tile-title">{{ doc.type }}</h3>
-              <a
-                class="tile-source"
-                [routerLink]="['/patient/appointments']"
-                [queryParams]="{ highlight: doc.appointment.id }"
-                [title]="'Открыть визит'"
-              >
+              <span class="tile-source">
                 <lucide-angular [img]="Stethoscope" [size]="13"></lucide-angular>
                 <span>{{ doc.appointment.doctor }} · {{ formatShortDate(doc.appointment.date) }}</span>
-              </a>
+              </span>
               <p class="tile-meta">{{ doc.size }} · PDF</p>
             </div>
             <div class="tile-actions">
               <button
-                class="action-btn view-btn"
-                title="Просмотр"
-                aria-label="Просмотр"
-              >
-                <lucide-angular [img]="Eye" [size]="18"></lucide-angular>
-              </button>
-              <button
                 class="action-btn download-btn"
-                (click)="downloadDocument(doc)"
+                type="button"
+                (click)="downloadDocument(doc); $event.preventDefault(); $event.stopPropagation()"
                 title="Скачать"
                 aria-label="Скачать"
               >
                 <lucide-angular [img]="Download" [size]="18"></lucide-angular>
               </button>
             </div>
-          </div>
+          </a>
         }
       </div>
       @if (hasMore()) {
